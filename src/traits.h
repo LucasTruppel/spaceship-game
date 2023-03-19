@@ -18,7 +18,6 @@ struct Traits {
 
 template<> struct Traits<CPU>
 {
-    //Adicionar aqui a declaração do tamanho da Pilha
     static const unsigned int STACK_SIZE = 65536;
 };
 

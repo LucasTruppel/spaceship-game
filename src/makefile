@@ -1,24 +1,16 @@
-# Name of the project
 PROJ_NAME=program
  
-# .cc files
 C_SOURCE=$(wildcard *.cc)
  
-# .h files
 H_SOURCE=$(wildcard *.h)
  
-# Object files
 OBJ=$(C_SOURCE:.cc=.o)
  
-# Compiler
 CC=g++
  
-# Flags for compiler
 CC_FLAGS= -g -c -Wall
  
-#
-# Compilation and linking
-#
+#Compilation
 all: $(PROJ_NAME)
  
 $(PROJ_NAME): $(OBJ)
