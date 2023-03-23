@@ -51,6 +51,8 @@ public:
      * Qualquer outro método que você achar necessário para a solução.
      */ 
 
+    Context* context() volatile;
+
 private:
     int _id;
     Context * volatile _context;
@@ -59,7 +61,16 @@ private:
     /*
      * Qualquer outro atributo que você achar necessário para a solução.
      */ 
+
+    static int _id_count;
 };
+
+template<typename ... Tn>
+Thread::Thread(void (* entry)(Tn ...), Tn ... an) {
+    _context = new Context(entry, an...);
+    _id = _id_count;
+    _id_count++;
+}
 
 __END_API
 
