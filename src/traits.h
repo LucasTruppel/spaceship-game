@@ -17,21 +17,32 @@ class System;
 //declaração da classe Traits
 template<typename T>
 struct Traits {
-};
-
-template<> struct Traits<CPU>
-{
-    static const unsigned int STACK_SIZE = 65536;
+    static const bool debugged = false;
 };
 
 template<> struct Traits<Debug>: public Traits<void>
 {
- static const bool error = false;
- static const bool warning = false;
- static const bool info = false;
+ static const bool error = true;
+ static const bool warning = true;
+ static const bool info = true;
  static const bool trace = true;
 };
 
+template<> struct Traits<CPU> : public Traits<void>
+{
+    static const unsigned int STACK_SIZE = 65536;
+    static const bool debugged = true;
+};
+
+template<> struct Traits<System> : public Traits<void>
+{
+    static const bool debugged = true;
+};
+
+template<> struct Traits<Thread> : public Traits<void>
+{
+    static const bool debugged = true;
+};
 
 __END_API
 
