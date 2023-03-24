@@ -4,6 +4,7 @@
 #include <ucontext.h>
 #include <iostream>
 #include "traits.h"
+#include "debug.h"
 
 __BEGIN_API
 
@@ -41,16 +42,19 @@ class CPU
 template<typename ... Tn>
 CPU::Context::Context(void (* func)(Tn ...), Tn ... an)
 {
+    db<CPU>(TRC) << "CPU::Context::Context(void (* func)(Tn ...), Tn ... an) chamado\n";
     getcontext(&_context);
     _stack = new char[STACK_SIZE];
 
     if (_stack) {
+        db<CPU>(INF) << "Stack alocado com sucesso no construtor de Context\n";
         _context.uc_stack.ss_size = STACK_SIZE;
         _context.uc_stack.ss_sp = _stack;
         _context.uc_stack.ss_flags = 0;
         _context.uc_link = 0;
         makecontext(&_context, (void (*)()) func, sizeof...(an), an...);
     } else {
+        db<CPU>(ERR) << "Falha na alocação da stack no construtor de Context!\n";
         exit(-1);
     }
 }

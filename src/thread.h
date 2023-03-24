@@ -67,9 +67,11 @@ private:
 
 template<typename ... Tn>
 Thread::Thread(void (* entry)(Tn ...), Tn ... an) {
+    db<Thread>(TRC) << "Thread::Thread(void (* entry)(Tn ...), Tn ... an) chamado\n";
     _context = new Context(entry, an...);
     _id = _id_count;
     _id_count++;
+    db<Thread>(INF) << "Thread " << _id << " criada \n";
 }
 
 __END_API

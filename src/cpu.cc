@@ -5,23 +5,28 @@ __BEGIN_API
 
 void CPU::Context::save()
 {
+    db<CPU>(TRC) << "CPU::Context::save() chamado\n";
     getcontext(&_context);
 }
 
 void CPU::Context::load()
 {
+    db<CPU>(TRC) << "CPU::Context::load() chamado\n";
     setcontext(&_context);
 }
 
 CPU::Context::~Context()
 {
-    if (_stack)
+    if (_stack) {
+        db<CPU>(INF) << "Stack desalocada no destrutor de Context\n";
         delete _stack;
+    }
 }
 
 int CPU::switch_context(Context *from, Context *to)
 {
-     return swapcontext(&from->_context, &to->_context); 
+    db<CPU>(TRC) << "CPU::switch_context(Context *from, Context *to) chamado\n";
+    return swapcontext(&from->_context, &to->_context); 
 }
 
 __END_API
