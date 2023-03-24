@@ -10,4 +10,5 @@ make all
 ## Executar
 
 ```shell
-./program```
+./program
+```
