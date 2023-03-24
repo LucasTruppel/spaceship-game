@@ -20,7 +20,8 @@ __BEGIN_API
     }
 
     void Thread::thread_exit(int exit_code) {
-        delete _context;
+        if (_context)
+            delete _context;
     }
     
 
