@@ -1,5 +1,11 @@
 # threads-library
-Projeto da disciplina Sistemas Operacionais 1
+Projeto da disciplina Sistemas Operacionais 1, com intuito de criar uma biblioteca de threds em nível de usuário.
+
+## Pré-requisitos
+
+- Linguagem c++
+- Compilador g++
+- Ferramenta make
 
 ## Compilar
 
@@ -11,4 +17,10 @@ make all
 
 ```shell
 ./program
+```
+
+## Limpar os binários
+
+```shell
+make clean
 ```
