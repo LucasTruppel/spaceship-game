@@ -1,5 +1,5 @@
 # threads-library
-Projeto da disciplina Sistemas Operacionais 1, com intuito de criar uma biblioteca de threads em nível de usuário!
+Projeto da disciplina Sistemas Operacionais 1, com intuito de criar uma biblioteca de threads em nível de usuário.
 
 ## Pré-requisitos
 
