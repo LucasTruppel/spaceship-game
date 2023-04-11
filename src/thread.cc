@@ -18,6 +18,9 @@ __BEGIN_API
 
     int Thread::switch_context(Thread * prev, Thread * next) {
         db<Thread>(TRC) << "Thread::switch_context(Thread * prev, Thread * next) chamado\n";
+        if (prev == next) {
+            return 0;
+        }
         _running = next;
         return CPU::switch_context(prev->context(), next->context());
     }
