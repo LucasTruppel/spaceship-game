@@ -6,6 +6,17 @@ __BEGIN_API
     int Thread::_id_count = 0;
     Thread* Thread::_running = nullptr;
 
+    static void Thread::init(void (*main)(void *)) {
+        
+        _main = new Thread(main);
+        _dispatcher = new Thread(&Thread::dispatcher);
+        /*
+        1) Criar thread main
+        2) Cria thread dispatcher
+        3) Troca o contexto para a Thread main
+        */
+    }
+
     Thread::Context* Thread::context() volatile {
         db<Thread>(TRC) << "Thread::Context* Thread::context() chamado\n";
         return _context;
@@ -31,6 +42,14 @@ __BEGIN_API
             delete _context;
         db<Thread>(INF) << "Thread " << _id << " destruída! \n";
     }
-    
+
+    void Thread::dispatcher() {
+        db<Thread>(TRC) << "Thread::dispatcher() chamado\n";
+    }
+
+    void Thread::yield() {
+        db<Thread>(TRC) << "Thread::yield() chamado\n";
+    }
+
 
 __END_API
