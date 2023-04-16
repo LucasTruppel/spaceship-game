@@ -5,7 +5,7 @@
 #include "traits.h"
 #include "debug.h"
 #include "list.h"
-#include <ctime> 
+#include <ctime>
 #include <chrono>
 
 __BEGIN_API
@@ -123,6 +123,9 @@ inline Thread::Thread(void (* entry)(Tn ...), Tn ... an) : /* inicialização de
     _context = new Context(entry, an...);
     _id = _id_count;
     _id_count++;
+    _link(this, (std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count()));
+    _state = READY;
+    _ready.insert(&_link);
     db<Thread>(INF) << "Thread " << _id << " criada \n";
 }
 

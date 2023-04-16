@@ -1,6 +1,7 @@
 #include "system.h"
 #include "traits.h"
 #include "debug.h"
+#include "thread.h"
 #include <iostream>
 
 __BEGIN_API
