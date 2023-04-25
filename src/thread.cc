@@ -9,7 +9,7 @@ __BEGIN_API
     Thread Thread::_main;
     Thread Thread::_dispatcher;
     CPU::Context _main_context;
-    
+    Ordered_List<Thread> _ready;  //typedef Ordered_List<Thread> Ready_Queue; VER SE ESTÁ CORRETO
 
     void Thread::init(void (*main)(void *)) {
 
@@ -44,23 +44,29 @@ __BEGIN_API
 
     void Thread::thread_exit(int exit_code) {
         db<Thread>(TRC) << "Thread::thread_exit(int exit_code) chamado\n";
+        _state = FINISHING;
+        db<Thread>(INF) << "Thread " << _id << " FINISHING! \n";
+    }
+
+    Thread::~Thread() {
+        db<Thread>(TRC) << "Thread::~Thread() chamado\n";
         if (_context)
             delete _context;
-        _state = FINISHING;
         db<Thread>(INF) << "Thread " << _id << " destruída! \n";
     }
 
+
     void Thread::dispatcher() {
         db<Thread>(TRC) << "Thread::dispatcher() chamado\n";
-        while (_ready.size() > 1) {
+
+        while (_ready.size() > 1) {  //Não sabemos se está certo
             // 1
-            List_Elements::Doubly_Linked_Ordered next_element = _ready.remove();
-            Thread* next = next_element.object()->object();
-            
+            Thread* next = _ready.remove()->object();
+
             // 2
             _dispatcher._state = READY;
-            _ready.insert(&_dispatcher._link);
-
+            _ready.insert_first(&_dispatcher._link);
+            
             // 3
             _running = next;
 
@@ -72,13 +78,13 @@ __BEGIN_API
 
             // 6
             if (next->_state == FINISHING) {
-                _ready.remove(next_element.object());
+                _ready.remove(&next->_link);
             }
             
         }
         _dispatcher._state = FINISHING;
         _ready.remove(&_dispatcher._link);
-        CPU::switch_context(_dispatcher._context, &_main_context);
+        switch_context(&_dispatcher, &_main);
 
         /*
         enquanto existir thread do usuário:
@@ -87,7 +93,7 @@ __BEGIN_API
             3) atualiza o ponteiro _running para apontar para a próxima thread a ser executada
             4) atualiza o estado da próxima thread a ser executada
             5) troca o contexto entre as duas threads
-            6) testa se o estado da próxima thread é FINISHNING e caso afirmativo a remova de _ready
+            6) testa se o estado da próxima thread é FINISHING e caso afirmativo a remova de _ready
         muda o estado da thread dispatcher para FINISHING
         remova a thread dispatcher da fila de prontos
         troque o contexto da thread dispatcher para main
@@ -98,22 +104,33 @@ __BEGIN_API
     void Thread::yield() {
         db<Thread>(TRC) << "Thread::yield() chamado\n";
 
-        List_Elements::Doubly_Linked_Ordered next_element = _ready.remove();
+        //1
+        Thread* next = _ready.remove()->object();
 
-        if (_running->_state != FINISHING && _running != &_main) {
-            int now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
-            _running->_link.rank(now);
+        //2
+        if (_running != &_main) {
+            if (_running->_state != FINISHING) {
+                int now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+                _running->_link.rank(now);
+                _running->_state = READY;
+            }
+            _ready.insert(&_running->_link);
         }
 
-        _ready.insert(&_running->_link); // Esta linha pode não ser aqui
-        Thread* next = next_element.object()->object();
+        //3
         Thread* prev = _running;
+
+        //4
         _running = next;
+
+        //5
         next->_state = RUNNING;
+
+        //6
         switch_context(prev, next);
 
         /*
-        1) escolha uma próxima thread a ser executada
+        1) escolha uma próxima thread a ser executada (dispatcher) --> pega da fila de prontos.
         2) atualiza a prioridade da tarefa que estava sendo executada (aquela que chamou yield) com o timestamp atual, a fim de reinserí-la na fila de prontos atualizada (cuide de casos especiais, como estado ser FINISHING ou Thread main que não devem ter suas prioridades alteradas)
         3) reinsira a thread que estava executando na fila de prontos
         4) atualiza o ponteiro _running
