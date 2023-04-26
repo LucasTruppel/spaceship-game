@@ -8,8 +8,8 @@ __BEGIN_API
     Thread* Thread::_running = nullptr;
     Thread Thread::_main;
     Thread Thread::_dispatcher;
-    CPU::Context _main_context;
-    Ordered_List<Thread> _ready;  //typedef Ordered_List<Thread> Ready_Queue; VER SE ESTÁ CORRETO
+    CPU::Context Thread::_main_context;
+    Ordered_List<Thread> Thread::_ready;
 
     void Thread::init(void (*main)(void *)) {
 
