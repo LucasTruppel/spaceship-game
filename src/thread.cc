@@ -64,54 +64,29 @@ __BEGIN_API
     void Thread::dispatcher() {
         db<Thread>(TRC) << "Thread::dispatcher() chamado\n";
 
-        while (!_ready.empty()) {  //Não sabemos se está certo
-            // 1
+        // Seleciona a próxima thread a ser executada até esvaziar a lista de prontos
+        while (!_ready.empty()) {
             Thread* next = _ready.remove()->object();
-
-            // 2
             _dispatcher._state = READY;
-            
-            // 3
             _running = next;
-
-            // 4
             next->_state = RUNNING;
-            
-            // 5
             switch_context(&_dispatcher, next);
 
-            // 6
             if (next->_state == FINISHING) {
                 _ready.remove(&next->_link);
             }
-            
         }
+
+        // Finaliza o dispatcher
         _dispatcher._state = FINISHING;
         _ready.remove(&_dispatcher._link);
         switch_context(&_dispatcher, &_main);
-
-        /*
-        enquanto existir thread do usuário:
-            1) escolha uma próxima thread a ser executada
-            2) atualiza o status da própria thread dispatacher para READY e reinsire a mesma em _ready
-            3) atualiza o ponteiro _running para apontar para a próxima thread a ser executada
-            4) atualiza o estado da próxima thread a ser executada
-            5) troca o contexto entre as duas threads
-            6) testa se o estado da próxima thread é FINISHING e caso afirmativo a remova de _ready
-        muda o estado da thread dispatcher para FINISHING
-        remova a thread dispatcher da fila de prontos
-        troque o contexto da thread dispatcher para main
-        */
-
     }
 
     void Thread::yield() {
         db<Thread>(TRC) << "Thread::yield() chamado\n";
 
-        //1
         Thread* next = &_dispatcher;
-
-        //2
         if (_running != &_main) {
             if (_running->_state != FINISHING) {
                 int now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
@@ -121,27 +96,10 @@ __BEGIN_API
             _ready.insert(&_running->_link);
         }
 
-        //3
         Thread* prev = _running;
-
-        //4
         _running = next;
-
-        //5
         next->_state = RUNNING;
-
-        //6
         switch_context(prev, next);
-
-        /*
-        1) escolha uma próxima thread a ser executada (dispatcher) --> pega da fila de prontos.
-        2) atualiza a prioridade da tarefa que estava sendo executada (aquela que chamou yield) com o timestamp atual, a fim de reinserí-la na fila de prontos atualizada (cuide de casos especiais, como estado ser FINISHING ou Thread main que não devem ter suas prioridades alteradas)
-        3) reinsira a thread que estava executando na fila de prontos
-        4) atualiza o ponteiro _running
-        5) atualiza o estado da próxima thread a ser executada
-        6) troque o contexto entre as threads
-        */
-
     }
 
 
