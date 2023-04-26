@@ -119,6 +119,7 @@ private:
 template<typename ... Tn>
 inline Thread::Thread(void (* entry)(Tn ...), Tn ... an) : _link(this, (std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count()))
 {
+    if (_id_count != 0) {       //Primeira Thread eh a Main, com id = 0.
     db<Thread>(TRC) << "Thread::Thread(void (* entry)(Tn ...), Tn ... an) chamado\n";
     _context = new Context(entry, an...);
     _id = _id_count;
@@ -126,6 +127,14 @@ inline Thread::Thread(void (* entry)(Tn ...), Tn ... an) : _link(this, (std::chr
     _state = READY;
     _ready.insert(&_link);
     db<Thread>(INF) << "Thread " << _id << " criada \n";
+    } else {
+        db<Thread>(TRC) << "Thread::Thread(void (* entry)(Tn ...), Tn ... an) chamado\n";
+        _context = new Context(entry, an...);
+        _id = _id_count;
+        _id_count++;
+        _state = READY;
+        db<Thread>(INF) << "Thread " << _id << " (main) criada \n";
+    }
 }
 
 __END_API
