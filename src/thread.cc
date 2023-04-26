@@ -13,7 +13,9 @@ __BEGIN_API
 
     void Thread::init(void (*main)(void *)) {
         db<Thread>(INF) << "Thread main:\n";
-        _main = *(new Thread( (void (*)()) main));
+
+        std::string main_name = "main";
+        _main = *(new Thread( (void (*)(void *)) main, (void *) main_name.data()));
 
         db<Thread>(INF) << "Thread dispatcher\n";
         _dispatcher = *(new Thread( (void (*)()) &dispatcher));
