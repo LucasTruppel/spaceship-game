@@ -12,8 +12,10 @@ __BEGIN_API
     Ordered_List<Thread> Thread::_ready;
 
     void Thread::init(void (*main)(void *)) {
-
+        db<Thread>(INF) << "Thread main:\n";
         _main = *(new Thread( (void (*)()) main));
+
+        db<Thread>(INF) << "Thread dispatcher\n";
         _dispatcher = *(new Thread( (void (*)()) &dispatcher));
 
         _main_context = *(new CPU::Context());
@@ -46,6 +48,7 @@ __BEGIN_API
         db<Thread>(TRC) << "Thread::thread_exit(int exit_code) chamado\n";
         _state = FINISHING;
         db<Thread>(INF) << "Thread " << _id << " FINISHING! \n";
+        Thread::yield();
     }
 
     Thread::~Thread() {
@@ -59,13 +62,12 @@ __BEGIN_API
     void Thread::dispatcher() {
         db<Thread>(TRC) << "Thread::dispatcher() chamado\n";
 
-        while (_ready.size() > 1) {  //Não sabemos se está certo
+        while (!_ready.empty()) {  //Não sabemos se está certo
             // 1
             Thread* next = _ready.remove()->object();
 
             // 2
             _dispatcher._state = READY;
-            _ready.insert_first(&_dispatcher._link);
             
             // 3
             _running = next;
@@ -105,7 +107,7 @@ __BEGIN_API
         db<Thread>(TRC) << "Thread::yield() chamado\n";
 
         //1
-        Thread* next = _ready.remove()->object();
+        Thread* next = &_dispatcher;
 
         //2
         if (_running != &_main) {
