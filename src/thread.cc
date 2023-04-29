@@ -3,7 +3,7 @@
 
 __BEGIN_API
 
-    /* Inicializar as variaveis estáticas do thread.h */
+    // Inicializa as variáveis estáticas do thread.h
     int Thread::_id_count = 0;
     Thread* Thread::_running = nullptr;
     Thread Thread::_main;
@@ -14,38 +14,38 @@ __BEGIN_API
     void Thread::init(void (*main)(void *)) {
         db<Thread>(INF) << "Thread main:\n";
 
-        std::string main_name = "main";
-
-        // Observação: Utilização de placement new.
-        new (&_main) Thread(main, (void *)"main");         
-       
-        db<Thread>(INF) << "Thread dispatcher\n";
-        new (&_dispatcher) Thread(dispatcher);
+        // Observação: Utilização de placement new
+        new (&_main) Thread(main, (void *)"main");
         new (&_main_context) CPU::Context();
+
+        db<Thread>(INF) << "Thread dispatcher\n";
+        
+        new (&_dispatcher) Thread(dispatcher);
 
         _running = &_main;
         _main._state = RUNNING;
         
-
         CPU::switch_context(&_main_context, _main.context());
-
-
     }
 
     Thread::Context* Thread::context() volatile {
         db<Thread>(TRC) << "Thread::Context* Thread::context() chamado\n";
+
         return _context;
     }
 
     int Thread::id(){
         db<Thread>(TRC) << "Thread::id() chamado\n";
+
         return _id;
     }
 
     int Thread::switch_context(Thread * prev, Thread * next) {
         db<Thread>(TRC) << "Thread::switch_context(Thread * prev, Thread * next) chamado\n";
+
         if (prev == next) {
-            return 0; //CPU::switch_context returns 0 when sucessfull. Otherwise returns -1
+            // CPU::switch_context() retorna 0 quando a operação é bem sucedida, senão retorna -1
+            return 0;
         }
 
         return CPU::switch_context(prev->context(), next->context());
@@ -53,22 +53,23 @@ __BEGIN_API
 
     void Thread::thread_exit(int exit_code) {
         db<Thread>(TRC) << "Thread::thread_exit(int exit_code) chamado\n";
+
         _state = FINISHING;
+
         db<Thread>(INF) << "Thread " << _id << " FINISHING! \n";
+
         Thread::yield();
     }
 
     Thread::~Thread() {
         db<Thread>(TRC) << "Thread::~Thread() chamado\n";
-        
+
         if (_context) {
             delete _context;
-        } 
-        
+        }
 
         db<Thread>(INF) << "Thread " << _id << " destruída! \n";
     }
-
 
     void Thread::dispatcher() {
         db<Thread>(TRC) << "Thread::dispatcher() chamado\n";
@@ -110,6 +111,5 @@ __BEGIN_API
         next->_state = RUNNING;
         switch_context(prev, next);
     }
-
 
 __END_API

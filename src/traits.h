@@ -1,7 +1,7 @@
 #ifndef traits_h
 #define traits_h
 
-//Não alterar as 3 declarações abaixo
+// Não alterar as 3 declarações abaixo
 
 #define __BEGIN_API             namespace SOLUTION {
 #define __END_API               }
@@ -9,13 +9,14 @@
 
 __BEGIN_API
 
-class CPU; //declaração das classes criadas nos trabalhos devem ser colocadas 
+// Declaração das classes criadas nos trabalhos devem ser colocadas abaixo
+class CPU;
 class Thread;
 class Debug;
 class System;
 class Lists;
 
-//declaração da classe Traits
+// Declaração da classe Traits
 template<typename T>
 struct Traits {
     static const bool debugged = false;

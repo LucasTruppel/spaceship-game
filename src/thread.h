@@ -80,7 +80,6 @@ public:
      */ 
     static void init(void (*main)(void *));
 
-
     /*
      * Devolve o processador para a thread dispatcher que irá escolher outra thread pronta
      * para ser executada.
