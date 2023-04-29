@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include "traits.h"
+#include "thread.h"
 
 __BEGIN_API
 
@@ -17,6 +18,7 @@ public:
      * Deve ser chamado no início da função main.
      */ 
     static void init(void (*main)(void *));
+    static void close();
 
 };
 

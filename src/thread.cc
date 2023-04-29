@@ -15,15 +15,20 @@ __BEGIN_API
         db<Thread>(INF) << "Thread main:\n";
 
         std::string main_name = "main";
-        _main = *(new Thread( (void (*)(void *)) main, (void *) main_name.data()));
 
+        // Observação: Utilização de placement new.
+        new (&_main) Thread(main, (void *)"main");         
+       
         db<Thread>(INF) << "Thread dispatcher\n";
-        _dispatcher = *(new Thread( (void (*)()) &dispatcher));
+        new (&_dispatcher) Thread(dispatcher);
+        new (&_main_context) CPU::Context();
 
-        _main_context = *(new CPU::Context());
         _running = &_main;
         _main._state = RUNNING;
+        
+
         CPU::switch_context(&_main_context, _main.context());
+
 
     }
 
@@ -55,8 +60,12 @@ __BEGIN_API
 
     Thread::~Thread() {
         db<Thread>(TRC) << "Thread::~Thread() chamado\n";
-        if (_context)
+        
+        if (_context) {
             delete _context;
+        } 
+        
+
         db<Thread>(INF) << "Thread " << _id << " destruída! \n";
     }
 
