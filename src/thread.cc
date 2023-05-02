@@ -18,8 +18,7 @@ __BEGIN_API
         new (&_main) Thread(main, (void *)"main");
         new (&_main_context) CPU::Context();
 
-        db<Thread>(INF) << "Thread dispatcher\n";
-        
+        db<Thread>(INF) << "Thread dispatcher:\n";
         new (&_dispatcher) Thread(dispatcher);
 
         _running = &_main;
@@ -104,6 +103,8 @@ __BEGIN_API
                 _running->_state = READY;
             }
             _ready.insert(&_running->_link);
+        } else {
+            _running->_state = READY;
         }
 
         Thread* prev = _running;
