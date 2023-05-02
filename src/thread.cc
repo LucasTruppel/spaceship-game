@@ -3,7 +3,7 @@
 
 __BEGIN_API
 
-    // Inicializa as variáveis estáticas do thread.h
+    // Declara as variáveis estáticas do thread.h
     int Thread::_id_count = 0;
     Thread* Thread::_running = nullptr;
     Thread Thread::_main;
