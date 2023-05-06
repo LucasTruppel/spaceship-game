@@ -4,12 +4,14 @@
 __BEGIN_API
 
     // Declara as variáveis estáticas do thread.h
-    int Thread::_id_count = 0;
-    Thread* Thread::_running = nullptr;
     Thread Thread::_main;
+    Thread* Thread::_running = nullptr;
     Thread Thread::_dispatcher;
-    CPU::Context Thread::_main_context;
     Ordered_List<Thread> Thread::_ready;
+    CPU::Context Thread::_main_context;
+
+    int Thread::_id_count = 0;
+    Ordered_List<Thread> Thread::_sleeping;
 
     void Thread::init(void (*main)(void *)) {
         db<Thread>(INF) << "Thread main:\n";
@@ -53,11 +55,17 @@ __BEGIN_API
     void Thread::thread_exit(int exit_code) {
         db<Thread>(TRC) << "Thread::thread_exit(int exit_code) chamado\n";
 
+        _exit_code = exit_code;
         _state = FINISHING;
+
+        for (unsigned int i = 0; i < _sleeping.size(); i++) {
+            Thread* next = _sleeping.remove()->object();
+            next->resume();
+        }
 
         db<Thread>(INF) << "Thread " << _id << " FINISHING! \n";
 
-        Thread::yield();
+        yield();
     }
 
     Thread::~Thread() {
@@ -111,6 +119,42 @@ __BEGIN_API
         _running = next;
         next->_state = RUNNING;
         switch_context(prev, next);
+    }
+
+    int Thread::join() {
+        db<Thread>(TRC) << "Thread::join() chamado\n";
+
+        if (_state != FINISHING && this != _running) {
+            _running->suspend();
+        } else {
+            db<Thread>(ERR) << "Erro em Thread::join()\n";
+            return -1;
+        }
+
+        return _exit_code;
+    }
+
+    void Thread::suspend() {
+        db<Thread>(TRC) << "Thread::suspend() chamado\n";
+
+        if (this != &_main && this != &_dispatcher) {
+            _ready.remove(this);
+        }
+
+        _state = SLEEPING;
+        _sleeping.insert(&(this->_link));
+        yield();
+    }
+
+    void Thread::resume() {
+        db<Thread>(TRC) << "Thread::resume() chamado\n";
+
+        if (_state == SLEEPING) {
+            _state = READY;
+            if (this != &_main && this != &_dispatcher) {
+                _ready.insert(&_link);
+            }
+        }
     }
 
 __END_API

@@ -10,20 +10,21 @@
 
 __BEGIN_API
 
-class Thread
-{
+class Thread {
+
 protected:
     typedef CPU::Context Context;
 
 public:
-
     typedef Ordered_List<Thread> Ready_Queue;
+    typedef Ordered_List<Thread> Sleeping_Queue;
 
     // Thread State
     enum State {
         RUNNING,
         READY,
-        FINISHING
+        FINISHING,
+        SLEEPING
     };
 
     /*
@@ -55,8 +56,8 @@ public:
 
     /*
      * Termina a thread.
-     * exit_code é o código de término devolvido pela tarefa (ignorar agora, vai ser usado mais tarde).
-     * Quando a thread encerra, o controle deve retornar à main. 
+     * exit_code é o código de término devolvido pela tarefa.
+     * Quando a thread encerra, o controle deve retornar à main.
      */  
     void thread_exit (int exit_code);
 
@@ -96,23 +97,40 @@ public:
      */ 
     Context* context() volatile;
 
+    /*
+     * Este método deve suspender a thread em execução até que a thread “alvo” finalize.
+     */
+    int join();
+
+    /*
+     * Suspende a Thread até que resume() seja chamado.
+     */
+    void suspend();
+
+    /*
+     * Coloca uma Thread que estava suspensa de volta para a fila de prontos.
+     */
+    void resume();
 
 private:
     int _id;
+    volatile State _state;
+    Ready_Queue::Element _link;
     Context * volatile _context;
+
+    static Thread _main;
     static Thread * _running;
-    
-    static Thread _main; 
-    static CPU::Context _main_context;
     static Thread _dispatcher;
     static Ready_Queue _ready;
-    Ready_Queue::Element _link;
-    volatile State _state;
+    static CPU::Context _main_context;
 
     /*
      * Qualquer outro atributo que você achar necessário para a solução.
-     */ 
+     */
+    int _exit_code;
+    
     static int _id_count;
+    static Sleeping_Queue _sleeping;
 
 };
 
