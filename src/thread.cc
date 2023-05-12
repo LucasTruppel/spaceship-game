@@ -96,7 +96,7 @@ __BEGIN_API
 
         // Finaliza o dispatcher
         _dispatcher._state = FINISHING;
-        _ready.remove(&_dispatcher._link);
+        _main._state = RUNNING;
         switch_context(&_dispatcher, &_main);
     }
 
