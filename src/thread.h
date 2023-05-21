@@ -18,7 +18,6 @@ protected:
 public:
     typedef Ordered_List<Thread> Ready_Queue;
     typedef Ordered_List<Thread> Sleeping_Queue;
-    typedef Ordered_List<int> ID_Queue;
 
     // Thread State
     enum State {
@@ -131,7 +130,6 @@ private:
     int _exit_code;
     
     static int _id_count;
-    static ID_Queue _id_queue;
     static Sleeping_Queue _sleeping;
 
 };
