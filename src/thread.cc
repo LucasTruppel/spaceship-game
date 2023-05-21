@@ -58,17 +58,13 @@ __BEGIN_API
         _exit_code = exit_code;
         _state = FINISHING;
 
-        int eh_main = 0;
-        while (_sleeping.size()) {
+        // Criar lista de ids para que só chame o resume() da thread que chamou join()
+        if (_sleeping.size()) {
             Thread* next = _sleeping.remove()->object();
             next->resume();
             if (next == &_main) {
-                eh_main = 1;
+                switch_context(this, &_main);
             }
-        }
-
-        if (eh_main) {
-            switch_context(this, &_main);
         }
 
         db<Thread>(INF) << "Thread " << _id << " FINISHING! \n";
@@ -132,10 +128,11 @@ __BEGIN_API
     int Thread::join() {
         db<Thread>(TRC) << "Thread::join() chamado\n";
 
-        if (_state != FINISHING && this != _running) {
+        // _running chama a função join() da thread que irá executar
+        if (this != _running && _state != FINISHING) {
             suspend();
         } else {
-            db<Thread>(ERR) << "Erro em Thread::join()\n";
+            db<Thread>(ERR) << "Erro em Thread::join(), id: " << _id << "\n";
             return -1;
         }
 
