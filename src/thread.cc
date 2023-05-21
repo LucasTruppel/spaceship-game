@@ -58,9 +58,12 @@ __BEGIN_API
         _exit_code = exit_code;
         _state = FINISHING;
 
-        for (unsigned int i = 0; i < _sleeping.size(); i++) {
+        if (_sleeping.size()) {
             Thread* next = _sleeping.remove()->object();
             next->resume();
+            if (next == &_main) {
+                switch_context(this, &_main);
+            }
         }
 
         db<Thread>(INF) << "Thread " << _id << " FINISHING! \n";
@@ -104,14 +107,14 @@ __BEGIN_API
         db<Thread>(TRC) << "Thread::yield() chamado\n";
 
         Thread* next = &_dispatcher;
-        if (_running != &_main) {
+        if (_running != &_main && _running->_state != SLEEPING) {
             if (_running->_state != FINISHING) {
                 int now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
                 _running->_link.rank(now);
                 _running->_state = READY;
             }
             _ready.insert(&_running->_link);
-        } else {
+        } else if (_running->_state != SLEEPING) {
             _running->_state = READY;
         }
 
@@ -125,7 +128,7 @@ __BEGIN_API
         db<Thread>(TRC) << "Thread::join() chamado\n";
 
         if (_state != FINISHING && this != _running) {
-            _running->suspend();
+            suspend();
         } else {
             db<Thread>(ERR) << "Erro em Thread::join()\n";
             return -1;
@@ -137,12 +140,12 @@ __BEGIN_API
     void Thread::suspend() {
         db<Thread>(TRC) << "Thread::suspend() chamado\n";
 
-        if (this != &_main && this != &_dispatcher) {
-            _ready.remove(this);
+        if (_running != &_main) {
+            _ready.remove(_running);
         }
 
-        _state = SLEEPING;
-        _sleeping.insert(&(this->_link));
+        _running->_state = SLEEPING;
+        _sleeping.insert(&(_running->_link));
         yield();
     }
 
@@ -151,7 +154,7 @@ __BEGIN_API
 
         if (_state == SLEEPING) {
             _state = READY;
-            if (this != &_main && this != &_dispatcher) {
+            if (this != &_main) {
                 _ready.insert(&_link);
             }
         }
