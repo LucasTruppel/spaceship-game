@@ -59,7 +59,7 @@ __BEGIN_API
         _state = FINISHING;
 
         int eh_main = 0;
-        for (unsigned int i = 0; i < _sleeping.size(); i++) {
+        while (_sleeping.size()) {
             Thread* next = _sleeping.remove()->object();
             next->resume();
             if (next == &_main) {
