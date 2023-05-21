@@ -11,6 +11,7 @@ __BEGIN_API
     CPU::Context Thread::_main_context;
 
     int Thread::_id_count = 0;
+    Ordered_List<int> Thread::_id_queue;
     Ordered_List<Thread> Thread::_sleeping;
 
     void Thread::init(void (*main)(void *)) {
