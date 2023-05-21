@@ -58,12 +58,17 @@ __BEGIN_API
         _exit_code = exit_code;
         _state = FINISHING;
 
-        if (_sleeping.size()) {
+        int eh_main = 0;
+        for (unsigned int i = 0; i < _sleeping.size(); i++) {
             Thread* next = _sleeping.remove()->object();
             next->resume();
             if (next == &_main) {
-                switch_context(this, &_main);
+                eh_main = 1;
             }
+        }
+
+        if (eh_main) {
+            switch_context(this, &_main);
         }
 
         db<Thread>(INF) << "Thread " << _id << " FINISHING! \n";
