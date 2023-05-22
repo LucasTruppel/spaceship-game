@@ -10,9 +10,10 @@
 
 __BEGIN_API
 
-class Thread
-{
+class Thread {
+
 protected:
+
     typedef CPU::Context Context;
 
 public:
@@ -33,8 +34,7 @@ public:
     Thread() { }
 
     /*
-     * Cria uma Thread passando um ponteiro para a função a ser executada
-     * e os parâmetros passados para a função, que podem variar.
+     * Cria uma Thread passando um ponteiro para a função a ser executada e os parâmetros passados para a função, que podem variar.
      * Cria o contexto da Thread.
      * PS: devido ao template, este método deve ser implementado neste mesmo arquivo .h
      */ 
@@ -47,8 +47,7 @@ public:
     static Thread * running() { return _running; }
 
     /*
-     * Método para trocar o contexto entre duas thread, a anterior (prev)
-     * e a próxima (next).
+     * Método para trocar o contexto entre duas thread, a anterior (prev) e a próxima (next).
      * Deve encapsular a chamada para a troca de contexto realizada pela class CPU.
      * Valor de retorno é negativo se houve erro, ou zero.
      */ 
@@ -56,7 +55,7 @@ public:
 
     /*
      * Termina a thread.
-     * exit_code é o código de término devolvido pela tarefa (ignorar agora, vai ser usado mais tarde).
+     * exit_code é o código de término devolvido pela tarefa.
      * Quando a thread encerra, o controle deve retornar à main. 
      */  
     void thread_exit (int exit_code);
@@ -67,7 +66,6 @@ public:
     int id();
 
     /*
-     * NOVO MÉTODO DESTE TRABALHO.
      * Daspachante (disptacher) de threads. 
      * Executa enquanto houverem threads do usuário.
      * Chama o escalonador para definir a próxima tarefa a ser executada.
@@ -75,15 +73,13 @@ public:
     static void dispatcher(); 
 
     /*
-     * NOVO MÉTODO DESTE TRABALHO.
      * Realiza a inicialização da class Thread.
      * Cria as Threads main e dispatcher.
      */ 
     static void init(void (*main)(void *));
 
     /*
-     * Devolve o processador para a thread dispatcher que irá escolher outra thread pronta
-     * para ser executada.
+     * Devolve o processador para a thread dispatcher que irá escolher outra thread pronta para ser executada.
      */
     static void yield();
 
@@ -93,50 +89,45 @@ public:
     ~Thread();
 
     /*
-     * Qualquer outro método que você achar necessário para a solução.
+     * Retorna o contexto da Thread.
      */ 
     Context* context() volatile;
 
     /*
-     * Join
+     * Suspende a Thread em execução até que a Thread “alvo” finalize.
      */  
     int join();
 
     /*
-     * Suspend
+     * Suspende a Thread até que resume() seja chamado.
      */  
     void suspend();
 
     /*
-     * Resume
+     * Coloca uma Thread que estava suspensa de volta para a fila de prontos.
      */  
     void resume();
 
-
 private:
+
     int _id;
     int _exit_code = -1;
-    Thread * _suspended = nullptr;
+    volatile State _state;
+    Ready_Queue::Element _link;
     Context * volatile _context;
-    static Thread * _running;
+    Thread * _suspended = nullptr;
     
-    static Thread _main; 
-    static CPU::Context _main_context;
+    static Thread _main;
+    static int _id_count;
+    static Thread * _running;
     static Thread _dispatcher;
     static Ready_Queue _ready;
-    Ready_Queue::Element _link;
-    volatile State _state;
-
-    /*
-     * Qualquer outro atributo que você achar necessário para a solução.
-     */ 
-    static int _id_count;
+    static CPU::Context _main_context;
 
 };
 
 template<typename ... Tn>
-inline Thread::Thread(void (* entry)(Tn ...), Tn ... an) : _link(this, (std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count()))
-{
+inline Thread::Thread(void (* entry)(Tn ...), Tn ... an) : _link(this, (std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count())) {
     db<Thread>(TRC) << "Thread::Thread(void (* entry)(Tn ...), Tn ... an) chamado\n";
     _context = new Context(entry, an...);
     _id = _id_count;

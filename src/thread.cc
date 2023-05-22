@@ -3,13 +3,13 @@
 
 __BEGIN_API
 
-    // Declara as variáveis estáticas do thread.h
+    // Declaração das variáveis estáticas do thread.h
+    Thread Thread::_main;
     int Thread::_id_count = 0;
     Thread* Thread::_running = nullptr;
-    Thread Thread::_main;
     Thread Thread::_dispatcher;
-    CPU::Context Thread::_main_context;
     Ordered_List<Thread> Thread::_ready;
+    CPU::Context Thread::_main_context;
 
     void Thread::init(void (*main)(void *)) {
         db<Thread>(INF) << "Thread main:\n";
@@ -33,7 +33,7 @@ __BEGIN_API
         return _context;
     }
 
-    int Thread::id(){
+    int Thread::id() {
         db<Thread>(TRC) << "Thread::id() chamado\n";
 
         return _id;
