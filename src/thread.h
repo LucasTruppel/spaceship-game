@@ -135,6 +135,7 @@ inline Thread::Thread(void (* entry)(Tn ...), Tn ... an) : _link(this, (std::chr
     _state = READY;
     if (_id > 1) {
         db<Thread>(INF) << "Thread " << _id <<  " inserida na fila\n";
+        db<Thread>(INF) << "rank da Thread " << _id << ": "<< _link.rank() <<"\n";
         _ready.insert(&_link);
     } 
     db<Thread>(INF) << "Thread " << _id << " criada \n";

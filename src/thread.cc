@@ -79,6 +79,11 @@ __BEGIN_API
         // Seleciona a próxima thread a ser executada até esvaziar a lista de prontos
         while (!_ready.empty()) {
             Thread* next = _ready.remove()->object();
+
+            if (_ready.empty() && next == &_main) {
+                break;
+            }
+
             _dispatcher._state = READY;
             _running = next;
             next->_state = RUNNING;
@@ -90,6 +95,7 @@ __BEGIN_API
         }
 
         // Finaliza o dispatcher
+        db<Thread>(INF) << "Dispatcher finalizado\n";
         _dispatcher._state = FINISHING;
         _main._state = RUNNING;
         switch_context(&_dispatcher, &_main);
@@ -105,6 +111,7 @@ __BEGIN_API
                     int now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
                     _running->_link.rank(now);
                     _running->_state = READY;
+                    db<Thread>(INF) << "novo rank da Thread " << _running->_id << ": "<< _running->_link.rank() <<"\n";
                 }   
                 _ready.insert(&_running->_link);
             } else {
@@ -119,7 +126,10 @@ __BEGIN_API
     }
  
     int Thread::join() {
+        db<Thread>(TRC) << "Thread::join() chamado\n";
+
         if (this == _running) {
+            db<Thread>(WRN) << "Thread join nela mesma\n";
             return -1;
         }
         
@@ -132,11 +142,15 @@ __BEGIN_API
     }
 
     void Thread::suspend() {
+        db<Thread>(TRC) << "Thread::suspend() chamado\n";
+
         _state = SUSPENDED;
         yield();
     }
 
     void Thread::resume() {
+        db<Thread>(TRC) << "Thread::resume() chamado\n";
+
         _state = READY;
         _ready.insert_head(&_link);
     }
