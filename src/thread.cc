@@ -57,12 +57,10 @@ __BEGIN_API
         _exit_code = exit_code;
         if (_suspended != nullptr) {
             _suspended->resume();
-            db<Thread>(WRN) << "Thread " << _id << "resumindo \n";
         }
 
         db<Thread>(INF) << "Thread " << _id << " FINISHING! \n";
-
-        Thread::yield();
+        yield();
     }
 
     Thread::~Thread() {
@@ -125,8 +123,11 @@ __BEGIN_API
             return -1;
         }
         
-        _suspended = _running;
-        _running->suspend();
+        if (_state != FINISHING) {
+            _suspended = _running;
+            _running->suspend();
+        }
+
         return _exit_code;
     }
 
