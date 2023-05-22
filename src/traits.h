@@ -26,7 +26,7 @@ template<> struct Traits<Debug>: public Traits<void>
 {
  static const bool error = false;
  static const bool warning = false;
- static const bool info = true;
+ static const bool info = false;
  static const bool trace = false;
 };
 
@@ -43,7 +43,7 @@ template<> struct Traits<System> : public Traits<void>
 
 template<> struct Traits<Thread> : public Traits<void>
 {
-    static const bool debugged = false;
+    static const bool debugged = true;
 };
 
 template<> struct Traits<Lists> : public Traits<void>

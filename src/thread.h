@@ -10,21 +10,21 @@
 
 __BEGIN_API
 
-class Thread {
-
+class Thread
+{
 protected:
     typedef CPU::Context Context;
 
 public:
+
     typedef Ordered_List<Thread> Ready_Queue;
-    typedef Ordered_List<Thread> Sleeping_Queue;
 
     // Thread State
     enum State {
         RUNNING,
         READY,
         FINISHING,
-        SLEEPING
+        SUSPENDED
     };
 
     /*
@@ -56,8 +56,8 @@ public:
 
     /*
      * Termina a thread.
-     * exit_code é o código de término devolvido pela tarefa.
-     * Quando a thread encerra, o controle deve retornar à main.
+     * exit_code é o código de término devolvido pela tarefa (ignorar agora, vai ser usado mais tarde).
+     * Quando a thread encerra, o controle deve retornar à main. 
      */  
     void thread_exit (int exit_code);
 
@@ -85,7 +85,7 @@ public:
      * Devolve o processador para a thread dispatcher que irá escolher outra thread pronta
      * para ser executada.
      */
-    static void yield(); 
+    static void yield();
 
     /*
      * Destrutor de uma thread. Realiza todo os procedimentos para manter a consistência da classe.
@@ -98,39 +98,39 @@ public:
     Context* context() volatile;
 
     /*
-     * Este método deve suspender a thread em execução até que a thread “alvo” finalize.
-     */
+     * Join
+     */  
     int join();
 
     /*
-     * Suspende a Thread até que resume() seja chamado.
-     */
+     * Suspend
+     */  
     void suspend();
 
     /*
-     * Coloca uma Thread que estava suspensa de volta para a fila de prontos.
-     */
+     * Resume
+     */  
     void resume();
+
 
 private:
     int _id;
-    volatile State _state;
-    Ready_Queue::Element _link;
+    int _exit_code = -1;
+    Thread * _suspended = nullptr;
     Context * volatile _context;
-
-    static Thread _main;
     static Thread * _running;
+    
+    static Thread _main; 
+    static CPU::Context _main_context;
     static Thread _dispatcher;
     static Ready_Queue _ready;
-    static CPU::Context _main_context;
+    Ready_Queue::Element _link;
+    volatile State _state;
 
     /*
      * Qualquer outro atributo que você achar necessário para a solução.
-     */
-    int _exit_code;
-    
+     */ 
     static int _id_count;
-    static Sleeping_Queue _sleeping;
 
 };
 

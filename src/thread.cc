@@ -4,14 +4,12 @@
 __BEGIN_API
 
     // Declara as variáveis estáticas do thread.h
-    Thread Thread::_main;
-    Thread* Thread::_running = nullptr;
-    Thread Thread::_dispatcher;
-    Ordered_List<Thread> Thread::_ready;
-    CPU::Context Thread::_main_context;
-
     int Thread::_id_count = 0;
-    Ordered_List<Thread> Thread::_sleeping;
+    Thread* Thread::_running = nullptr;
+    Thread Thread::_main;
+    Thread Thread::_dispatcher;
+    CPU::Context Thread::_main_context;
+    Ordered_List<Thread> Thread::_ready;
 
     void Thread::init(void (*main)(void *)) {
         db<Thread>(INF) << "Thread main:\n";
@@ -55,21 +53,16 @@ __BEGIN_API
     void Thread::thread_exit(int exit_code) {
         db<Thread>(TRC) << "Thread::thread_exit(int exit_code) chamado\n";
 
-        _exit_code = exit_code;
         _state = FINISHING;
-
-        // Criar lista de ids para que só chame o resume() da thread que chamou join()
-        if (_sleeping.size()) {
-            Thread* next = _sleeping.remove()->object();
-            next->resume();
-            if (next == &_main) {
-                switch_context(this, &_main);
-            }
+        _exit_code = exit_code;
+        if (_suspended != nullptr) {
+            _suspended->resume();
+            db<Thread>(WRN) << "Thread " << _id << "resumindo \n";
         }
 
         db<Thread>(INF) << "Thread " << _id << " FINISHING! \n";
 
-        yield();
+        Thread::yield();
     }
 
     Thread::~Thread() {
@@ -108,15 +101,17 @@ __BEGIN_API
         db<Thread>(TRC) << "Thread::yield() chamado\n";
 
         Thread* next = &_dispatcher;
-        if (_running != &_main && _running->_state != SLEEPING) {
-            if (_running->_state != FINISHING) {
-                int now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
-                _running->_link.rank(now);
+        if (_running->_state != SUSPENDED) {
+            if (_running != &_main) {
+                if (_running->_state != FINISHING) {
+                    int now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+                    _running->_link.rank(now);
+                    _running->_state = READY;
+                }   
+                _ready.insert(&_running->_link);
+            } else {
                 _running->_state = READY;
             }
-            _ready.insert(&_running->_link);
-        } else if (_running->_state != SLEEPING) {
-            _running->_state = READY;
         }
 
         Thread* prev = _running;
@@ -124,41 +119,25 @@ __BEGIN_API
         next->_state = RUNNING;
         switch_context(prev, next);
     }
-
+ 
     int Thread::join() {
-        db<Thread>(TRC) << "Thread::join() chamado\n";
-
-        // _running chama a função join() da thread que irá executar
-        if (this != _running && _state != FINISHING) {
-            suspend();
-        } else {
-            db<Thread>(ERR) << "Erro em Thread::join(), id: " << _id << "\n";
+        if (this == _running) {
             return -1;
         }
-
+        
+        _suspended = _running;
+        _running->suspend();
         return _exit_code;
     }
 
     void Thread::suspend() {
-        db<Thread>(TRC) << "Thread::suspend() chamado\n";
-
-        if (_running != &_main) {
-            _ready.remove(_running);
-        }
-        _running->_state = SLEEPING;
-        _sleeping.insert(&(_running->_link));
+        _state = SUSPENDED;
         yield();
     }
 
     void Thread::resume() {
-        db<Thread>(TRC) << "Thread::resume() chamado\n";
-
-        if (_state == SLEEPING) {
-            _state = READY;
-            if (this != &_main) {
-                _ready.insert(&_link);
-            }
-        }
+        _state = READY;
+        _ready.insert_head(&_link);
     }
 
 __END_API
