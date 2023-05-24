@@ -29,4 +29,14 @@ int CPU::switch_context(Context *from, Context *to)
     return swapcontext(&from->_context, &to->_context); 
 }
 
+int CPU::finc(volatile int & number) {
+    ;
+    // Incrementa variável.
+}
+
+int CPU::fdec(volatile int & number) {
+    ;
+    // Decrementa variável.
+}
+
 __END_API

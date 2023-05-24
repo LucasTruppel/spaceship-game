@@ -155,4 +155,17 @@ __BEGIN_API
         _ready.insert_head(&_link);
     }
 
+    void Thread::sleep() {
+        db<Thread>(TRC) << "Thread::sleep() chamado\n";
+
+        _state = WAITING;
+    }
+
+    void Thread::wakeup() {
+        db<Thread>(TRC) << "Thread::wakeup() chamado\n";
+
+        _state = READY;
+        yield();
+    }
+
 __END_API

@@ -1,6 +1,7 @@
 #ifndef cpu_h
 #define cpu_h
 
+#include <bits/stdc++.h>
 #include <ucontext.h>
 #include <iostream>
 #include "traits.h"
@@ -32,6 +33,10 @@ class CPU
         public:
             ucontext_t _context;
         };
+
+        //Funções atômicas para incrementar/decrementar.
+        int finc(volatile int & number);
+        int fdec(volatile int & number);
 
     public:
 

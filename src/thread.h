@@ -25,7 +25,8 @@ public:
         RUNNING,
         READY,
         FINISHING,
-        SUSPENDED
+        SUSPENDED,
+        WAITING
     };
 
     /*
@@ -107,6 +108,16 @@ public:
      * Coloca uma Thread que estava suspensa de volta para a fila de prontos.
      */  
     void resume();
+
+    /*
+     * Põe uma Thread em espera até que wakeup() seja chamado.
+     */  
+    void sleep();
+
+    /*
+     * Retira uma Thread da fila de espera.
+     */  
+    void wakeup();
 
 private:
 
