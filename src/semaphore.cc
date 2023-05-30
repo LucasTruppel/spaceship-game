@@ -24,13 +24,11 @@ void Semaphore::v() {
 }
 
 int Semaphore::finc(volatile int & number) {
-    // asm ("lock xadd $1, %2");
-    // Chamar no CPU.
+    return CPU::finc(number);
 }
 
 int Semaphore::fdec(volatile int & number) {
-    // asm ("lock xadd $0, %2");
-    // Chamar no CPU.
+    return CPU::fdec(number);
 }
 
 void Semaphore::sleep() {

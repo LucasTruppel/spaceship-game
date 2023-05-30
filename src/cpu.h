@@ -34,13 +34,11 @@ class CPU
             ucontext_t _context;
         };
 
-        //Funções atômicas para incrementar/decrementar.
-        int finc(volatile int & number);
-        int fdec(volatile int & number);
-
     public:
 
         static int switch_context(Context *from, Context *to);
+        static int finc(volatile int & number);
+        static int fdec(volatile int & number);
 
 };
 

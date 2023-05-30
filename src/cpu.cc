@@ -30,13 +30,15 @@ int CPU::switch_context(Context *from, Context *to)
 }
 
 int CPU::finc(volatile int & number) {
-    ;
-    // Incrementa variável.
+    int inc = 1;
+    asm("lock xadd %0, %2" : "=a"  (inc) : "a" (inc) , "m" (number));
+    return inc;
 }
 
 int CPU::fdec(volatile int & number) {
-    ;
-    // Decrementa variável.
+    int inc = -1;
+    asm("lock xadd %0, %2" : "=a"  (inc) : "a" (inc) , "m" (number));
+    return inc;
 }
 
 __END_API
