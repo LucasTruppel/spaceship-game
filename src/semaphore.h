@@ -15,10 +15,7 @@ public:
 
     typedef Ordered_List<Thread> Waiting_Queue;
 
-    Semaphore(int v = 1) {
-        db<Semaphore>(TRC) << "Semaphore::Semaphore() chamado";
-        _count = v;
-    }
+    Semaphore(int v = 1) { _count = v; }
     ~Semaphore();
 
     void p();
