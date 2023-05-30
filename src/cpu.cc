@@ -30,25 +30,13 @@ int CPU::switch_context(Context *from, Context *to)
 }
 
 int CPU::finc(volatile int & number) {
-    int res = 1;
-    __asm__ __volatile__("lock xadd %0, %2"
-                         : "=a"(res)
-                         : "a"(res), "m"(number)
-                         : "memory");
-
-    db<CPU>(TRC) << "CPU::finc() -> " << res << "\n";
-    return res;
+    ;
+    // Incrementa variável.
 }
 
 int CPU::fdec(volatile int & number) {
-    int res = -1;
-    __asm__ __volatile__("lock xadd %0, %2"
-                         : "=a"(res)
-                         : "a"(res), "m"(number)
-                         : "memory");
-
-    db<CPU>(TRC) << "CPU::fdec() -> " << res << "\n";
-    return res;
+    ;
+    // Decrementa variável.
 }
 
 __END_API

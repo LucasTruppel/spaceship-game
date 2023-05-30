@@ -4,58 +4,51 @@
 __BEGIN_API
 
 Semaphore::~Semaphore() {
-    wakeup_all();
+    // Destrutor.
 }
 
 void Semaphore::p() {
-    db<Semaphore>(TRC) << "Semaphore::p() chamado\n";
-
-    if (fdec(_count) < 1) {
+    if (_count > 0) {
+        fdec(_count);
+    } else {
         sleep();
     }
 }
 
 void Semaphore::v() {
-    db<Semaphore>(TRC) << "Semaphore::v() chamado\n";
-
-    if (finc(_count) < 0) {
+    if (_waiting.empty()) {
+        finc(_count);
+    } else {
         wakeup();
     }
 }
 
 int Semaphore::finc(volatile int & number) {
-    db<Semaphore>(TRC) << "Semaphore::finc() chamado\n";
-
-    return CPU::finc(number);
+    // asm ("lock xadd $1, %2");
+    // Chamar no CPU.
 }
 
 int Semaphore::fdec(volatile int & number) {
-    db<Semaphore>(TRC) << "Semaphore::fdec() chamado\n";
-
-    return CPU::fdec(number);
+    // asm ("lock xadd $0, %2");
+    // Chamar no CPU.
 }
 
 void Semaphore::sleep() {
     Thread* running = Thread::running();
-    running->Thread::sleep();
-    _waiting.insert_tail(running->link());
-    Thread::yield();
+    // Adiciona na cabeça da fila.
+    // Chama running->Thread::sleep();
 }
 
 void Semaphore::wakeup() {
-    if (!_waiting.empty()) {
-        Thread *next = _waiting.remove_head()->object();
-        next->Thread::wakeup();
-        Thread::yield();
-    }
+    Thread* running = Thread::running();
+    // Retira da cabeça da fila.
+    // Chama running->Thread::wakeup();
 }
 
 void Semaphore::wakeup_all() {
     while (!_waiting.empty()) {
-        Thread *next = _waiting.remove_head()->object();
-        next->Thread::wakeup();
+        // Chama wakeup() para cada thread.
     }
-    Thread::yield();
 }
 
 __END_API
