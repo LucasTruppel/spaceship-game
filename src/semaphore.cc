@@ -8,17 +8,13 @@ Semaphore::~Semaphore() {
 }
 
 void Semaphore::p() {
-    if (_count > 0) {
-        fdec(_count);
-    } else {
+    if (fdec(_count) < 1) {
         sleep();
     }
 }
 
 void Semaphore::v() {
-    if (_waiting.empty()) {
-        finc(_count);
-    } else {
+    if (finc(_count) < 0) {
         wakeup();
     }
 }
