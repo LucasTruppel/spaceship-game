@@ -30,14 +30,18 @@ int CPU::switch_context(Context *from, Context *to)
 }
 
 int CPU::finc(volatile int & number) {
+    db<CPU>(TRC) << "CPU::finc(volatile int & number)\n";
     int inc = 1;
     asm("lock xadd %0, %2" : "=a"  (inc) : "a" (inc) , "m" (number));
+    db<CPU>(INF) << "Valor do semáforo de " << inc << " para " << number << "\n";
     return inc;
 }
 
 int CPU::fdec(volatile int & number) {
+    db<CPU>(TRC) << "CPU::fdec(volatile int & number)\n";
     int inc = -1;
     asm("lock xadd %0, %2" : "=a"  (inc) : "a" (inc) , "m" (number));
+    db<CPU>(INF) << "Valor do semáforo de " << inc << " para " << number << "\n";
     return inc;
 }
 
