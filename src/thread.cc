@@ -39,6 +39,12 @@ __BEGIN_API
         return _id;
     }
 
+    Thread::Ready_Queue::Element * Thread::link() {
+        db<Thread>(TRC) << "Thread::link() chamado\n";
+
+        return &_link;
+    }
+
     int Thread::switch_context(Thread * prev, Thread * next) {
         db<Thread>(TRC) << "Thread::switch_context(Thread * prev, Thread * next) chamado\n";
 
@@ -105,7 +111,7 @@ __BEGIN_API
         db<Thread>(TRC) << "Thread::yield() chamado\n";
 
         Thread* next = &_dispatcher;
-        if (_running->_state != SUSPENDED) {
+        if (_running->_state != SUSPENDED && _running->_state != WAITING) {
             if (_running != &_main) {
                 if (_running->_state != FINISHING) {
                     int now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
@@ -165,7 +171,7 @@ __BEGIN_API
         db<Thread>(TRC) << "Thread::wakeup() chamado\n";
 
         _state = READY;
-        yield();
+        _ready.insert_head(&_link);
     }
 
 __END_API

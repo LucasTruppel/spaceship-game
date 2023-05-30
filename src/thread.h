@@ -67,6 +67,11 @@ public:
     int id();
 
     /*
+     * Retorna o _link da thread.
+     */ 
+    Ready_Queue::Element * link();
+
+    /*
      * Daspachante (disptacher) de threads. 
      * Executa enquanto houverem threads do usuário.
      * Chama o escalonador para definir a próxima tarefa a ser executada.
