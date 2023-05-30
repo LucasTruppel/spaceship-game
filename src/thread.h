@@ -119,6 +119,12 @@ public:
      */  
     void wakeup();
 
+    /*
+     * Retorna o link da Thread.
+     */  
+    Ready_Queue::Element* link() {  return &_link; }
+
+
 private:
 
     int _id;

@@ -4,7 +4,7 @@
 __BEGIN_API
 
 Semaphore::~Semaphore() {
-    // Destrutor.
+    wakeup_all();
 }
 
 void Semaphore::p() {
@@ -33,19 +33,21 @@ int Semaphore::fdec(volatile int & number) {
 
 void Semaphore::sleep() {
     Thread* running = Thread::running();
-    // Adiciona na cabeça da fila.
-    // Chama running->Thread::sleep();
+    int now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+    running->link()->rank(now);
+    _waiting.insert(running->link());
+    running->sleep();
 }
 
 void Semaphore::wakeup() {
-    Thread* running = Thread::running();
-    // Retira da cabeça da fila.
-    // Chama running->Thread::wakeup();
+    Thread* waked = _waiting.remove()->object();
+    waked->wakeup();
 }
 
 void Semaphore::wakeup_all() {
     while (!_waiting.empty()) {
-        // Chama wakeup() para cada thread.
+        Thread* waked = _waiting.remove()->object();
+        waked->wakeup();
     }
 }
 
