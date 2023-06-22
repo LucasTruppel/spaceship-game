@@ -58,6 +58,9 @@ __BEGIN_API
         if (_suspended != nullptr) {
             _suspended->resume();
         }
+        if (_waiting_queue_pointer != nullptr) {
+            _waiting_queue_pointer->remove(this);
+        }
 
         db<Thread>(INF) << "Thread " << _id << " FINISHING! \n";
         yield();
@@ -144,6 +147,7 @@ __BEGIN_API
     void Thread::suspend() {
         db<Thread>(TRC) << "Thread::suspend() chamado\n";
 
+        _ready.remove(this);
         _state = SUSPENDED;
         yield();
     }
@@ -151,23 +155,26 @@ __BEGIN_API
     void Thread::resume() {
         db<Thread>(TRC) << "Thread::resume() chamado\n";
 
-        _state = READY;
-        _ready.insert_head(&_link);
+        if (_state == SUSPENDED) {
+            _state = READY;
+            _ready.insert_head(&_link);
+        }
     }
 
-    void Thread::sleep() {
+    void Thread::sleep(Ordered_List<Thread> * waiting_queue) {
         db<Thread>(TRC) << "Thread::sleep() chamado\n";
+        _waiting_queue_pointer = waiting_queue;
         _state = WAITING;
-        yield();
     }
 
     void Thread::wakeup() {
         db<Thread>(TRC) << "Thread::wakeup() chamado\n";
+        
+        _waiting_queue_pointer = nullptr;
         _state = READY;
         int now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
         _link.rank(now);
         _ready.insert(&_link);
-        _running->yield();
     }
 
 __END_API

@@ -38,13 +38,18 @@ void Semaphore::sleep() {
     int now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
     running->link()->rank(now);
     _waiting.insert(running->link());
-    running->sleep();
+    Waiting_Queue * waiting_queue_pointer = &_waiting;
+    running->sleep(waiting_queue_pointer);
+    Thread::yield();
 }
 
 void Semaphore::wakeup() {
     db<Semaphore>(TRC) << "Semaphore::wakeup() chamado\n";
-    Thread* waked = _waiting.remove()->object();
-    waked->wakeup();
+    if (!_waiting.empty()) {
+        Thread* waked = _waiting.remove()->object();
+        waked->wakeup();
+        Thread::yield();
+    }
 }
 
 void Semaphore::wakeup_all() {
@@ -53,6 +58,7 @@ void Semaphore::wakeup_all() {
         Thread* waked = _waiting.remove()->object();
         waked->wakeup();
     }
+    Thread::yield();
 }
 
 __END_API

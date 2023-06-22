@@ -112,7 +112,7 @@ public:
     /*
      * Põe uma Thread em espera até que wakeup() seja chamado.
      */  
-    void sleep();
+    void sleep(Ordered_List<Thread> * waiting_queue);
 
     /*
      * Retira uma Thread da fila de espera.
@@ -133,6 +133,7 @@ private:
     Ready_Queue::Element _link;
     Context * volatile _context;
     Thread * _suspended = nullptr;
+    Ordered_List<Thread> * _waiting_queue_pointer = nullptr;
     
     static Thread _main;
     static int _id_count;
