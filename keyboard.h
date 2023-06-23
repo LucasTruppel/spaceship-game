@@ -3,9 +3,9 @@
 
 #include <iostream>
 #include <list>
+#include "window.h"
 #include "thread.h"
 #include "semaphore.h"
-#include "window.h"
 
 class Keyboard {
  public:
