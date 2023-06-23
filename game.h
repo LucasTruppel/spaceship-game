@@ -13,7 +13,7 @@ class Game
 
         static void run(void * name) {
             Window window;
-            window.run();   
+            window.run();
         }
 
     private:
