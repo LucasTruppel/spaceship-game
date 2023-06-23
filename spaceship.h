@@ -29,11 +29,13 @@ public:
     void turnLeft();
     void turnRight();
 
+    void shoot();
+
     State getState() {return _state;}
 
     //Pure virtual functions
     virtual void run() = 0;
-    virtual void makeMove() = 0;          
+    virtual void makeMove() = 0;       
    
 
 protected:

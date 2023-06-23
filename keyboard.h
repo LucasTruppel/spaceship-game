@@ -2,29 +2,28 @@
 #define keyboard_h
 
 #include <iostream>
-#include <list>
-#include "window.h"
+#include <png.h>
+#include <SFML/Graphics.hpp>
+#include <queue>
 #include "thread.h"
 #include "semaphore.h"
 
 class Keyboard {
  public:
-    Keyboard();
+   Keyboard();
 
-    ~Keyboard();
+   ~Keyboard();
 
-    void run();
+   // Loop where the thread receives a queue of keyboard keys
+  static void run();
 
  public:
-    static Semaphore key_list_sem;
-    static std::list<int> key_list;
 
- private:
-    // Declaração dos métodos privados do Keyboard Handler
+   // Semaphore for the keyboard key queue
+   static Semaphore key_queue_sem; //----> Talvez tenha que ser um ponteiro
 
- private:
-    // Declaração dos atributos do Keyboard Handler
-    
+   // Queue that stores the keyboard keys
+   static std::queue<int> key_queue;
 };
 
 #endif

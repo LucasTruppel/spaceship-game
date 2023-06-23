@@ -17,7 +17,7 @@ class Game
         }
 
     private:
-        static const int _numero = 16; //testando
+       ; //testando
 };
 
 

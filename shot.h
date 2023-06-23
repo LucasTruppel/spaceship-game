@@ -1,21 +1,17 @@
-#include <iostream>
+#include "window.h"
 
-class MinhaClasse {
+class Shot {
 public:
     // Construtor
-    MinhaClasse() {
-        // Inicialização da classe
-    }
+    Shot(int x, int y);
 
+    ~Shot();
     // Outros membros da classe
+
+private:
+    static sf::Texture shot_tex; 
+
+
 
 };
 
-int main() {
-    // Instanciação da classe
-    MinhaClasse objeto;
-
-    // Utilização do objeto
-
-    return 0;
-}

@@ -21,44 +21,26 @@ void Window::run()
     window.setKeyRepeatEnabled(false);
 
 
-    while (window.isOpen())
-    {
+    while (window.isOpen()) {
         sf::Event event;
-        while (window.pollEvent(event))
-        {
+        while (window.pollEvent(event)) {
 
             switch (event.type) {
             case sf::Event::Closed:
                  window.close();
                  break;
             
-            // key pressed
+            // Push only the selected keys into the queue
             case sf::Event::KeyPressed:
-                if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                    std::cout << "Keyboard esquerda!" << std::endl;
-                } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                    std::cout << "Keyboard direita!" << std::endl;
-                } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                    std::cout << "Keyboard para baixo!" << std::endl;
-                } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                    std::cout << "Keyboard para cima!" << std::endl;
-                } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-                    std::cout << "Espaço apertado!" << std::endl;
-                } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-                    std::cout << "Você apertou o P!" << std::endl;
-                } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-                    std::cout << "Você apertou o Q!" << std::endl;
-                } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
-                    std::cout << "Você apertou o R!" << std::endl;
-                } else {
-                    std::cout << "Keyboard pressed = " << event.key.code << std::endl;
-                    break;
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)  || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)  || 
+                    sf::Keyboard::isKeyPressed(sf::Keyboard::Down)  || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)     || 
+                    sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Keyboard::isKeyPressed(sf::Keyboard::P)      || 
+                    sf::Keyboard::isKeyPressed(sf::Keyboard::Q)     || sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
+                    Keyboard::key_queue_sem.p();
+                    Keyboard::key_queue.push(event.key.code);
+                    Keyboard::key_queue_sem.v();
                 }
-                Keyboard::key_list_sem.p();
-                Keyboard::key_list.push_front(event.key.code);
-                Keyboard::key_list_sem.v();
                 break;
-            
             }
         }
 
@@ -78,8 +60,7 @@ void Window::run()
     }
 }
 
-void Window::load_and_bind_textures()
-{
+void Window::load_and_bind_textures() {
     // Bind map textures    
     maze_tex.loadFromFile("sprites/maze/screen.png");
     maze_sprite.setTexture(maze_tex);

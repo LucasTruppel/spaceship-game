@@ -9,26 +9,26 @@ class EnemySpaceShip: public SpaceShip
 {
 public:
 
+    enum Strategy {
+        RANDOM,
+        DUMMY,
+    };
     
-    SpaceShip(int x, int y);
-    virtual ~SpaceShip();
+    //EnemySpaceShip(int x, int y);
+    //virtual ~EnemySpaceShip();
 
 
-    //Pure virtual functions
-    virtual void run() = 0;
-    virtual void makeMove() = 0;          
+    //Implementando as virtual functions.
+    virtual void run();
+    virtual void makeMove();
+
+    //Funcoes especificas da EnemySpaceShip
+    void setStrategy(int chosen_strategy);   //0 for RANDOM, 1 for DUMMY
+
    
 
 protected:
-    volatile State _state;
-
-    sf::Texture spaceship_up;
-    sf::Texture spaceship_down;
-    sf::Texture spaceship_left;
-    sf::Texture spaceship_right;
-
-    sf::Texture spaceship_tex;
-    sf::Sprite spaceship_sprite;
+    volatile Strategy _strategy;
 };
 
 #endif
