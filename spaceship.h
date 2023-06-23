@@ -4,21 +4,40 @@
 #include <iostream>
 #include "window.h"
 #include "spaceship.h"
+#include "thread.h"
 
 class SpaceShip
 {
 public:
-    SpaceShip();
+
+    //SpaceShip State
+    enum State {
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT,
+        DEAD,
+    };
+    
+
+
+    SpaceShip(int x, int y);
     virtual ~SpaceShip();
+
+    void turnUp();
+    void turnDown();
+    void turnLeft();
+    void turnRight();
+
+    State getState() {return _state;}
 
     //Pure virtual functions
     virtual void run() = 0;          
-    virtual void turnUp() = 0;
-    virtual void turnDown() = 0;
-    virtual void turnLeft() = 0;
-    virtual void turnRight() = 0;
+   
 
 protected:
+    volatile State _state;
+
     sf::Texture spaceship_up;
     sf::Texture spaceship_down;
     sf::Texture spaceship_left;

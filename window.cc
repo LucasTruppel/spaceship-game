@@ -1,4 +1,5 @@
 #include "window.h"
+#include "keyboard.h"
 
 int cont = 0;
 
@@ -49,8 +50,13 @@ void Window::run()
                     std::cout << "Você apertou o Q!" << std::endl;
                 } else if(sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
                     std::cout << "Você apertou o R!" << std::endl;
-                } else
+                } else {
                     std::cout << "Keyboard pressed = " << event.key.code << std::endl;
+                    break;
+                }
+                Keyboard::key_list_sem.p();
+                Keyboard::key_list.push_front(event.key.code);
+                Keyboard::key_list_sem.v();
                 break;
             
             }

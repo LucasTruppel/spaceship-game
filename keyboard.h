@@ -5,6 +5,7 @@
 #include <list>
 #include "thread.h"
 #include "semaphore.h"
+#include "window.h"
 
 class Keyboard {
  public:
@@ -15,8 +16,8 @@ class Keyboard {
     void run();
 
  public:
-    static Semaphore *lista_sem;
-    static std::list<int> keys;
+    static Semaphore key_list_sem;
+    static std::list<int> key_list;
 
  private:
     // Declaração dos métodos privados do Keyboard Handler
