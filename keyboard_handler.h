@@ -3,9 +3,11 @@
 
 #include <iostream>
 #include <queue>
-#include "thread.h"
 #include "semaphore.h"
-#include "window.h"
+#include <SFML/Graphics.hpp>
+
+using namespace SOLUTION;
+
 
 class KeyboardHandler {
  public:
@@ -14,15 +16,14 @@ class KeyboardHandler {
    ~KeyboardHandler();
 
    // Loop where the thread receives a queue of keyboard keys
-  static void run();
-
- public:
+    void run();
 
    // Semaphore for the keyboard key queue
-   static Semaphore key_queue_sem; //----> Talvez tenha que ser um ponteiro
+    Semaphore* key_queue_sem; //----> Talvez tenha que ser um ponteiro
 
    // Queue that stores the keyboard keys
-   static std::queue<int> key_queue;
+    std::queue<int> key_queue;
 };
+
 
 #endif

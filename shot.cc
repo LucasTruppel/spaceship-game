@@ -1,6 +1,5 @@
 #include "shot.h"
 
-
 Shot::Shot(int x, int y, sf::Texture image, Direction direction) {
     shot_sprite.setTexture(image);
     shot_sprite.setPosition(x, y);

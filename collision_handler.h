@@ -10,6 +10,8 @@
 #include "shot.h"
 #include "spaceship.h"
 
+using namespace SOLUTION;
+
 class CollisionHandler {
  public:
     CollisionHandler();

@@ -4,7 +4,7 @@
 
 void EnemySpaceShip::run(){
     // TODO: Lógica da execução da Thread
-
+    ;
 }
 
 void EnemySpaceShip::makeMove(){

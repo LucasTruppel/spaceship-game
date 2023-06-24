@@ -5,6 +5,8 @@
 #include "spaceship.h"
 #include "thread.h"
 
+using namespace SOLUTION;
+
 class EnemySpaceShip: public SpaceShip
 {
 public:

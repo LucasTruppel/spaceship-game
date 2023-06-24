@@ -1,5 +1,6 @@
 #include "collision_handler.h"
 
+
 CollisionHandler::CollisionHandler() {
 
 }
@@ -19,3 +20,4 @@ if(entity_a.getSprite().getGlobalBounds().intersects(entity_b.getSprite().getGlo
     // A collision happened.
 }
 */
+

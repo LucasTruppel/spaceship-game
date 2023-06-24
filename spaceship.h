@@ -6,6 +6,8 @@
 #include "semaphore.h"
 #include "window.h"
 
+using namespace SOLUTION;
+
 class SpaceShip
 {
 public:
@@ -22,7 +24,7 @@ public:
 
 
     SpaceShip(int x, int y);
-    virtual ~SpaceShip();
+    ~SpaceShip();
 
     void turnUp();
     void turnDown();

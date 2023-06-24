@@ -1,6 +1,5 @@
 #include "window.h"
 
-int cont = 0;
 
 Window::Window()
 {
@@ -19,6 +18,7 @@ void Window::run()
     //https://www.sfml-dev.org/documentation/2.5.1/classsf_1_1Keyboard.php
     window.setKeyRepeatEnabled(false);
 
+    keyboard_handler = new KeyboardHandler();
 
     while (window.isOpen()) {
         sf::Event event;
@@ -35,9 +35,10 @@ void Window::run()
                     sf::Keyboard::isKeyPressed(sf::Keyboard::Down)  || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)     || 
                     sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Keyboard::isKeyPressed(sf::Keyboard::P)      || 
                     sf::Keyboard::isKeyPressed(sf::Keyboard::Q)     || sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
-                    Keyboard::key_queue_sem.p();
-                    Keyboard::key_queue.push(event.key.code);
-                    Keyboard::key_queue_sem.v();
+                        keyboard_handler->key_queue_sem->p();
+                        keyboard_handler->key_queue.push(event.key.code);
+                        keyboard_handler->key_queue_sem->v();
+                        std::cout << event.key.code << std::endl;
                 }
                 break;
             }
@@ -77,3 +78,4 @@ void Window::load_and_bind_textures() {
     enemy_ship_sprite.setTexture(enemy_ship_tex);
     enemy_ship_sprite.scale(-0.5, -0.5);
 }
+

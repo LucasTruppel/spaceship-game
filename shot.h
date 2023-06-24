@@ -1,6 +1,8 @@
 #include "window.h"
 #include "spaceship.h"
 
+using namespace SOLUTION;
+
 class Shot {
 
 //Represent the direction of the shots
@@ -16,11 +18,9 @@ public:
     // Construtor
     Shot(int x, int y, sf::Texture image, Direction direction);
 
-    ~Shot();
     // Outros membros da classe
 
-    void updatePosition() {
-    };
+    void updatePosition();
 
 private:
     sf::Sprite shot_sprite;

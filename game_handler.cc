@@ -6,7 +6,7 @@ int GameHandler::player_life = 3;
 bool GameHandler::player_invincible = false;
 
 std::queue<Shot> GameHandler::shot_queue = {};
-std::list<SpaceShip>  GameHandler::spaceship_list = {};
+std::list<EnemySpaceShip>  GameHandler::spaceship_list = {};
 
 GameHandler::GameHandler() {
 

@@ -19,6 +19,7 @@ private:
     void load_and_bind_textures();
 
 
+
 private:
 
     // Maze Texture
@@ -36,6 +37,10 @@ private:
     //Enemy space ship texture
     sf::Texture enemy_ship_tex;
     sf::Sprite enemy_ship_sprite;
+
+    KeyboardHandler* keyboard_handler;
 };
+
+
 
 #endif

@@ -8,7 +8,8 @@
 #include "semaphore.h"
 #include "window.h"
 #include "shot.h"
-#include "spaceship.h"
+#include "enemy_spaceship.h"
+
 
 class GameHandler {
  public:
@@ -33,7 +34,7 @@ class GameHandler {
     static std::queue<Shot> shot_queue;
 
     // List that contains all Spaceships
-    static std::list<SpaceShip>  spaceship_list;
+    static std::list<EnemySpaceShip>  spaceship_list;
 };
 
 #endif
