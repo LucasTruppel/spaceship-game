@@ -12,7 +12,6 @@ public:
     //PlayerSpaceShip(int x, int y);
     //virtual ~PlayerSpaceShip();
 
-
     //Implementando as virtual functions.
     virtual void run();
     virtual void makeMove();

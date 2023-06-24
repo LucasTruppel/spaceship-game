@@ -2,11 +2,10 @@
 #define keyboard_h
 
 #include <iostream>
-#include <png.h>
-#include <SFML/Graphics.hpp>
 #include <queue>
 #include "thread.h"
 #include "semaphore.h"
+#include "window.h"
 
 class Keyboard {
  public:

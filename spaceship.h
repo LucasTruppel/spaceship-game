@@ -2,9 +2,9 @@
 #define spaceship_h
 
 #include <iostream>
-#include "window.h"
-#include "spaceship.h"
 #include "thread.h"
+#include "semaphore.h"
+#include "window.h"
 
 class SpaceShip
 {

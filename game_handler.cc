@@ -7,7 +7,3 @@ GameHandler::GameHandler() {
 GameHandler::~GameHandler() {
 
 }
-
-void GameHandler::run() {
-    //
-}
