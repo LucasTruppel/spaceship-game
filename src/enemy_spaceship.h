@@ -16,20 +16,30 @@ public:
         DUMMY,
     };
     
-    EnemySpaceShip(int x, int y);
+    EnemySpaceShip(int x, int y, int random);
     //virtual ~EnemySpaceShip();
 
 
     static void run(EnemySpaceShip* enemySpaceShip);
 
+    /*
+    void makeMoveUP();
+    void makeMoveDOWN();
+    void makeMoveLEFT();
+    void makeMoveRIGHT();
+    */
+
     //Funcoes especificas da EnemySpaceShip
     void setStrategy(int chosen_strategy);   //0 for RANDOM, 1 for DUMMY
     void makeMove();
+
+
 
    
 
 protected:
     volatile Strategy _strategy;
+    int _random;
 };
 
 #endif

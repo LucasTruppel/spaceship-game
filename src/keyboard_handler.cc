@@ -35,8 +35,7 @@ void KeyboardHandler::run(KeyboardHandler* keyboard_handler) {
             } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
                 keyboard_handler->playerSpaceShip->makeMoveRIGHT();
             } else {
-                // keyboard_handler->playerSpaceShip->shoot();
-                std::cout << "Atirando!" << std::endl;
+                keyboard_handler->playerSpaceShip->shoot();
             }
         }
         Thread::yield();

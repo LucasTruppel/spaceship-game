@@ -30,7 +30,10 @@ void Window::run()
     thread_player_spaceship = new Thread(PlayerSpaceShip::run, playerSpaceShip);
 
     for (int i = 0; i < 4; i++) {
-        enemySpaceShip[i] = new EnemySpaceShip(100*i, 365);
+        enemySpaceShip[i] = new EnemySpaceShip(100*i, 100*i, i);
+        //dps colocar strategy 1 tbm
+        enemySpaceShip[i]->setStrategy(0); // The Random Strategy
+        
         thread_enemy_spaceship[i] = new Thread(EnemySpaceShip::run, enemySpaceShip[i]);
     }
 
@@ -60,8 +63,6 @@ void Window::run()
                 break;
             }
         }
-        
-
         window.clear();
         window.draw(maze_sprite);
         window.draw(playerSpaceShip->getSprite());     
@@ -70,6 +71,7 @@ void Window::run()
         }
         window.display();
 
+        usleep(100000);
         Thread::yield();
     }
 }

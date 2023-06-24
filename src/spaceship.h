@@ -28,6 +28,11 @@ public:
     void turnLeft();
     void turnRight();
 
+    void makeMoveUP();
+    void makeMoveDOWN();
+    void makeMoveRIGHT();
+    void makeMoveLEFT();
+
     void shoot();
 
     State getState() {return _state;}

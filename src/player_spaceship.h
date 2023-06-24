@@ -16,10 +16,12 @@ public:
     static void run(PlayerSpaceShip* playerSpaceShip);
 
     //Funcoes especificas da PlayerSpaceShip
+    /*
     void makeMoveUP();
     void makeMoveDOWN();
     void makeMoveRIGHT();
     void makeMoveLEFT();
+    */
     
     // O keyboard tá gerenciando as teclas apertadas
     // ver como juntar isso com o PlayerSpaceShip (talvez um atributo ou outra lista)

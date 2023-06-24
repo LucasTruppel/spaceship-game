@@ -9,19 +9,14 @@ CollisionHandler::~CollisionHandler() {
 
 }
 
-bool CollisionHandler::detect_collision() {
-    
+bool CollisionHandler::detect_player_collision(PlayerSpaceShip* player, EnemySpaceShip* enemy) {
+
+    return player->getSprite().getGlobalBounds().intersects(enemy->getSprite().getGlobalBounds());
+
 }
 
-/*
-#include "MyEntityA.hpp"
-#include "MyEntityB.hpp"
+bool CollisionHandler::detect_enemy_collision(EnemySpaceShip* enemy01, EnemySpaceShip* enemy02) {
 
-MyEntityA entity_a;
-MyEntityB entity_b;   
+    return enemy01->getSprite().getGlobalBounds().intersects(enemy02->getSprite().getGlobalBounds());
 
-if(entity_a.getSprite().getGlobalBounds().intersects(entity_b.getSprite().getGlobalBounds())) {
-    // A collision happened.
 }
-*/
-
