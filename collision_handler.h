@@ -1,5 +1,5 @@
-#ifndef colision_handler_h
-#define colision_handler_h
+#ifndef collision_handler_h
+#define collision_handler_h
 
 #include <iostream>
 #include <list>
@@ -10,11 +10,11 @@
 #include "shot.h"
 #include "spaceship.h"
 
-class ColisionHandler {
+class CollisionHandler {
  public:
-    ColisionHandler();
+    CollisionHandler();
     
-    ~ColisionHandler();
+    ~CollisionHandler();
 
  public:
 

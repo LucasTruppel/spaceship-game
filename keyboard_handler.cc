@@ -1,18 +1,18 @@
-#include "keyboard.h"
+#include "keyboard_handler.h"
 
 // Declaração das variáveis estáticas
-Semaphore key_queue_sem = Semaphore();
-std::queue<int> Keyboard::key_queue = {};
+Semaphore KeyboardHandler::key_queue_sem = Semaphore();
+std::queue<int> KeyboardHandler::key_queue = {};
 
-Keyboard::Keyboard() {
-
-}
-
-Keyboard::~Keyboard() {
+KeyboardHandler::KeyboardHandler() {
 
 }
 
-void Keyboard::run() {
+KeyboardHandler::~KeyboardHandler() {
+
+}
+
+void KeyboardHandler::run() {
 
     // Removing the first key from the queue
     key_queue_sem.p();

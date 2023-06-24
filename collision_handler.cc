@@ -1,10 +1,10 @@
-#include "colision_handler.h"
+#include "collision_handler.h"
 
-ColisionHandler::ColisionHandler() {
+CollisionHandler::CollisionHandler() {
 
 }
 
-ColisionHandler::~ColisionHandler() {
+CollisionHandler::~CollisionHandler() {
 
 }
 

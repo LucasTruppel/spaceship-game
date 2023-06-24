@@ -1,5 +1,5 @@
-#ifndef keyboard_h
-#define keyboard_h
+#ifndef keyboard_handler_h
+#define keyboard_handler_h
 
 #include <iostream>
 #include <queue>
@@ -7,11 +7,11 @@
 #include "semaphore.h"
 #include "window.h"
 
-class Keyboard {
+class KeyboardHandler {
  public:
-   Keyboard();
+   KeyboardHandler();
 
-   ~Keyboard();
+   ~KeyboardHandler();
 
    // Loop where the thread receives a queue of keyboard keys
   static void run();

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <png.h>
 #include <SFML/Graphics.hpp>
+#include "keyboard_handler.h"
 
 class Window
 {
