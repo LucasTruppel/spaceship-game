@@ -12,7 +12,7 @@ void EnemySpaceShip::makeMove(){
         srand(time(0));
         int movement = rand()%4;  //0 to 3, representing the four sides
 
-        if (movement == _state) {
+        if (movement == _state) {  //Nao atira, deve só se mover
             //TODO: shoot
         } else {
             //change side

@@ -32,5 +32,6 @@
 *.app
 program
 
-#Vscode
+#ide
 .vscode/
+.idea/
