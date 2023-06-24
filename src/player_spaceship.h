@@ -1,17 +1,15 @@
-#ifndef enemy_spaceship_h
-#define enemy_spaceship_h
+#ifndef player_spaceship_h
+#define player_spaceship_h
 
-#include "window.h"
 #include "spaceship.h"
 #include "thread.h"
 
 using namespace SOLUTION;
 
-class PlayerSpaceShip: public SpaceShip
-{
+class PlayerSpaceShip: public SpaceShip {
 public:
 
-    //PlayerSpaceShip(int x, int y);
+    PlayerSpaceShip(int x, int y);
     //virtual ~PlayerSpaceShip();
 
     //Implementando as virtual functions.

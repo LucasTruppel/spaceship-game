@@ -2,9 +2,10 @@
 #define spaceship_h
 
 #include <iostream>
+#include <png.h>
+#include <SFML/Graphics.hpp>
 #include "thread.h"
 #include "semaphore.h"
-#include "window.h"
 
 using namespace SOLUTION;
 
@@ -22,10 +23,6 @@ public:
     };
     
 
-
-    SpaceShip(int x, int y);
-    ~SpaceShip();
-
     void turnUp();
     void turnDown();
     void turnLeft();
@@ -34,6 +31,7 @@ public:
     void shoot();
 
     State getState() {return _state;}
+    sf::Sprite getSprite() {return spaceship_sprite;}
 
     //Pure virtual functions
     virtual void run() = 0;

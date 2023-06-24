@@ -1,14 +1,14 @@
 #ifndef enemy_spaceship_h
 #define enemy_spaceship_h
 
-#include "window.h"
 #include "spaceship.h"
 #include "thread.h"
+#include <iostream>
+#include <cstdlib>
 
 using namespace SOLUTION;
 
-class EnemySpaceShip: public SpaceShip
-{
+class EnemySpaceShip : public SpaceShip {
 public:
 
     enum Strategy {
@@ -16,7 +16,7 @@ public:
         DUMMY,
     };
     
-    //EnemySpaceShip(int x, int y);
+    EnemySpaceShip(int x, int y);
     //virtual ~EnemySpaceShip();
 
 

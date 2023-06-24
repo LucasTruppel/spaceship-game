@@ -5,11 +5,15 @@
 #include <png.h>
 #include <SFML/Graphics.hpp>
 #include "keyboard_handler.h"
+#include "player_spaceship.h"
+#include "enemy_spaceship.h"
 
 class Window
 {
 public:
     Window();
+
+    ~Window();
 
     void run();
 
@@ -26,19 +30,24 @@ private:
     sf::Texture maze_tex;
     sf::Sprite maze_sprite;
     
-    //Shot texture
+    // Shot texture
     sf::Texture shot_tex;
     sf::Sprite shot_sprite;
     
-    //Space ship texture
+    // Space ship texture
     sf::Texture space_ship_tex;
     sf::Sprite space_ship_sprite;
 
-    //Enemy space ship texture
+    // Enemy space ship texture
     sf::Texture enemy_ship_tex;
     sf::Sprite enemy_ship_sprite;
 
     KeyboardHandler* keyboard_handler;
+
+    // Naves
+    PlayerSpaceShip* playerSpaceShip;
+    EnemySpaceShip* enemySpaceShip[4];
+    
 };
 
 

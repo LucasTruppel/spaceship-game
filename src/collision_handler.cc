@@ -9,7 +9,7 @@ CollisionHandler::~CollisionHandler() {
 
 }
 
-CollisionHandler::detect_collision() {
+bool CollisionHandler::detect_collision() {
     
 }
 

@@ -1,9 +1,16 @@
 #include "window.h"
 
-
 Window::Window()
 {
     load_and_bind_textures();
+}
+
+Window::~Window() {
+    delete keyboard_handler;
+    delete playerSpaceShip;
+    for (int i = 0; i < 4; i++) {
+        delete enemySpaceShip[i];
+    }
 }
 
 void Window::draw_texture(unsigned int texture, int length, int height, float angle)
@@ -14,11 +21,18 @@ void Window::run()
 {
     sf::RenderWindow window(sf::VideoMode(900, 560), "Spaceship Game!");
 
-    //Link: https://www.sfml-dev.org/tutorials/2.5/window-events.php
-    //https://www.sfml-dev.org/documentation/2.5.1/classsf_1_1Keyboard.php
+    // https://www.sfml-dev.org/tutorials/2.5/window-events.php
+    // https://www.sfml-dev.org/documentation/2.5.1/classsf_1_1Keyboard.php
+
     window.setKeyRepeatEnabled(false);
 
     keyboard_handler = new KeyboardHandler();
+    playerSpaceShip = new PlayerSpaceShip(0, 0);
+
+    for (int i = 0; i < 4; i++) {
+        enemySpaceShip[i] = new EnemySpaceShip(100*i, 365);
+    }
+    
 
     while (window.isOpen()) {
         sf::Event event;
@@ -43,19 +57,14 @@ void Window::run()
                 break;
             }
         }
+        
 
         window.clear();
         window.draw(maze_sprite);
-        
-        space_ship_sprite.setPosition(220, 365);
-        window.draw(space_ship_sprite);
-        
-        enemy_ship_sprite.setPosition(245, 150);
-        window.draw(enemy_ship_sprite);
-
-        shot_sprite.setPosition(204, 400);
-        window.draw(shot_sprite);
-        
+        window.draw(playerSpaceShip->getSprite());     
+        for (int i = 0; i < 4; i++) {
+            window.draw(enemySpaceShip[i]->getSprite());
+        }
         window.display();
     }
 }
