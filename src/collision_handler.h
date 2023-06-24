@@ -14,13 +14,13 @@ using namespace SOLUTION;
 
 class CollisionHandler {
  public:
-    CollisionHandler();
+   CollisionHandler();
     
-    ~CollisionHandler();
+   ~CollisionHandler();
 
  public:
-
-    
+   // Method that verifies the bullet queue and the spaceship list to detect collision
+   bool detect_collision();
 };
 
 #endif

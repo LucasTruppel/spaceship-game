@@ -9,6 +9,10 @@ CollisionHandler::~CollisionHandler() {
 
 }
 
+CollisionHandler::detect_collision() {
+    
+}
+
 /*
 #include "MyEntityA.hpp"
 #include "MyEntityB.hpp"
