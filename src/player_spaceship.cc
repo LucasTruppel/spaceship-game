@@ -23,33 +23,53 @@ void PlayerSpaceShip::run(PlayerSpaceShip* playerSpaceShip) {
 
 void PlayerSpaceShip::makeMoveUP() {
    if (_state == UP) {
-        //if vendo se esta no mapa
-        spaceship_sprite.move(0.0, -50.0);
+        sf::Vector2f position = spaceship_sprite.getPosition();
+        if (position.y - 50 >= 10) {
+            spaceship_sprite.move(0.0, -50.0);
+        } else {
+          spaceship_sprite.setPosition(position.x, 10.0);
+        }
    } else {
         turnUp();
    }
 }
+
 void PlayerSpaceShip::makeMoveDOWN() {
    if (_state == DOWN) {
-        //if vendo se esta no mapa
-        spaceship_sprite.move(0.0, +50.0);
+        sf::Vector2f position = spaceship_sprite.getPosition();
+        if (position.y + 50 <= 500) {
+            spaceship_sprite.move(0.0, +50.0);
+        } else {
+            spaceship_sprite.setPosition(position.x, 500);
+        }
    } else {
         turnDown();
    }
 }
+
 void PlayerSpaceShip::makeMoveLEFT() {
    if (_state == LEFT) {
-        //if vendo se esta no mapa
-        spaceship_sprite.move(-50.0, 0.0);
+        sf::Vector2f position = spaceship_sprite.getPosition();
+        if (position.x - 50 >= 10) {
+          spaceship_sprite.move(-50.0, 0.0);
+        } else {
+            spaceship_sprite.setPosition(10.0, position.y);
+        }
    } else {
         turnLeft();
    }
 }
+
 void PlayerSpaceShip::makeMoveRIGHT() {
    if (_state == RIGHT) {
-        //if vendo se esta no mapa
-        spaceship_sprite.move(+50.0, 0.0);
+        sf::Vector2f position = spaceship_sprite.getPosition();
+        if (position.x + 50 <= 515) {
+          spaceship_sprite.move(+50.0, 0.0);
+          } else {
+            spaceship_sprite.setPosition(515, position.y);
+        }
    } else {
         turnRight();
    }
+
 }

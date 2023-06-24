@@ -26,7 +26,7 @@ void Window::run()
 
     window.setKeyRepeatEnabled(false);
 
-    playerSpaceShip = new PlayerSpaceShip(0, 0);
+    playerSpaceShip = new PlayerSpaceShip(10, 10);
     thread_player_spaceship = new Thread(PlayerSpaceShip::run, playerSpaceShip);
 
     for (int i = 0; i < 4; i++) {
