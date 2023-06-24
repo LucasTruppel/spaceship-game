@@ -26,13 +26,16 @@ void Window::run()
 
     window.setKeyRepeatEnabled(false);
 
-    keyboard_handler = new KeyboardHandler();
     playerSpaceShip = new PlayerSpaceShip(0, 0);
+    thread_player_spaceship = new Thread(PlayerSpaceShip::run, playerSpaceShip);
 
     for (int i = 0; i < 4; i++) {
         enemySpaceShip[i] = new EnemySpaceShip(100*i, 365);
+        thread_enemy_spaceship[i] = new Thread(EnemySpaceShip::run, enemySpaceShip[i]);
     }
-    
+
+    keyboard_handler = new KeyboardHandler(playerSpaceShip);
+    thread_keyboard_handler = new Thread(KeyboardHandler::run, keyboard_handler);
 
     while (window.isOpen()) {
         sf::Event event;
@@ -49,9 +52,9 @@ void Window::run()
                     sf::Keyboard::isKeyPressed(sf::Keyboard::Down)  || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)     || 
                     sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Keyboard::isKeyPressed(sf::Keyboard::P)      || 
                     sf::Keyboard::isKeyPressed(sf::Keyboard::Q)     || sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
-                        keyboard_handler->key_queue_sem->p();
+                        //keyboard_handler->key_queue_sem->p();
                         keyboard_handler->key_queue.push(event.key.code);
-                        keyboard_handler->key_queue_sem->v();
+                        //keyboard_handler->key_queue_sem->v();
                         std::cout << event.key.code << std::endl;
                 }
                 break;
@@ -66,6 +69,8 @@ void Window::run()
             window.draw(enemySpaceShip[i]->getSprite());
         }
         window.display();
+
+        Thread::yield();
     }
 }
 

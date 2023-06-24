@@ -1,8 +1,8 @@
 #ifndef player_spaceship_h
 #define player_spaceship_h
 
-#include "spaceship.h"
 #include "thread.h"
+#include "spaceship.h"
 
 using namespace SOLUTION;
 
@@ -13,20 +13,19 @@ public:
     //virtual ~PlayerSpaceShip();
 
     //Implementando as virtual functions.
-    virtual void run();
-    virtual void makeMove();
+    static void run(PlayerSpaceShip* playerSpaceShip);
 
     //Funcoes especificas da PlayerSpaceShip
+    void makeMoveUP();
+    void makeMoveDOWN();
+    void makeMoveRIGHT();
+    void makeMoveLEFT();
     
     // O keyboard tá gerenciando as teclas apertadas
     // ver como juntar isso com o PlayerSpaceShip (talvez um atributo ou outra lista)
     // ou talvez chamando funcoes diretamente.
     // E dai precisa de funcoes especificas para tratas cada uma das teclas
 
-   
-
-protected:
-    ;
 };
 
 #endif

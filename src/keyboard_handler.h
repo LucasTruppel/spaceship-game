@@ -3,26 +3,31 @@
 
 #include <iostream>
 #include <queue>
+#include "thread.h"
 #include "semaphore.h"
 #include <SFML/Graphics.hpp>
+#include <player_spaceship.h>
 
 using namespace SOLUTION;
 
 
 class KeyboardHandler {
  public:
-   KeyboardHandler();
+   KeyboardHandler(PlayerSpaceShip* playerShip);
 
    ~KeyboardHandler();
 
    // Loop where the thread receives a queue of keyboard keys
-    void run();
+   static void run(KeyboardHandler* keyboard_handler);
 
    // Semaphore for the keyboard key queue
-    Semaphore* key_queue_sem; //----> Talvez tenha que ser um ponteiro
+    Semaphore* key_queue_sem;
 
    // Queue that stores the keyboard keys
     std::queue<int> key_queue;
+
+ private:
+    PlayerSpaceShip* playerSpaceShip;
 };
 
 

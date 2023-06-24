@@ -15,12 +15,41 @@ PlayerSpaceShip::PlayerSpaceShip(int x, int y) {
     spaceship_sprite.scale(0.5, 0.5);
 }
 
-void PlayerSpaceShip::run() {
-    //TODO
-    ;
+void PlayerSpaceShip::run(PlayerSpaceShip* playerSpaceShip) {
+    while (true) {
+        Thread::yield();
+    }
 }
 
-void PlayerSpaceShip::makeMove() {
-    //TODO
-    ;
+void PlayerSpaceShip::makeMoveUP() {
+   if (_state == UP) {
+        //if vendo se esta no mapa
+        spaceship_sprite.move(0.0, -50.0);
+   } else {
+        turnUp();
+   }
+}
+void PlayerSpaceShip::makeMoveDOWN() {
+   if (_state == DOWN) {
+        //if vendo se esta no mapa
+        spaceship_sprite.move(0.0, +50.0);
+   } else {
+        turnDown();
+   }
+}
+void PlayerSpaceShip::makeMoveLEFT() {
+   if (_state == LEFT) {
+        //if vendo se esta no mapa
+        spaceship_sprite.move(-50.0, 0.0);
+   } else {
+        turnLeft();
+   }
+}
+void PlayerSpaceShip::makeMoveRIGHT() {
+   if (_state == RIGHT) {
+        //if vendo se esta no mapa
+        spaceship_sprite.move(+50.0, 0.0);
+   } else {
+        turnRight();
+   }
 }

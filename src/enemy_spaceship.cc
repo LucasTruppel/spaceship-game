@@ -16,10 +16,10 @@ EnemySpaceShip::EnemySpaceShip(int x, int y) {
 
 }
 
-
-void EnemySpaceShip::run(){
-    // TODO: Lógica da execução da Thread
-    ;
+void EnemySpaceShip::run(EnemySpaceShip* enemySpaceShip){
+    while (true) {
+        Thread::yield();
+    }
 }
 
 void EnemySpaceShip::makeMove(){

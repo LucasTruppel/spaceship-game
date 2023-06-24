@@ -7,6 +7,10 @@
 #include "keyboard_handler.h"
 #include "player_spaceship.h"
 #include "enemy_spaceship.h"
+#include "thread.h"
+#include "traits.h"
+
+__USING_API
 
 class Window
 {
@@ -42,11 +46,17 @@ private:
     sf::Texture enemy_ship_tex;
     sf::Sprite enemy_ship_sprite;
 
+    // Keyboard Handler
     KeyboardHandler* keyboard_handler;
 
     // Naves
     PlayerSpaceShip* playerSpaceShip;
     EnemySpaceShip* enemySpaceShip[4];
+
+    //Threads
+    Thread* thread_keyboard_handler;
+    Thread* thread_player_spaceship;
+    Thread* thread_enemy_spaceship[4];
     
 };
 

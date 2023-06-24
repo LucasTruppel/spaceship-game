@@ -1,8 +1,8 @@
 #ifndef enemy_spaceship_h
 #define enemy_spaceship_h
 
-#include "spaceship.h"
 #include "thread.h"
+#include "spaceship.h"
 #include <iostream>
 #include <cstdlib>
 
@@ -20,12 +20,11 @@ public:
     //virtual ~EnemySpaceShip();
 
 
-    //Implementando as virtual functions.
-    virtual void run();
-    virtual void makeMove();
+    static void run(EnemySpaceShip* enemySpaceShip);
 
     //Funcoes especificas da EnemySpaceShip
     void setStrategy(int chosen_strategy);   //0 for RANDOM, 1 for DUMMY
+    void makeMove();
 
    
 

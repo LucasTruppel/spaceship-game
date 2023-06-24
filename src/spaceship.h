@@ -31,11 +31,7 @@ public:
     void shoot();
 
     State getState() {return _state;}
-    sf::Sprite getSprite() {return spaceship_sprite;}
-
-    //Pure virtual functions
-    virtual void run() = 0;
-    virtual void makeMove() = 0;       
+    sf::Sprite getSprite() {return spaceship_sprite;}  
    
 
 protected:

@@ -109,7 +109,7 @@ __BEGIN_API
 
         Thread* next = &_dispatcher;
         if (_running->_state != SUSPENDED && _running->_state != WAITING) {
-            if (_running != &_main) {
+            if (true || _running != &_main) {
                 if (_running->_state != FINISHING) {
                     int now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
                     _running->_link.rank(now);
