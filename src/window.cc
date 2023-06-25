@@ -48,9 +48,7 @@ void Window::run() {
             window.draw(enemySpaceShip[i]->getSprite());
         }
         for (auto const& shot: GameHandler::shot_list) {
-            if (shot->getState() != Shot::FINISHING) {
-                window.draw(shot->getSprite());
-            }
+            window.draw(shot->getSprite());
         }
         window.display();
 
