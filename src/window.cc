@@ -47,18 +47,20 @@ void Window::run() {
                  break;
             }
         }
-
-        // Drawing Window elements
-        window.clear();
-        window.draw(maze_sprite);
-        window.draw(playerSpaceShip->getSprite());     
-        for (int i = 0; i < 4; i++) {
-            window.draw(enemySpaceShip[i]->getSprite());
+        if (clock->getElapsedTime().asMilliseconds() > 1000/60) {
+            // Drawing Window elements
+            window.clear();
+            window.draw(maze_sprite);
+            window.draw(playerSpaceShip->getSprite());     
+            for (int i = 0; i < 4; i++) {
+                window.draw(enemySpaceShip[i]->getSprite());
+            }
+            for (auto const& shot: GameHandler::shot_list) {
+                window.draw(shot->getSprite());
+            }
+            window.display();
+            clock->restart();
         }
-        for (auto const& shot: GameHandler::shot_list) {
-            window.draw(shot->getSprite());
-        }
-        window.display();
         Thread::yield();
     }
 }

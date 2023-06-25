@@ -107,3 +107,7 @@ void PlayerSpaceShip::makeMoveRIGHT() {
 }
 
 
+void PlayerSpaceShip::receiveDamage() {
+     //TODO
+     ;
+}

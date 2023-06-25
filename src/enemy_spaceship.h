@@ -34,6 +34,7 @@ class EnemySpaceShip : public SpaceShip {
     void makeMoveLEFT();
     void makeMoveRIGHT();
 
+    void receiveDamage();
 
  private:
     Strategy _strategy;

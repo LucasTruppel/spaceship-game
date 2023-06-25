@@ -22,6 +22,8 @@ public:
     void makeMoveDOWN();
     void makeMoveLEFT();
     void makeMoveRIGHT();
+
+    void receiveDamage();
 };
 
 #endif

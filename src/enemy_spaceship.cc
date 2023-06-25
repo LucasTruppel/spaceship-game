@@ -191,3 +191,8 @@ void EnemySpaceShip::makeMoveRIGHT() {
 }
 
 
+void EnemySpaceShip::receiveDamage() {
+    //TODO
+    ;
+}
+

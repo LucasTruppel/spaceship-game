@@ -47,27 +47,34 @@ void ShotHandler::run(ShotHandler* shotHandler) {
                 }
             }
 
-            // Colisão entre tiro e nave inimiga
+            // Colisão entre tiros e naves
             for (int i = 0; i < GameHandler::shot_list.size(); i++) {
                 Shot* shot = GameHandler::shot_list.front();
                 GameHandler::shot_list.pop_front();
                 bool shot_deleted = false;
                 for (int j = 0; j < 4; j++) {
-                    sf::Sprite enemySprite = GameHandler::spaceship_list[j]->getSprite();
-                    if (shot->getSprite().getGlobalBounds().intersects(enemySprite.getGlobalBounds())) {
-                        if (shot->getIsEnemy()) {
-                            delete shot;
-                            shot_deleted = true;
-                            break;
-                        } else {
-                            // spaceship dies
-                        }  
+                    EnemySpaceShip* enemyShip = GameHandler::spaceship_list[j];
+                    if (shot->getSprite().getGlobalBounds().intersects(enemyShip->getSprite().getGlobalBounds())) {
+                        delete shot;
+                        shot_deleted = true;
+                        if (not shot->getIsEnemy()) {
+                            enemyShip->receiveDamage();
+                        }
+                        break;
                     }
                 }
                 if (not shot_deleted) {
-                    GameHandler::shot_list.push_back(shot);
+                    PlayerSpaceShip* playerShip = GameHandler::player_ship;
+                    if (shot->getSprite().getGlobalBounds().intersects(playerShip->getSprite().getGlobalBounds())) {
+                        playerShip->receiveDamage();
+                        delete shot;
+                    } else {
+                        GameHandler::shot_list.push_back(shot);
+                    }
                 }
             }
+
+            
             shotHandler->clock->restart();
         }
         Thread::yield();
