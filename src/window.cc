@@ -10,17 +10,25 @@ Window::~Window() {
 
     // Deleting Player Spaceship and Player Thread
     thread_player_spaceship->thread_exit(100);
+    delete thread_player_spaceship;
     delete playerSpaceShip;
 
     // Deleting all 4 Enemy Spaceships and Enemy Threads
     for (int i = 0; i < 4; i++) {
         thread_enemy_spaceship[i]->thread_exit(200 + i);
+        delete thread_enemy_spaceship;
         delete enemySpaceShip[i];
     }
 
     // Deleting Keyboard Handler and its Thread
     thread_keyboard_handler->thread_exit(300);
+    delete thread_keyboard_handler;
     delete keyboard_handler;
+
+    // Deleting Shot Handler and its Thread
+    thread_shot_handler->thread_exit(400);
+    delete thread_shot_handler;
+    delete shot_handler;
 }
 
 void Window::draw_texture(unsigned int texture, int length, int height, float angle) {}
@@ -51,17 +59,16 @@ void Window::run() {
             window.draw(shot->getSprite());
         }
         window.display();
-
-        //usleep(1000/60);
         Thread::yield();
     }
 }
 
 void Window::initialize() {   
+
+    // Initializing Maze
     maze_tex.loadFromFile("sprites/maze/screen.png");
     maze_sprite.setTexture(maze_tex);
     maze_sprite.scale(1.5, 1.5);
-
 
     // Initializing Clock and rendering Game Window
     clock = new sf::Clock();

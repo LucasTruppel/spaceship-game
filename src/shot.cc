@@ -14,32 +14,32 @@ void Shot::updatePosition() {
 
     switch(_state) {
         case UP:
-            if (position.y - 50 >= 10) {
-                shot_sprite.move(0.0, -50.0);
+            if (position.y - 14 >= 10) {
+                shot_sprite.move(0.0, -14.0);
             } else {
                 _state = FINISHING;
                 shot_sprite.setPosition(position.x, 10.0);
             }
             break;
         case DOWN:
-            if (position.y + 50 <= 535) {
-                shot_sprite.move(0.0, +50.0);
+            if (position.y + 14 <= 535) {
+                shot_sprite.move(0.0, +14.0);
             } else {
                 _state = FINISHING;
                 shot_sprite.setPosition(position.x, 535);
             }
             break;
         case LEFT:
-            if (position.x - 50 >= 10) {
-                shot_sprite.move(-50.0, 0.0);
+            if (position.x - 14 >= 10) {
+                shot_sprite.move(-14.0, 0.0);
             } else {
                 _state = FINISHING;
                 shot_sprite.setPosition(10.0, position.y);
             }
             break;
         case RIGHT:
-            if (position.x + 50 <= 550) {
-                shot_sprite.move(+50.0, 0.0);
+            if (position.x + 14 <= 550) {
+                shot_sprite.move(+14.0, 0.0);
             } else {
                 _state = FINISHING;
                 shot_sprite.setPosition(550, position.y);
