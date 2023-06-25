@@ -19,8 +19,12 @@ EnemySpaceShip::EnemySpaceShip(int x, int y, int random) {
 }
 
 void EnemySpaceShip::run(EnemySpaceShip* enemySpaceShip){
+    sf::Clock* clock = new sf::Clock();
     while (true) {
-        enemySpaceShip->makeMove();
+        if (clock->getElapsedTime().asMilliseconds() > 300) {
+            enemySpaceShip->makeMove();
+            clock->restart();
+        }
         Thread::yield();
     }
 }
@@ -47,7 +51,23 @@ void EnemySpaceShip::makeMove() {
                 shoot();
         }
     } else {
-        //TODO: Dummy Strategy
+        // sf::Vector2f player_position = GameHandler::player_ship->getSprite().getPosition();
+        // sf::Vector2f enemy_position = spaceship_sprite.getPosition();
+        // float deltax = abs(player_position.x - enemy_position.x);
+        // float deltay = abs(player_position.y - enemy_position.y);
+        // if (deltay > deltax) {
+        //     if (player_position.x - enemy_position.x > 0) {
+        //         makeMoveRIGHT();
+        //     } else {
+        //         makeMoveLEFT();
+        //     }
+        // } else {
+        //     if (player_position.y - enemy_position.y > 0) {
+        //         makeMoveUP();
+        //     } else {
+        //         makeMoveDOWN();
+        //     }
+        // }
     }  
 }
 

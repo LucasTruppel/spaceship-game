@@ -4,11 +4,10 @@
 #include <iostream>
 #include <list>
 #include <queue>
-#include "thread.h"
-#include "semaphore.h"
-#include "window.h"
+#include <SFML/Graphics.hpp>
 #include "shot.h"
-#include "enemy_spaceship.h"
+//#include "enemy_spaceship.h"
+#include "player_spaceship.h"
 
 
 class GameHandler {
@@ -34,7 +33,10 @@ class GameHandler {
     static std::queue<Shot> shot_queue;
 
     // List that contains all Spaceships
-    static std::list<EnemySpaceShip>  spaceship_list;
+    //static std::list<EnemySpaceShip>  spaceship_list;
+
+   // Player position
+    static PlayerSpaceShip* player_ship;
 };
 
 #endif

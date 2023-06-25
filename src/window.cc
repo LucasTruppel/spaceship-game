@@ -28,11 +28,12 @@ void Window::run()
 
     playerSpaceShip = new PlayerSpaceShip(10, 10);
     thread_player_spaceship = new Thread(PlayerSpaceShip::run, playerSpaceShip);
+    //GameHandler::player_ship = playerSpaceShip;
 
     for (int i = 0; i < 4; i++) {
         enemySpaceShip[i] = new EnemySpaceShip(100*i, 100*i, i);
-        //dps colocar strategy 1 tbm
-        enemySpaceShip[i]->setStrategy(0); // The Random Strategy
+        
+        enemySpaceShip[i]->setStrategy(i % 2);  // 0 for the Random Strategy and 1 for the Dummy/Follow Strategy
         
         thread_enemy_spaceship[i] = new Thread(EnemySpaceShip::run, enemySpaceShip[i]);
     }
@@ -71,7 +72,6 @@ void Window::run()
         }
         window.display();
 
-        usleep(100000);
         Thread::yield();
     }
 }
@@ -84,14 +84,14 @@ void Window::load_and_bind_textures() {
 
     shot_tex.loadFromFile("sprites/space_ships/shot.png");
     shot_sprite.setTexture(shot_tex);
-    shot_sprite.scale(-0.5, -0.5);
+    shot_sprite.scale(0.5, 0.5);
 
     space_ship_tex.loadFromFile("sprites/space_ships/space_ship1.png");
     space_ship_sprite.setTexture(space_ship_tex);
-    space_ship_sprite.scale(-0.5, -0.5);
+    space_ship_sprite.scale(0.5, 0.5);
 
     enemy_ship_tex.loadFromFile("sprites/space_ships/enemy_space_ship1.png");
     enemy_ship_sprite.setTexture(enemy_ship_tex);
-    enemy_ship_sprite.scale(-0.5, -0.5);
+    enemy_ship_sprite.scale(0.5, 0.5);
 }
 

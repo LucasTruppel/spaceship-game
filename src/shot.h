@@ -1,3 +1,6 @@
+#ifndef shot_h
+#define shot_h
+
 #include "window.h"
 #include "spaceship.h"
 
@@ -27,3 +30,5 @@ private:
     Direction _direction;
 };
 
+
+#endif
