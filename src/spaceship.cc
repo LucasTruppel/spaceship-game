@@ -28,6 +28,6 @@ void SpaceShip::turnRight(){
 void SpaceShip::shoot() {
 
     sf::Vector2f position = spaceship_sprite.getPosition();
-    // Shot * shot = new Shot(position.x, position.y, &(shot_tex), _state, _is_enemy);
+    Shot * shot = new Shot(position.x, position.y, shot_tex, _state, _is_enemy);
 
 }

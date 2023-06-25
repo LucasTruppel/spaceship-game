@@ -1,6 +1,6 @@
 #include "enemy_spaceship.h"
 
-EnemySpaceShip::EnemySpaceShip(int x, int y, int random) {
+EnemySpaceShip::EnemySpaceShip(int x, int y, int id) {
     //Carrega as texturas
     spaceship_up.loadFromFile("sprites/space_ships/enemy_space_ship1.png");
     spaceship_down.loadFromFile("sprites/space_ships/enemy_space_ship3.png");
@@ -14,7 +14,7 @@ EnemySpaceShip::EnemySpaceShip(int x, int y, int random) {
     spaceship_sprite.setPosition(x,y);
     spaceship_sprite.scale(0.5, 0.5);
 
-    _random = random;
+    _id = id;
 
     _is_enemy = 1;
 
@@ -29,9 +29,7 @@ void EnemySpaceShip::run(EnemySpaceShip* enemySpaceShip){
     enemySpaceShip->clock = new sf::Clock();
     while (true) {
         if (enemySpaceShip->clock->getElapsedTime().asMilliseconds() > 300) {
-            /*
-            enemySpaceShip->makeMove();
-            */
+            enemySpaceShip->makeMove();     
             enemySpaceShip->clock->restart();
         }
         Thread::yield();
@@ -41,7 +39,7 @@ void EnemySpaceShip::run(EnemySpaceShip* enemySpaceShip){
 void EnemySpaceShip::makeMove() {
  
     if (_strategy == RANDOM) {
-        srand(time(0) + static_cast<time_t>(_random * 100000));
+        srand(time(0) + static_cast<time_t>(_id * 100000));
         int movement = rand() % 5;  //0 to 4, representing the four sides (4 representa a ação de atirar)
         switch(movement) {
             case UP:
@@ -94,6 +92,17 @@ void EnemySpaceShip::makeMoveUP() {
         sf::Vector2f position = spaceship_sprite.getPosition();
         if (position.y - 50 >= 10) {
             spaceship_sprite.move(0.0, -50.0);
+            for (int i = 0; i < 4; i++) {
+               sf::Sprite enemy_sprite = GameHandler::spaceship_list[i]->getSprite();
+               if (i != _id && getSprite().getGlobalBounds().intersects(enemy_sprite.getGlobalBounds())) {
+                    spaceship_sprite.setPosition(position.x, position.y);
+                    break;
+               }
+            }
+            sf::Sprite player_sprite = GameHandler::player_ship->getSprite();
+            if (getSprite().getGlobalBounds().intersects(player_sprite.getGlobalBounds())) {
+                spaceship_sprite.setPosition(position.x, position.y);
+            }
         } else {
           spaceship_sprite.setPosition(position.x, 10.0);
         }
@@ -107,8 +116,19 @@ void EnemySpaceShip::makeMoveDOWN() {
         sf::Vector2f position = spaceship_sprite.getPosition();
         if (position.y + 50 <= 500) {
             spaceship_sprite.move(0.0, +50.0);
+            for (int i = 0; i < 4; i++) {
+                sf::Sprite enemy_sprite = GameHandler::spaceship_list[i]->getSprite();
+                if (i != _id && getSprite().getGlobalBounds().intersects(enemy_sprite.getGlobalBounds())) {
+                    spaceship_sprite.setPosition(position.x, position.y);
+                    break;
+                }
+            }
+            sf::Sprite player_sprite = GameHandler::player_ship->getSprite();
+            if (getSprite().getGlobalBounds().intersects(player_sprite.getGlobalBounds())) {
+                spaceship_sprite.setPosition(position.x, position.y);
+            }
         } else {
-            spaceship_sprite.setPosition(position.x, 500);
+            spaceship_sprite.setPosition(position.x, 500); 
         }
    } else {
         turnDown();
@@ -119,7 +139,18 @@ void EnemySpaceShip::makeMoveLEFT() {
    if (_state == LEFT) {
         sf::Vector2f position = spaceship_sprite.getPosition();
         if (position.x - 50 >= 10) {
-          spaceship_sprite.move(-50.0, 0.0);
+            spaceship_sprite.move(-50.0, 0.0);
+            for (int i = 0; i < 4; i++) {
+                sf::Sprite enemy_sprite = GameHandler::spaceship_list[i]->getSprite();
+                if (i != _id && getSprite().getGlobalBounds().intersects(enemy_sprite.getGlobalBounds())) {
+                    spaceship_sprite.setPosition(position.x, position.y);
+                    break;
+                }
+            }
+            sf::Sprite player_sprite = GameHandler::player_ship->getSprite();
+            if (getSprite().getGlobalBounds().intersects(player_sprite.getGlobalBounds())) {
+                spaceship_sprite.setPosition(position.x, position.y);
+            }
         } else {
             spaceship_sprite.setPosition(10.0, position.y);
         }
@@ -129,15 +160,27 @@ void EnemySpaceShip::makeMoveLEFT() {
 }
 
 void EnemySpaceShip::makeMoveRIGHT() {
-   if (_state == RIGHT) {
+    if (_state == RIGHT) {
         sf::Vector2f position = spaceship_sprite.getPosition();
         if (position.x + 50 <= 515) {
-          spaceship_sprite.move(+50.0, 0.0);
-          } else {
+            spaceship_sprite.move(+50.0, 0.0);
+            for (int i = 0; i < 4; i++) {
+                sf::Sprite enemy_sprite = GameHandler::spaceship_list[i]->getSprite();
+                if (i != _id && getSprite().getGlobalBounds().intersects(enemy_sprite.getGlobalBounds())) {
+                    spaceship_sprite.setPosition(position.x, position.y);
+                    break;
+               }
+            }
+            sf::Sprite player_sprite = GameHandler::player_ship->getSprite();
+            if (getSprite().getGlobalBounds().intersects(player_sprite.getGlobalBounds())) {
+                spaceship_sprite.setPosition(position.x, position.y);
+            }
+        } else {
             spaceship_sprite.setPosition(515, position.y);
         }
-   } else {
+    } else {
         turnRight();
-   }
-
+    }
 }
+
+

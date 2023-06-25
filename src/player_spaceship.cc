@@ -46,17 +46,17 @@ void PlayerSpaceShip::makeMoveUP() {
 }
 
 void PlayerSpaceShip::makeMoveDOWN() {
-   if (_state == DOWN) {
+    if (_state == DOWN) {
         sf::Vector2f position = spaceship_sprite.getPosition();
         if (position.y + 50 <= 500) {
             spaceship_sprite.move(0.0, +50.0);
             for (int i = 0; i < 4; i++) {
-               sf::Sprite enemy_sprite = GameHandler::spaceship_list[i]->getSprite();
-               if (getSprite().getGlobalBounds().intersects(enemy_sprite.getGlobalBounds())) {
+                sf::Sprite enemy_sprite = GameHandler::spaceship_list[i]->getSprite();
+                if (getSprite().getGlobalBounds().intersects(enemy_sprite.getGlobalBounds())) {
                     spaceship_sprite.setPosition(position.x, enemy_sprite.getPosition().y-50);
                     break;
                }
-          }
+            }    
         } else {
             spaceship_sprite.setPosition(position.x, 500);
         }

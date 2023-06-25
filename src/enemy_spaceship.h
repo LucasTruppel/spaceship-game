@@ -37,7 +37,7 @@ class EnemySpaceShip : public SpaceShip {
 
  private:
     Strategy _strategy;
-    int _random;
+    int _id;
     sf::Clock* clock;
 };
 
