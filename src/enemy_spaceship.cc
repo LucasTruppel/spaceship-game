@@ -28,7 +28,7 @@ EnemySpaceShip::~EnemySpaceShip() {
 void EnemySpaceShip::run(EnemySpaceShip* enemySpaceShip){
     enemySpaceShip->clock = new sf::Clock();
     while (true) {
-        if (enemySpaceShip->clock->getElapsedTime().asMilliseconds() > 300) {
+        if (enemySpaceShip->clock->getElapsedTime().asMilliseconds() > 500) {
             enemySpaceShip->makeMove();     
             enemySpaceShip->clock->restart();
         }
@@ -37,9 +37,8 @@ void EnemySpaceShip::run(EnemySpaceShip* enemySpaceShip){
 }
 
 void EnemySpaceShip::makeMove() {
- 
+    srand(time(0) + static_cast<time_t>(_id * 100000));
     if (_strategy == RANDOM) {
-        srand(time(0) + static_cast<time_t>(_id * 100000));
         int movement = rand() % 5;  //0 to 4, representing the four sides (4 representa a ação de atirar)
         switch(movement) {
             case UP:
@@ -55,25 +54,32 @@ void EnemySpaceShip::makeMove() {
                 makeMoveRIGHT();
                 break;
             default:
-               // shoot();
-               ;
+                shoot();
+               
         }
     } else {
         sf::Vector2f player_position = GameHandler::player_ship->getSprite().getPosition();
         sf::Vector2f enemy_position = spaceship_sprite.getPosition();
         float deltax = abs(player_position.x) - abs(enemy_position.x);
         float deltay = abs(player_position.y) - abs(enemy_position.y);
-        if (abs(deltay) < abs(deltax)) {
-            if (deltax > 0) {
-                makeMoveRIGHT();
-            } else {
-                makeMoveLEFT();
+
+        if ((rand() % 10) < 3) {   //30% chance of shooting
+            shoot();
+        } else if (abs(deltay) < abs(deltax)) {
+            if (abs(deltax) > 70) {
+                if (deltax > 0) {
+                    makeMoveRIGHT();
+                } else {
+                    makeMoveLEFT();
+                }
             }
         } else {
-            if (deltay > 0) {
-                makeMoveDOWN();
-            } else {
-                makeMoveUP();
+            if (abs(deltay) > 70) {
+                if (deltay > 0) {
+                    makeMoveDOWN();
+                } else {
+                    makeMoveUP();
+                }
             }
         }
     }  
