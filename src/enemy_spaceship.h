@@ -5,7 +5,8 @@
 #include "spaceship.h"
 #include <iostream>
 #include <cstdlib>
-//#include "game_handler.h"
+#include "game_handler.h"
+#include "player_spaceship.h"
 
 using namespace SOLUTION;
 

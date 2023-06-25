@@ -4,10 +4,10 @@
 #include <iostream>
 #include <png.h>
 #include <SFML/Graphics.hpp>
-//#include "game_handler.h"
-#include "keyboard_handler.h"
+#include "game_handler.h"
 #include "player_spaceship.h"
 #include "enemy_spaceship.h"
+#include "keyboard_handler.h"
 #include "thread.h"
 #include "traits.h"
 

@@ -3,12 +3,11 @@
 
 #include <iostream>
 #include <list>
-#include <queue>
 #include <SFML/Graphics.hpp>
-#include "shot.h"
-//#include "enemy_spaceship.h"
-#include "player_spaceship.h"
 
+class EnemySpaceShip;
+class PlayerSpaceShip;
+class Shot;
 
 class GameHandler {
  public:
@@ -30,10 +29,10 @@ class GameHandler {
     static bool player_invincible;
 
     // Queue that contains all shots
-    static std::queue<Shot> shot_queue;
+    static std::list<Shot*> shot_list;
 
     // List that contains all Spaceships
-    //static std::list<EnemySpaceShip>  spaceship_list;
+    static EnemySpaceShip* spaceship_list[4];
 
    // Player position
     static PlayerSpaceShip* player_ship;

@@ -5,8 +5,8 @@ int GameHandler::velocity = 1;
 int GameHandler::player_life = 3;
 bool GameHandler::player_invincible = false;
 
-std::queue<Shot> GameHandler::shot_queue = {};
-//std::list<EnemySpaceShip>  GameHandler::spaceship_list = {};
+std::list<Shot*> GameHandler::shot_list = {};
+EnemySpaceShip*  GameHandler::spaceship_list[4] = {nullptr, nullptr, nullptr, nullptr};
 PlayerSpaceShip* GameHandler::player_ship = nullptr;
 
 GameHandler::GameHandler() {

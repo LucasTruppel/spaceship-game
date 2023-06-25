@@ -28,7 +28,9 @@ void Window::run()
 
     playerSpaceShip = new PlayerSpaceShip(10, 10);
     thread_player_spaceship = new Thread(PlayerSpaceShip::run, playerSpaceShip);
-    //GameHandler::player_ship = playerSpaceShip;
+    GameHandler::player_ship = playerSpaceShip;
+
+    //sf::Sprite* playerSprite = &(playerSpaceShip->getSprite());
 
     for (int i = 0; i < 4; i++) {
         enemySpaceShip[i] = new EnemySpaceShip(100*i, 100*i, i);

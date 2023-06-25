@@ -1,10 +1,7 @@
 #ifndef shot_h
 #define shot_h
 
-#include "window.h"
-#include "spaceship.h"
-
-using namespace SOLUTION;
+#include <SFML/Graphics.hpp>
 
 class Shot {
 
@@ -16,6 +13,11 @@ class Shot {
         RIGHT,
     };
 
+    enum Info {         //Para dizer de quem eh o tiro e se ele deve ser deletado ()  
+        PLAYER,
+        ENEMY,
+        FINISHING,
+    };
 
 public:
     // Construtor

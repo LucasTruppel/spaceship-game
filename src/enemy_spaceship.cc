@@ -51,23 +51,23 @@ void EnemySpaceShip::makeMove() {
                 shoot();
         }
     } else {
-        // sf::Vector2f player_position = GameHandler::player_ship->getSprite().getPosition();
-        // sf::Vector2f enemy_position = spaceship_sprite.getPosition();
-        // float deltax = abs(player_position.x - enemy_position.x);
-        // float deltay = abs(player_position.y - enemy_position.y);
-        // if (deltay > deltax) {
-        //     if (player_position.x - enemy_position.x > 0) {
-        //         makeMoveRIGHT();
-        //     } else {
-        //         makeMoveLEFT();
-        //     }
-        // } else {
-        //     if (player_position.y - enemy_position.y > 0) {
-        //         makeMoveUP();
-        //     } else {
-        //         makeMoveDOWN();
-        //     }
-        // }
+        sf::Vector2f player_position = GameHandler::player_ship->getSprite().getPosition();
+        sf::Vector2f enemy_position = spaceship_sprite.getPosition();
+        float deltax = abs(player_position.x) - abs(enemy_position.x);
+        float deltay = abs(player_position.y) - abs(enemy_position.y);
+        if (abs(deltay) > abs(deltax)) {
+            if (deltax > 0) {
+                makeMoveRIGHT();
+            } else {
+                makeMoveLEFT();
+            }
+        } else {
+            if (deltay > 0) {
+                makeMoveUP();
+            } else {
+                makeMoveDOWN();
+            }
+        }
     }  
 }
 
