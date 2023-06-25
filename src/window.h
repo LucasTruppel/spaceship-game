@@ -25,13 +25,13 @@ public:
     void draw_texture(unsigned int texture, int length, int height, float angle);
 
 private:
-    void load_and_bind_textures();
+    void initialize();
 
 
 
 private:
 
-    // Maze Texture
+    // Maze texture
     sf::Texture maze_tex;
     sf::Sprite maze_sprite;
     
@@ -39,26 +39,28 @@ private:
     sf::Texture shot_tex;
     sf::Sprite shot_sprite;
     
-    // Space ship texture
+    // SpaceShip texture
     sf::Texture space_ship_tex;
     sf::Sprite space_ship_sprite;
 
-    // Enemy space ship texture
+    // Enemy SpaceShip texture
     sf::Texture enemy_ship_tex;
     sf::Sprite enemy_ship_sprite;
 
     // Keyboard Handler
     KeyboardHandler* keyboard_handler;
 
-    // Naves
+    // SpaceShips
     PlayerSpaceShip* playerSpaceShip;
     EnemySpaceShip* enemySpaceShip[4];
 
-    //Threads
+    // Threads
     Thread* thread_keyboard_handler;
     Thread* thread_player_spaceship;
     Thread* thread_enemy_spaceship[4];
-    
+
+    // Clock
+    sf::Clock* clock;
 };
 
 

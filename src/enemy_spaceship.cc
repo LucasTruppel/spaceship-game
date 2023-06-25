@@ -16,14 +16,23 @@ EnemySpaceShip::EnemySpaceShip(int x, int y, int random) {
 
     _random = random;
 
+    _is_enemy = 1;
+
+    //shot_tex.loadFromFile("../sprites/space_ships/enemy_shot.png"); 
+}
+
+EnemySpaceShip::~EnemySpaceShip() {
+    delete clock;
 }
 
 void EnemySpaceShip::run(EnemySpaceShip* enemySpaceShip){
-    sf::Clock* clock = new sf::Clock();
+    enemySpaceShip->clock = new sf::Clock();
     while (true) {
-        if (clock->getElapsedTime().asMilliseconds() > 300) {
+        if (enemySpaceShip->clock->getElapsedTime().asMilliseconds() > 300) {
+            /*
             enemySpaceShip->makeMove();
-            clock->restart();
+            */
+            enemySpaceShip->clock->restart();
         }
         Thread::yield();
     }
@@ -55,7 +64,7 @@ void EnemySpaceShip::makeMove() {
         sf::Vector2f enemy_position = spaceship_sprite.getPosition();
         float deltax = abs(player_position.x) - abs(enemy_position.x);
         float deltay = abs(player_position.y) - abs(enemy_position.y);
-        if (abs(deltay) > abs(deltax)) {
+        if (abs(deltay) < abs(deltax)) {
             if (deltax > 0) {
                 makeMoveRIGHT();
             } else {
@@ -63,9 +72,9 @@ void EnemySpaceShip::makeMove() {
             }
         } else {
             if (deltay > 0) {
-                makeMoveUP();
-            } else {
                 makeMoveDOWN();
+            } else {
+                makeMoveUP();
             }
         }
     }  
@@ -77,5 +86,58 @@ void EnemySpaceShip::setStrategy(int chosen_strategy) {    //0 for RANDOM, 1 for
     } else {
         _strategy = RANDOM;
     }
+
+}
+
+void EnemySpaceShip::makeMoveUP() {
+   if (_state == UP) {
+        sf::Vector2f position = spaceship_sprite.getPosition();
+        if (position.y - 50 >= 10) {
+            spaceship_sprite.move(0.0, -50.0);
+        } else {
+          spaceship_sprite.setPosition(position.x, 10.0);
+        }
+   } else {
+        turnUp();
+   }
+}
+
+void EnemySpaceShip::makeMoveDOWN() {
+   if (_state == DOWN) {
+        sf::Vector2f position = spaceship_sprite.getPosition();
+        if (position.y + 50 <= 500) {
+            spaceship_sprite.move(0.0, +50.0);
+        } else {
+            spaceship_sprite.setPosition(position.x, 500);
+        }
+   } else {
+        turnDown();
+   }
+}
+
+void EnemySpaceShip::makeMoveLEFT() {
+   if (_state == LEFT) {
+        sf::Vector2f position = spaceship_sprite.getPosition();
+        if (position.x - 50 >= 10) {
+          spaceship_sprite.move(-50.0, 0.0);
+        } else {
+            spaceship_sprite.setPosition(10.0, position.y);
+        }
+   } else {
+        turnLeft();
+   }
+}
+
+void EnemySpaceShip::makeMoveRIGHT() {
+   if (_state == RIGHT) {
+        sf::Vector2f position = spaceship_sprite.getPosition();
+        if (position.x + 50 <= 515) {
+          spaceship_sprite.move(+50.0, 0.0);
+          } else {
+            spaceship_sprite.setPosition(515, position.y);
+        }
+   } else {
+        turnRight();
+   }
 
 }

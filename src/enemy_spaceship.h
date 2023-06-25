@@ -11,7 +11,7 @@
 using namespace SOLUTION;
 
 class EnemySpaceShip : public SpaceShip {
-public:
+ public:
 
     enum Strategy {
         RANDOM,
@@ -19,29 +19,26 @@ public:
     };
     
     EnemySpaceShip(int x, int y, int random);
-    //virtual ~EnemySpaceShip();
+    ~EnemySpaceShip();
 
 
     static void run(EnemySpaceShip* enemySpaceShip);
 
-    /*
-    void makeMoveUP();
-    void makeMoveDOWN();
-    void makeMoveLEFT();
-    void makeMoveRIGHT();
-    */
 
     //Funcoes especificas da EnemySpaceShip
     void setStrategy(int chosen_strategy);   //0 for RANDOM, 1 for DUMMY
     void makeMove();
 
+    void makeMoveUP();
+    void makeMoveDOWN();
+    void makeMoveLEFT();
+    void makeMoveRIGHT();
 
 
-   
-
-protected:
-    volatile Strategy _strategy;
+ private:
+    Strategy _strategy;
     int _random;
+    sf::Clock* clock;
 };
 
 #endif

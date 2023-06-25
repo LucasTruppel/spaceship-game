@@ -9,14 +9,16 @@ CollisionHandler::~CollisionHandler() {
 
 }
 
-bool CollisionHandler::detect_player_collision(PlayerSpaceShip* player, EnemySpaceShip* enemy) {
+bool CollisionHandler::detect_vertical_collision(PlayerSpaceShip* player, EnemySpaceShip* enemy[4]) {
 
-    return player->getSprite().getGlobalBounds().intersects(enemy->getSprite().getGlobalBounds());
+
+
+    return player->getSprite().getGlobalBounds().intersects(enemy[0]->getSprite().getGlobalBounds());
 
 }
 
-bool CollisionHandler::detect_enemy_collision(EnemySpaceShip* enemy01, EnemySpaceShip* enemy02) {
+bool CollisionHandler::detect_horizontal_collision(PlayerSpaceShip* player, EnemySpaceShip* enemy[4]) {
 
-    return enemy01->getSprite().getGlobalBounds().intersects(enemy02->getSprite().getGlobalBounds());
+    return player->getSprite().getGlobalBounds().intersects(enemy[0]->getSprite().getGlobalBounds());
 
 }

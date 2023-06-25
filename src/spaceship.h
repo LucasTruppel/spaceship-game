@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include "thread.h"
 #include "semaphore.h"
+#include "shot.h"
 
 using namespace SOLUTION;
 
@@ -13,7 +14,7 @@ class SpaceShip
 {
 public:
 
-    //SpaceShip State
+    // SpaceShip State
     enum State {
         UP,
         DOWN,
@@ -28,12 +29,8 @@ public:
     void turnLeft();
     void turnRight();
 
-    void makeMoveUP();
-    void makeMoveDOWN();
-    void makeMoveRIGHT();
-    void makeMoveLEFT();
-
     void shoot();
+
 
     State getState() {return _state;}
     sf::Sprite getSprite() {return spaceship_sprite;}  
@@ -49,6 +46,11 @@ protected:
 
     sf::Texture spaceship_tex;
     sf::Sprite spaceship_sprite;
+
+    sf::Texture shot_tex;
+
+    int _is_enemy;  // The value is 1 for Enemy Spaceship and 0 for Player Spaceship
+                    // Not bool because it represents the Info Enum in class Shot
 };
 
 #endif

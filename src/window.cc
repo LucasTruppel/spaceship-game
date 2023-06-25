@@ -1,58 +1,44 @@
 #include "window.h"
 
-Window::Window()
-{
-    load_and_bind_textures();
+Window::Window() {
+    initialize();
 }
 
 Window::~Window() {
-    delete keyboard_handler;
+    // Deleting Clock
+    delete clock;
+
+    // Deleting Player Spaceship and Player Thread
+    thread_player_spaceship->thread_exit(100);
     delete playerSpaceShip;
+
+    // Deleting all 4 Enemy Spaceships and Enemy Threads
     for (int i = 0; i < 4; i++) {
+        thread_enemy_spaceship[i]->thread_exit(200 + i);
         delete enemySpaceShip[i];
     }
+
+    // Deleting Keyboard Handler and its Thread
+    thread_keyboard_handler->thread_exit(300);
+    delete keyboard_handler;
 }
 
-void Window::draw_texture(unsigned int texture, int length, int height, float angle)
-{
-}
+void Window::draw_texture(unsigned int texture, int length, int height, float angle) {}
 
-void Window::run()
-{
+void Window::run() {
     sf::RenderWindow window(sf::VideoMode(900, 560), "Spaceship Game!");
-
-    // https://www.sfml-dev.org/tutorials/2.5/window-events.php
-    // https://www.sfml-dev.org/documentation/2.5.1/classsf_1_1Keyboard.php
-
     window.setKeyRepeatEnabled(false);
 
-    playerSpaceShip = new PlayerSpaceShip(10, 10);
-    thread_player_spaceship = new Thread(PlayerSpaceShip::run, playerSpaceShip);
-    GameHandler::player_ship = playerSpaceShip;
-
-    //sf::Sprite* playerSprite = &(playerSpaceShip->getSprite());
-
-    for (int i = 0; i < 4; i++) {
-        enemySpaceShip[i] = new EnemySpaceShip(100*i, 100*i, i);
-        
-        enemySpaceShip[i]->setStrategy(i % 2);  // 0 for the Random Strategy and 1 for the Dummy/Follow Strategy
-        
-        thread_enemy_spaceship[i] = new Thread(EnemySpaceShip::run, enemySpaceShip[i]);
-    }
-
-    keyboard_handler = new KeyboardHandler(playerSpaceShip);
-    thread_keyboard_handler = new Thread(KeyboardHandler::run, keyboard_handler);
-
+    // Main Window loop
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-
             switch (event.type) {
             case sf::Event::Closed:
                  window.close();
                  break;
             
-            // Push only the selected keys into the queue
+            // Pushing only the selected keys into the queue
             case sf::Event::KeyPressed:
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)  || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)  || 
                     sf::Keyboard::isKeyPressed(sf::Keyboard::Down)  || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)     || 
@@ -66,6 +52,8 @@ void Window::run()
                 break;
             }
         }
+
+        // Deleting and Redrawing Window elements
         window.clear();
         window.draw(maze_sprite);
         window.draw(playerSpaceShip->getSprite());     
@@ -78,22 +66,48 @@ void Window::run()
     }
 }
 
-void Window::load_and_bind_textures() {
-    // Bind map textures    
+void Window::initialize() {   
     maze_tex.loadFromFile("sprites/maze/screen.png");
     maze_sprite.setTexture(maze_tex);
     maze_sprite.scale(1.5, 1.5);
 
-    shot_tex.loadFromFile("sprites/space_ships/shot.png");
-    shot_sprite.setTexture(shot_tex);
-    shot_sprite.scale(0.5, 0.5);
 
-    space_ship_tex.loadFromFile("sprites/space_ships/space_ship1.png");
-    space_ship_sprite.setTexture(space_ship_tex);
-    space_ship_sprite.scale(0.5, 0.5);
+    // Initializing Clock and rendering Game Window
+    clock = new sf::Clock();
 
-    enemy_ship_tex.loadFromFile("sprites/space_ships/enemy_space_ship1.png");
-    enemy_ship_sprite.setTexture(enemy_ship_tex);
-    enemy_ship_sprite.scale(0.5, 0.5);
+    // Initializing Player Spaceship and Player Thread
+    playerSpaceShip = new PlayerSpaceShip(250, 250);
+    thread_player_spaceship = new Thread(PlayerSpaceShip::run, playerSpaceShip);
+
+    // Ipdating Game Hnadler atribute
+    GameHandler::player_ship = playerSpaceShip;
+
+    // Initializing all 4 Enemy Spaceships and Enemy Threads
+    for (int i = 0; i < 4; i++) {
+        switch(i) {
+            case 0:
+                enemySpaceShip[i] = new EnemySpaceShip(100, 100, i);  // Upper Right start position
+                break;
+            case 1:
+                enemySpaceShip[i] = new EnemySpaceShip(100, 400, i); // Upper Left start position
+                break;
+            case 2:
+                enemySpaceShip[i] = new EnemySpaceShip(400, 100, i); // Lower Right start position
+                break;
+            default:
+                enemySpaceShip[i] = new EnemySpaceShip(400, 400, i);// Lower Left start position
+        }
+        GameHandler::spaceship_list[i] = enemySpaceShip[i];
+        
+         // The value is 0 for the Random Strategy and 1 for the Dummy/Follow Strategy
+        enemySpaceShip[i]->setStrategy(i % 2);
+        
+        // Initializing Thread
+        thread_enemy_spaceship[i] = new Thread(EnemySpaceShip::run, enemySpaceShip[i]);
+    }
+
+    // Initializing Keyboard Handler and its Thread
+    keyboard_handler = new KeyboardHandler(playerSpaceShip);
+    thread_keyboard_handler = new Thread(KeyboardHandler::run, keyboard_handler);
 }
 

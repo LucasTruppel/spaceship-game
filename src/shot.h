@@ -21,7 +21,7 @@ class Shot {
 
 public:
     // Construtor
-    Shot(int x, int y, sf::Texture image, Direction direction);
+    Shot(float x, float y, sf::Texture &image, Direction direction, Info is_enemy);
 
     // Outros membros da classe
 

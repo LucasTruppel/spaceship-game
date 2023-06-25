@@ -19,8 +19,8 @@ class CollisionHandler {
 
  public:
    // Method that verifies the bullet queue and the spaceship list to detect collision
-   bool detect_player_collision(PlayerSpaceShip* player, EnemySpaceShip* enemy);
-   bool detect_enemy_collision(EnemySpaceShip* enemy01, EnemySpaceShip* enemy02);
+   bool detect_vertical_collision(PlayerSpaceShip* player, EnemySpaceShip* enemy[4]);
+   bool detect_horizontal_collision(PlayerSpaceShip* player, EnemySpaceShip* enemy[4]);
 };
 
 #endif
