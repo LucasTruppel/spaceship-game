@@ -3,6 +3,7 @@
 
 #include <list>
 #include "shot.h"
+#include "enemy_spaceship.h"
 #include "spaceship.h"
 #include "game_handler.h"
 #include "thread.h"

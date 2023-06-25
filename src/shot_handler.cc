@@ -46,7 +46,28 @@ void ShotHandler::run(ShotHandler* shotHandler) {
                     GameHandler::shot_list.push_back(shot1);
                 }
             }
-            
+
+            // Colisão entre tiro e nave inimiga
+            for (int i = 0; i < GameHandler::shot_list.size(); i++) {
+                Shot* shot = GameHandler::shot_list.front();
+                GameHandler::shot_list.pop_front();
+                bool shot_deleted = false;
+                for (int j = 0; j < 4; j++) {
+                    sf::Sprite enemySprite = GameHandler::spaceship_list[j]->getSprite();
+                    if (shot->getSprite().getGlobalBounds().intersects(enemySprite.getGlobalBounds())) {
+                        if (shot->getIsEnemy()) {
+                            delete shot;
+                            shot_deleted = true;
+                            break;
+                        } else {
+                            // spaceship dies
+                        }  
+                    }
+                }
+                if (not shot_deleted) {
+                    GameHandler::shot_list.push_back(shot);
+                }
+            }
             shotHandler->clock->restart();
         }
         Thread::yield();

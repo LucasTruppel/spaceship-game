@@ -27,7 +27,8 @@ public:
     void updatePosition();
 
     sf::Sprite getSprite() {return shot_sprite;}
-    State getState() {return _state;}  
+    State getState() {return _state;}
+    Info getIsEnemy() {return _is_enemy;}
 
 private:
 
