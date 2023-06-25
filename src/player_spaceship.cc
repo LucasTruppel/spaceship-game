@@ -16,7 +16,7 @@ PlayerSpaceShip::PlayerSpaceShip(int x, int y) {
 
     _is_enemy = 0;
 
-    //shot_tex.loadFromFile("../sprites/space_ships/player_shot.png"); 
+    shot_tex.loadFromFile("sprites/space_ships/player_shot.png"); 
 }
 
 void PlayerSpaceShip::run(PlayerSpaceShip* playerSpaceShip) {

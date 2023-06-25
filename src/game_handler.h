@@ -28,7 +28,7 @@ class GameHandler {
 
     static bool player_invincible;
 
-    // Queue that contains all shots
+    // List that contains all shots
     static std::list<Shot*> shot_list;
 
     // List that contains all Spaceships

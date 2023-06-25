@@ -10,6 +10,7 @@
 #include "keyboard_handler.h"
 #include "thread.h"
 #include "traits.h"
+#include "shot_handler.h"
 
 __USING_API
 
@@ -47,16 +48,20 @@ private:
     sf::Texture enemy_ship_tex;
     sf::Sprite enemy_ship_sprite;
 
-    // Keyboard Handler
+    // Keyboard Handler and its Thread
     KeyboardHandler* keyboard_handler;
-
-    // SpaceShips
-    PlayerSpaceShip* playerSpaceShip;
-    EnemySpaceShip* enemySpaceShip[4];
-
-    // Threads
     Thread* thread_keyboard_handler;
+
+    // Shot Handler and its Thread
+    ShotHandler* shot_handler;
+    Thread* thread_shot_handler;
+
+    // Player Spaceship and Thread
+    PlayerSpaceShip* playerSpaceShip;
     Thread* thread_player_spaceship;
+
+    // Enemy SpaceShips and Threads
+    EnemySpaceShip* enemySpaceShip[4];
     Thread* thread_enemy_spaceship[4];
 
     // Clock

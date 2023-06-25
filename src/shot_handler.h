@@ -1,13 +1,28 @@
 #ifndef shot_handler_h
 #define shot_handler_h
 
+#include <list>
 #include "shot.h"
+#include "spaceship.h"
+#include "game_handler.h"
+#include "thread.h"
+#include "traits.h"
+
+__USING_API
+
+// Spaceships poem os Shots na shot_list do GameHandler.
+// ShotHandler tem uma referencia a essa lista, assim ele pode ir modificando ela.
 
 class ShotHandler {
-    ShotHandler();
 
-public:
-    void run();
+ public:
+    ShotHandler();
+    ~ShotHandler();
+
+    static void run(ShotHandler* shotHandler);
+
+ private:
+    sf::Clock* clock;
 };
 
 #endif

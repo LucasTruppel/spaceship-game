@@ -14,5 +14,5 @@ GameHandler::GameHandler() {
 }
     
 GameHandler::~GameHandler() {
-
+    //PRECISA DELETAR TODOS OS SHOTS
 }

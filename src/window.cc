@@ -53,12 +53,17 @@ void Window::run() {
             }
         }
 
-        // Deleting and Redrawing Window elements
+        // Drawing Window elements
         window.clear();
         window.draw(maze_sprite);
         window.draw(playerSpaceShip->getSprite());     
         for (int i = 0; i < 4; i++) {
             window.draw(enemySpaceShip[i]->getSprite());
+        }
+        for (auto const& shot: GameHandler::shot_list) {
+            if (shot->getState() != Shot::FINISHING) {
+                window.draw(shot->getSprite());
+            }
         }
         window.display();
 
@@ -97,6 +102,7 @@ void Window::initialize() {
             default:
                 enemySpaceShip[i] = new EnemySpaceShip(400, 400, i);// Lower Left start position
         }
+        // Pushing spaceship into Game Handler list
         GameHandler::spaceship_list[i] = enemySpaceShip[i];
         
          // The value is 0 for the Random Strategy and 1 for the Dummy/Follow Strategy
@@ -109,5 +115,10 @@ void Window::initialize() {
     // Initializing Keyboard Handler and its Thread
     keyboard_handler = new KeyboardHandler(playerSpaceShip);
     thread_keyboard_handler = new Thread(KeyboardHandler::run, keyboard_handler);
+
+    // Initializing Shot Handler
+    shot_handler = new ShotHandler();
+    thread_shot_handler = new Thread(ShotHandler::run, shot_handler);
+
 }
 

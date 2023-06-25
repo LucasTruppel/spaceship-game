@@ -18,7 +18,7 @@ EnemySpaceShip::EnemySpaceShip(int x, int y, int id) {
 
     _is_enemy = 1;
 
-    //shot_tex.loadFromFile("../sprites/space_ships/enemy_shot.png"); 
+    shot_tex.loadFromFile("sprites/space_ships/enemy_shot.png");
 }
 
 EnemySpaceShip::~EnemySpaceShip() {
@@ -55,7 +55,8 @@ void EnemySpaceShip::makeMove() {
                 makeMoveRIGHT();
                 break;
             default:
-                shoot();
+               // shoot();
+               ;
         }
     } else {
         sf::Vector2f player_position = GameHandler::player_ship->getSprite().getPosition();

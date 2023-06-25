@@ -26,8 +26,31 @@ void SpaceShip::turnRight(){
 }
 
 void SpaceShip::shoot() {
-
     sf::Vector2f position = spaceship_sprite.getPosition();
-    Shot * shot = new Shot(position.x, position.y, shot_tex, _state, _is_enemy);
 
+    switch(_state) {
+        //precisa ver se não é criado dentro do mapa
+        case UP:
+            position.y = position.y - 14;
+            position.x = position.x + 18;
+            break;
+        case DOWN:
+            position.y = position.y + 50;
+            position.x = position.x + 18;
+            break;
+        case LEFT:
+            position.x = position.x - 14;
+            position.y = position.y + 18;
+            break;
+        case RIGHT:
+            position.x = position.x + 50;
+            position.y = position.y + 18;
+            break;
+    }
+
+    //calcular posicao do tiro. (ver direcao do tiro)
+    //ver se nao esta fora do mapa
+    
+    Shot * shot = new Shot(position.x, position.y, shot_tex, _state, _is_enemy);
+    GameHandler::shot_list.push_front(shot);
 }

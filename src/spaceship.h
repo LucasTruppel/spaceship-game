@@ -4,11 +4,9 @@
 #include <iostream>
 #include <png.h>
 #include <SFML/Graphics.hpp>
-#include "thread.h"
-#include "semaphore.h"
 #include "shot.h"
+#include "game_handler.h"
 
-using namespace SOLUTION;
 
 class SpaceShip
 {
