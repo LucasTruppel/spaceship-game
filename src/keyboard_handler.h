@@ -20,14 +20,16 @@ class KeyboardHandler {
    // Loop where the thread receives a queue of keyboard keys
    static void run(KeyboardHandler* keyboard_handler);
 
-   // Semaphore for the keyboard key queue
-    Semaphore* key_queue_sem;
-
-   // Queue that stores the keyboard keys
-    std::queue<int> key_queue;
-
  private:
-    PlayerSpaceShip* playerSpaceShip;
+
+   // Clock for the keyboard key queue
+   sf::Clock* clock;
+
+   // Player Spaceship reference
+   PlayerSpaceShip* playerSpaceShip;
+
+   int last_movement = 0;
+   int last_shot = 0;
 };
 
 

@@ -26,7 +26,7 @@ Window::~Window() {
 void Window::draw_texture(unsigned int texture, int length, int height, float angle) {}
 
 void Window::run() {
-    sf::RenderWindow window(sf::VideoMode(900, 560), "Spaceship Game!");
+    sf::RenderWindow window(sf::VideoMode(815, 560), "Spaceship Game!");
     window.setKeyRepeatEnabled(false);
 
     // Main Window loop
@@ -37,19 +37,6 @@ void Window::run() {
             case sf::Event::Closed:
                  window.close();
                  break;
-            
-            // Pushing only the selected keys into the queue
-            case sf::Event::KeyPressed:
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)  || sf::Keyboard::isKeyPressed(sf::Keyboard::Right)  || 
-                    sf::Keyboard::isKeyPressed(sf::Keyboard::Down)  || sf::Keyboard::isKeyPressed(sf::Keyboard::Up)     || 
-                    sf::Keyboard::isKeyPressed(sf::Keyboard::Space) || sf::Keyboard::isKeyPressed(sf::Keyboard::P)      || 
-                    sf::Keyboard::isKeyPressed(sf::Keyboard::Q)     || sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
-                        //keyboard_handler->key_queue_sem->p();
-                        keyboard_handler->key_queue.push(event.key.code);
-                        //keyboard_handler->key_queue_sem->v();
-                        std::cout << event.key.code << std::endl;
-                }
-                break;
             }
         }
 
@@ -67,6 +54,7 @@ void Window::run() {
         }
         window.display();
 
+        //usleep(1000/60);
         Thread::yield();
     }
 }

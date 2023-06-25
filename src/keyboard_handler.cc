@@ -1,44 +1,42 @@
 #include "keyboard_handler.h"
 
 KeyboardHandler::KeyboardHandler(PlayerSpaceShip* playerShip) {
-    key_queue_sem = new Semaphore();
     playerSpaceShip = playerShip;
 }
 
 KeyboardHandler::~KeyboardHandler() {
-    if (key_queue_sem) {
-        delete key_queue_sem;
-    }
+    delete clock;
+    
 }
 
 void KeyboardHandler::run(KeyboardHandler* keyboard_handler) {
-
+    keyboard_handler->clock = new sf::Clock();
     while(true) {
-        if (not keyboard_handler->key_queue.empty()) {
-            //keyboard_handler->key_queue_sem->p();
-            int key = keyboard_handler->key_queue.front();
-            keyboard_handler->key_queue.pop();
-            //keyboard_handler->key_queue_sem->v();
-        
-            if (key == sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-                std::cout << "Tecla de Pause na fila: " << key << std::endl;
-            } else if (key == sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-                std::cout << "Tecla de Quit na fila: " << key << std::endl;
-            } else if (key == sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
-                std::cout << "Tecla de Restart na fila: " << key << std::endl;
-            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-                keyboard_handler->playerSpaceShip->makeMoveUP();
-            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-                keyboard_handler->playerSpaceShip->makeMoveDOWN();
-            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-                keyboard_handler->playerSpaceShip->makeMoveLEFT();
-            } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-                keyboard_handler->playerSpaceShip->makeMoveRIGHT();
-            } else {
-                keyboard_handler->playerSpaceShip->shoot();
-            }
+        int delta_movement = keyboard_handler->clock->getElapsedTime().asMilliseconds() - keyboard_handler->last_movement;
+        int delta_shot = keyboard_handler->clock->getElapsedTime().asMilliseconds() - keyboard_handler->last_shot;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+            std::cout << "Tecla de Pause" << std::endl;
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+            std::cout << "Tecla de Quit" << std::endl;
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
+            std::cout << "Tecla de Restart" << std::endl;
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && delta_movement > 300) {
+            keyboard_handler->playerSpaceShip->makeMoveUP();
+            keyboard_handler->last_movement = keyboard_handler->clock->getElapsedTime().asMilliseconds();
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && delta_movement > 300) {
+            keyboard_handler->playerSpaceShip->makeMoveDOWN();
+            keyboard_handler->last_movement = keyboard_handler->clock->getElapsedTime().asMilliseconds();
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && delta_movement > 300) {
+            keyboard_handler->playerSpaceShip->makeMoveLEFT();
+            keyboard_handler->last_movement = keyboard_handler->clock->getElapsedTime().asMilliseconds();
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && delta_movement > 300) {
+            keyboard_handler->playerSpaceShip->makeMoveRIGHT();
+            keyboard_handler->last_movement = keyboard_handler->clock->getElapsedTime().asMilliseconds();
+        } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && delta_shot > 750) {
+            keyboard_handler->playerSpaceShip->shoot(); 
+            keyboard_handler->last_shot = keyboard_handler->clock->getElapsedTime().asMilliseconds();
         }
         Thread::yield();
-    }
+    }  
 }
 
