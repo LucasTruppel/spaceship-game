@@ -53,7 +53,9 @@ void Window::run() {
             window.draw(maze_sprite);
             window.draw(playerSpaceShip->getSprite());     
             for (int i = 0; i < 4; i++) {
-                window.draw(enemySpaceShip[i]->getSprite());
+                if (enemySpaceShip[i]->getState() != EnemySpaceShip::State::DEAD) {
+                    window.draw(enemySpaceShip[i]->getSprite());
+                }
             }
             for (auto const& shot: GameHandler::shot_list) {
                 window.draw(shot->getSprite());

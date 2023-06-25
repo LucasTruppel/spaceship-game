@@ -18,10 +18,13 @@ __USING_API
 class ShotHandler {
 
  public:
-    ShotHandler();
-    ~ShotHandler();
+   ShotHandler();
+   ~ShotHandler();
 
-    static void run(ShotHandler* shotHandler);
+   static void run(ShotHandler* shotHandler);
+   void moveShots(); 
+   void verifyColisionShotShot();
+   void verifyColisionShotSpaceship();
 
  private:
     sf::Clock* clock;

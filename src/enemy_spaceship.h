@@ -36,6 +36,8 @@ class EnemySpaceShip : public SpaceShip {
 
     void receiveDamage();
 
+    void revive();
+
  private:
     Strategy _strategy;
     int _id;

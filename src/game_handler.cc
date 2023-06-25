@@ -14,5 +14,9 @@ GameHandler::GameHandler() {
 }
     
 GameHandler::~GameHandler() {
-    //PRECISA DELETAR TODOS OS SHOTS
+    for (int i = 0; i < GameHandler::shot_list.size(); i++) {
+        Shot* shot = GameHandler::shot_list.front();
+        GameHandler::shot_list.pop_front();
+        delete shot;
+    }
 }
