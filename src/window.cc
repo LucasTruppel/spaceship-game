@@ -25,6 +25,7 @@ Window::~Window() {
     // Deleting Shot Handler and its Thread
     delete thread_shot_handler;
     delete shot_handler;
+
 }
 
 void Window::draw_texture(unsigned int texture, int length, int height, float angle) {}
@@ -40,7 +41,6 @@ void Window::run() {
             switch (event.type) {
                 case sf::Event::Closed:
                     GameHandler::quit_game = true;
-                    window.close();
                     break;
             }
         }
@@ -83,12 +83,13 @@ void Window::run() {
             window.display();
             clock->restart();
             
+            
         }
         Thread::yield();
     }
 
     // Aqui roda quando GameHandler::quit_game == true
-    // thread_join() (Na main);
+    
 
     // Calling thread_exit() for Player Spaceship Thread
     thread_player_spaceship->thread_exit(100);
@@ -103,6 +104,10 @@ void Window::run() {
     
     // Calling thread_exit() for Shot Handler Thread
     thread_shot_handler->thread_exit(400);
+
+    // thread_join() (Na main);
+
+    window.close();
 }
 
 void Window::initialize() {   
