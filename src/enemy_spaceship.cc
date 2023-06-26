@@ -108,7 +108,7 @@ void EnemySpaceShip::makeMoveUP() {
         sf::Vector2f position = spaceship_sprite.getPosition();
         if (position.y - 50 >= 10) {
             spaceship_sprite.move(0.0, -50.0);
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 4; i++) { 
                sf::Sprite enemy_sprite = GameHandler::spaceship_list[i]->getSprite();
                if (i != _id && getSprite().getGlobalBounds().intersects(enemy_sprite.getGlobalBounds())) {
                     spaceship_sprite.setPosition(position.x, position.y);
@@ -118,6 +118,9 @@ void EnemySpaceShip::makeMoveUP() {
             sf::Sprite player_sprite = GameHandler::player_ship->getSprite();
             if (getSprite().getGlobalBounds().intersects(player_sprite.getGlobalBounds())) {
                 spaceship_sprite.setPosition(position.x, position.y);
+                if(not GameHandler::player_invincible) {
+                    GameHandler::player_ship->receiveDamage();
+                }
             }
         } else {
           spaceship_sprite.setPosition(position.x, 10.0);
@@ -142,6 +145,9 @@ void EnemySpaceShip::makeMoveDOWN() {
             sf::Sprite player_sprite = GameHandler::player_ship->getSprite();
             if (getSprite().getGlobalBounds().intersects(player_sprite.getGlobalBounds())) {
                 spaceship_sprite.setPosition(position.x, position.y);
+                if(not GameHandler::player_invincible) {
+                    GameHandler::player_ship->receiveDamage();
+                }
             }
         } else {
             spaceship_sprite.setPosition(position.x, 500); 
@@ -166,6 +172,9 @@ void EnemySpaceShip::makeMoveLEFT() {
             sf::Sprite player_sprite = GameHandler::player_ship->getSprite();
             if (getSprite().getGlobalBounds().intersects(player_sprite.getGlobalBounds())) {
                 spaceship_sprite.setPosition(position.x, position.y);
+                if(not GameHandler::player_invincible) {
+                    GameHandler::player_ship->receiveDamage();
+                }
             }
         } else {
             spaceship_sprite.setPosition(10.0, position.y);
@@ -190,6 +199,9 @@ void EnemySpaceShip::makeMoveRIGHT() {
             sf::Sprite player_sprite = GameHandler::player_ship->getSprite();
             if (getSprite().getGlobalBounds().intersects(player_sprite.getGlobalBounds())) {
                 spaceship_sprite.setPosition(position.x, position.y);
+                if(not GameHandler::player_invincible) {
+                    GameHandler::player_ship->receiveDamage();
+                }
             }
         } else {
             spaceship_sprite.setPosition(515, position.y);

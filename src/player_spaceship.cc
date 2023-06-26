@@ -20,15 +20,30 @@ PlayerSpaceShip::PlayerSpaceShip(int x, int y) {
 }
 
 void PlayerSpaceShip::run(PlayerSpaceShip* playerSpaceShip) {
-     while (true) {
+     playerSpaceShip->clock = new sf::Clock();
+     while (true) {     
           if (GameHandler::player_life == 0) {
+               //playerSpaceShip = DEAD;
                // End Game
-               sf::Sprite sprite = playerSpaceShip->getSprite(); //Just for testing
-               sprite.setPosition(250, 700);
-               playerSpaceShip->setSprite(sprite);
+               //sf::Sprite sprite = playerSpaceShip->getSprite(); //Just for testing
+               //sprite.setPosition(250, 700);
+               //playerSpaceShip->setSprite(sprite);
                //std::cout << "CHEGOU, X e Y: "<< playerSpaceShip->getSprite().getPosition().x << " " << playerSpaceShip->getSprite().getPosition().y << std::endl;
           }
-          Thread::yield();
+    
+    
+        float elapsed_time = playerSpaceShip->clock->getElapsedTime().asMilliseconds();
+        if (elapsed_time > 500) {
+               playerSpaceShip->setInvencibleTimer(playerSpaceShip->getInvencibleTimer() + elapsed_time);
+               if (playerSpaceShip->getInvencibleTimer() >= 2500) {  //2.5s de invencibilidade
+                    GameHandler::player_invincible = false;
+                    playerSpaceShip->resetTimer();
+               }
+            
+            playerSpaceShip->clock->restart();
+        }
+        Thread::yield();
+    
      }
 }
 
@@ -41,6 +56,7 @@ void PlayerSpaceShip::makeMoveUP() {
                sf::Sprite enemy_sprite = GameHandler::spaceship_list[i]->getSprite();
                if (getSprite().getGlobalBounds().intersects(enemy_sprite.getGlobalBounds())) {
                     spaceship_sprite.setPosition(position.x, enemy_sprite.getPosition().y+50);
+                    
                     break;
                }
           }
@@ -116,6 +132,9 @@ void PlayerSpaceShip::makeMoveRIGHT() {
 
 void PlayerSpaceShip::receiveDamage() {
      if (GameHandler::player_life) {
-          GameHandler::player_life -= 1;
-     } 
+          if (GameHandler::player_invincible == false) {
+               GameHandler::player_life -= 1;
+               GameHandler::player_invincible = true;                
+          }   
+     }
 }

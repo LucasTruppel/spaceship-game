@@ -20,8 +20,8 @@ class GameHandler {
     // Player Score that appears at the side of the screen
     static int score;
 
-    // Enemy spaceship velocity
-    static int velocity;
+    // Enemy spaceship speed
+    static int speed;
 
     // Player Life that appears at the side of the screen
     static int player_life;

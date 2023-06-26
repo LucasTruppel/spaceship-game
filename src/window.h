@@ -67,6 +67,22 @@ private:
 
     // Clock
     sf::Clock* clock;
+
+    // Font
+    sf::Font font;
+
+    // Score
+    sf::Text score_text;
+    sf::Text score_counter_text;
+
+    // Life
+    sf::Text life_text;
+    sf::Text life_counter_text;
+
+    // Speed
+    sf::Text speed_text;
+    sf::Text speed_counter_text; 
+    
 };
 
 

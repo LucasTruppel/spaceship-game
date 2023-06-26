@@ -24,6 +24,14 @@ public:
     void makeMoveRIGHT();
 
     void receiveDamage();
+
+    float getInvencibleTimer() {return _invencible_timer;};
+    void setInvencibleTimer(float new_timer) {_invencible_timer = new_timer;}
+    void resetTimer() {_invencible_timer = 0;}
+
+private:
+    float _invencible_timer;
+    sf::Clock* clock;
 };
 
 #endif

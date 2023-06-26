@@ -60,11 +60,34 @@ void Window::run() {
             for (auto const& shot: GameHandler::shot_list) {
                 window.draw(shot->getSprite());
             }
+            
+            // Drawing Game Score in the Window
+            window.draw(score_text);
+            std::string score =  std::to_string(GameHandler::score);
+            while (score.length() < 6) {
+                score = "0" + score;
+            }
+            score_counter_text.setString(score);
+            window.draw(score_counter_text);
+
+            // Drawing Player Life in the Window
+            window.draw(life_text);
+            std::string life = std::to_string(GameHandler::player_life);
+            life_counter_text.setString(life);
+            window.draw(life_counter_text);
+
+            // Drawing Speed in the Window
+            window.draw(speed_text);
+            std::string speed = std::to_string(GameHandler::speed);
+            speed_counter_text.setString(speed);
+            window.draw(speed_counter_text);
+
             window.display();
             clock->restart();
+            
         }
 
-        std::cout << GameHandler::player_life << std::endl;  
+        //std::cout << GameHandler::player_life << std::endl;  
         Thread::yield();
     }
 }
@@ -75,6 +98,59 @@ void Window::initialize() {
     maze_tex.loadFromFile("sprites/maze/screen.png");
     maze_sprite.setTexture(maze_tex);
     maze_sprite.scale(1.5, 1.5);
+
+    // Loading text font
+    if (!font.loadFromFile("sprites/ui/pixeltype.ttf")) {
+        std::cout << "Falha em ler fonte de texto." << std::endl;
+    }
+
+    // Initializing Score text elements
+    score_text.setFont(font);
+    score_text.setString("SCORE");
+    score_text.setCharacterSize(35);
+    score_text.setFillColor(sf::Color::White);
+    score_text.setOrigin(score_text.getGlobalBounds().width/2, 0);
+    score_text.setPosition(690,75);
+
+    // Initializing Score counter elements
+    score_counter_text.setFont(font);
+    score_counter_text.setString("000000");
+    score_counter_text.setCharacterSize(35);
+    score_counter_text.setFillColor(sf::Color::White);
+    score_counter_text.setOrigin(score_counter_text.getGlobalBounds().width/2, 0);
+    score_counter_text.setPosition(690,100);
+
+    // Initializing Player Life text elements
+    life_text.setFont(font);
+    life_text.setString("LIFE");
+    life_text.setCharacterSize(35);
+    life_text.setFillColor(sf::Color::White);
+    life_text.setOrigin(life_text.getGlobalBounds().width/2, 0);
+    life_text.setPosition(690, 250);
+    
+    // Initializing Player Life counter elements
+    life_counter_text.setFont(font);
+    life_counter_text.setString("3");
+    life_counter_text.setCharacterSize(35);
+    life_counter_text.setFillColor(sf::Color::White);
+    life_counter_text.setOrigin(life_counter_text.getGlobalBounds().width/2, 0);
+    life_counter_text.setPosition(690,275);
+
+    // Initializing Speed text elements
+    speed_text.setFont(font);
+    speed_text.setString("SPEED");
+    speed_text.setCharacterSize(35);
+    speed_text.setFillColor(sf::Color::White);
+    speed_text.setOrigin(speed_text.getGlobalBounds().width/2, 0);
+    speed_text.setPosition(690, 400);
+    
+    // Initializing Speed counter elements
+    speed_counter_text.setFont(font);
+    speed_counter_text.setString("1");
+    speed_counter_text.setCharacterSize(35);
+    speed_counter_text.setFillColor(sf::Color::White);
+    speed_counter_text.setOrigin(speed_counter_text.getGlobalBounds().width/2, 0);
+    speed_counter_text.setPosition(690,425);
 
     // Initializing Clock and rendering Game Window
     clock = new sf::Clock();
