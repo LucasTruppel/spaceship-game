@@ -65,6 +65,7 @@ void Window::run() {
                 window.draw(playerSpaceShip->getSprite());
             }
 
+
             if (GameHandler::end_game) {
                 window.draw(game_over_text);
             } else if (GameHandler::pause_game) {

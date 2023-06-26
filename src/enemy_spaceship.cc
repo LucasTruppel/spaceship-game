@@ -100,7 +100,7 @@ void EnemySpaceShip::makeMove() {
                     makeMoveLEFT();
                 }
             } else {
-                shoot();
+                //shoot();
             }
         } else {
             if (abs(deltay) > 75) {
@@ -110,7 +110,7 @@ void EnemySpaceShip::makeMove() {
                     makeMoveUP();
                 }
             } else {
-                shoot();
+                //shoot();
             }
         }
     }  
@@ -247,7 +247,10 @@ void EnemySpaceShip::revive() {
                 break;
             default:
                 spaceship_sprite.setPosition(Constants::ENEMY_INITIAL_X[3], Constants::ENEMY_INITIAL_Y[3]);// Lower Left start position
-        }
+    }
+    if (spaceship_sprite.getGlobalBounds().intersects(GameHandler::player_ship->getSprite().getGlobalBounds())) {
+        spaceship_sprite.setPosition(250, 250);
+    }
 }
 
 void EnemySpaceShip::receiveDamage() {
