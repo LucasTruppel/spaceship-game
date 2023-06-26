@@ -72,7 +72,7 @@ void EnemySpaceShip::makeMove() {
         float deltax = abs(player_position.x) - abs(enemy_position.x);
         float deltay = abs(player_position.y) - abs(enemy_position.y);
 
-        if ((rand() % 10) < 100) {   // change to 100 to 3
+        if ((rand() % 10) < 3) {   // 30% of shooting change
             shoot();
         } else if (abs(deltay) < abs(deltax)) {
             if (abs(deltax) > 100) {
