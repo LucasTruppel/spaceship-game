@@ -13,11 +13,13 @@ ShotHandler::~ShotHandler() {
 void ShotHandler::run(ShotHandler* shotHandler) {
     shotHandler->clock = new sf::Clock();
     while(true) {
-        if (shotHandler->clock->getElapsedTime().asMilliseconds() > 1000/60) {
-            shotHandler->moveShots();
-            shotHandler->verifyColisionShotShot();
-            shotHandler->verifyColisionShotSpaceship();
-            shotHandler->clock->restart();
+        if (GameHandler::quit_game == false and GameHandler::pause_game == false) {
+            if (shotHandler->clock->getElapsedTime().asMilliseconds() > 1000/60) {
+                shotHandler->moveShots();
+                shotHandler->verifyColisionShotShot();
+                shotHandler->verifyColisionShotSpaceship();
+                shotHandler->clock->restart();
+            }
         }
         Thread::yield();
     }

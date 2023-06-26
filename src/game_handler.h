@@ -11,9 +11,7 @@ class Shot;
 
 class GameHandler {
  public:
-    GameHandler();
-    
-    ~GameHandler();
+   ~GameHandler();
 
  public:
 
@@ -47,7 +45,8 @@ class GameHandler {
    // The keyboard R key was pressed and the Game will reset
    static bool reset_game;
 
-
+  // The player died
+   static bool end_game;
 
 };
 

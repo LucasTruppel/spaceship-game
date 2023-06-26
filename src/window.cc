@@ -9,24 +9,20 @@ Window::~Window() {
     delete clock;
 
     // Deleting Player Spaceship and Player Thread
-    thread_player_spaceship->thread_exit(100);
     delete thread_player_spaceship;
     delete playerSpaceShip;
 
     // Deleting all 4 Enemy Spaceships and Enemy Threads
     for (int i = 0; i < 4; i++) {
-        thread_enemy_spaceship[i]->thread_exit(200 + i);
         delete thread_enemy_spaceship;
         delete enemySpaceShip[i];
     }
 
     // Deleting Keyboard Handler and its Thread
-    thread_keyboard_handler->thread_exit(300);
     delete thread_keyboard_handler;
     delete keyboard_handler;
 
     // Deleting Shot Handler and its Thread
-    thread_shot_handler->thread_exit(400);
     delete thread_shot_handler;
     delete shot_handler;
 }
@@ -38,7 +34,7 @@ void Window::run() {
     window.setKeyRepeatEnabled(false);
 
     // Main Window loop
-    while (window.isOpen() ) {
+    while (window.isOpen() and GameHandler::quit_game == false) {
         sf::Event event;
         while (window.pollEvent(event)) {
             switch (event.type) {
@@ -83,13 +79,30 @@ void Window::run() {
             speed_counter_text.setString(speed);
             window.draw(speed_counter_text);
 
+            // Finishing main loop
             window.display();
             clock->restart();
             
         }
-        
         Thread::yield();
     }
+
+    // Aqui roda quando GameHandler::quit_game == true
+    // thread_join() (Na main);
+
+    // Calling thread_exit() for Player Spaceship Thread
+    thread_player_spaceship->thread_exit(100);
+
+    // Calling thread_exit() for all 4 Enemy Spaceship Threads
+    for (int i = 0; i < 4; i++) {
+        thread_enemy_spaceship[i]->thread_exit(200 + i);
+    }
+
+    // Calling thread_exit() for Keyboard Handler Thread
+    thread_keyboard_handler->thread_exit(300);
+    
+    // Calling thread_exit() for Shot Handler Thread
+    thread_shot_handler->thread_exit(400);
 }
 
 void Window::initialize() {   
@@ -159,7 +172,7 @@ void Window::initialize() {
     playerSpaceShip = new PlayerSpaceShip(Constants::PLAYER_INITIAL_X, Constants::PLAYER_INITIAL_Y);
     thread_player_spaceship = new Thread(PlayerSpaceShip::run, playerSpaceShip);
 
-    // Ipdating Game Hnadler atribute
+    // Updating Game Handler atribute
     GameHandler::player_ship = playerSpaceShip;
 
     // Initializing all 4 Enemy Spaceships and Enemy Threads
@@ -196,7 +209,7 @@ void Window::initialize() {
     }
 
     // Initializing Keyboard Handler and its Thread
-    keyboard_handler = new KeyboardHandler(playerSpaceShip);
+    keyboard_handler = new KeyboardHandler();
     thread_keyboard_handler = new Thread(KeyboardHandler::run, keyboard_handler);
 
     // Initializing Shot Handler

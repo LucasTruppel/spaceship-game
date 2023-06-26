@@ -28,30 +28,32 @@ EnemySpaceShip::~EnemySpaceShip() {
 void EnemySpaceShip::run(EnemySpaceShip* enemySpaceShip) {
     enemySpaceShip->clock = new sf::Clock();
     while (true) {
-        float elapsed_time = enemySpaceShip->clock->getElapsedTime().asMilliseconds();
-        float speed_multiplier;
-        switch(GameHandler::speed) {
-            case 1:
-                speed_multiplier = 3;
-                break;
-            case 2:
-                speed_multiplier = 2;
-                break;
-            default:
-                speed_multiplier = 1;
-        }
-
-        if (elapsed_time > 500/2 * speed_multiplier) {
-            if (enemySpaceShip->getState() != DEAD) {
-                enemySpaceShip->makeMove();     
-            } else {
-                enemySpaceShip->setReviveTimer(enemySpaceShip->getReviveTimer() + elapsed_time);
-                if (enemySpaceShip->getReviveTimer() >= 2000) {
-                    enemySpaceShip->revive();
-                    enemySpaceShip->resetTimer();
-                }
+        if (GameHandler::quit_game == false and GameHandler::pause_game == false) {
+            float elapsed_time = enemySpaceShip->clock->getElapsedTime().asMilliseconds();
+            float speed_multiplier;
+            switch(GameHandler::speed) {
+                case 1:
+                    speed_multiplier = 3;
+                    break;
+                case 2:
+                    speed_multiplier = 2;
+                    break;
+                default:
+                    speed_multiplier = 1;
             }
-            enemySpaceShip->clock->restart();
+
+            if (elapsed_time > 500/2 * speed_multiplier) {
+                if (enemySpaceShip->getState() != DEAD) {
+                    enemySpaceShip->makeMove();     
+                } else {
+                    enemySpaceShip->setReviveTimer(enemySpaceShip->getReviveTimer() + elapsed_time);
+                    if (enemySpaceShip->getReviveTimer() >= 2000) {
+                        enemySpaceShip->revive();
+                        enemySpaceShip->resetTimer();
+                    }
+                }
+                enemySpaceShip->clock->restart();
+            }
         }
         Thread::yield();
     }

@@ -6,15 +6,14 @@
 #include "thread.h"
 #include "semaphore.h"
 #include <SFML/Graphics.hpp>
-#include <player_spaceship.h>
+#include "player_spaceship.h"
+#include "game_handler.h"
 
 using namespace SOLUTION;
 
 
 class KeyboardHandler {
  public:
-   KeyboardHandler(PlayerSpaceShip* playerShip);
-
    ~KeyboardHandler();
 
    // Loop where the thread receives a queue of keyboard keys
@@ -24,9 +23,6 @@ class KeyboardHandler {
 
    // Clock for the keyboard key queue
    sf::Clock* clock;
-
-   // Player Spaceship reference
-   PlayerSpaceShip* playerSpaceShip;
 
    int last_movement = 0;
    int last_shot = 0;
