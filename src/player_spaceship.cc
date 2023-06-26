@@ -19,6 +19,10 @@ PlayerSpaceShip::PlayerSpaceShip(int x, int y) {
     shot_tex.loadFromFile("sprites/space_ships/player_shot.png"); 
 }
 
+PlayerSpaceShip::~PlayerSpaceShip() {
+     delete clock;
+}
+
 void PlayerSpaceShip::run(PlayerSpaceShip* playerSpaceShip) {
      playerSpaceShip->clock = new sf::Clock();
      while (true) {   

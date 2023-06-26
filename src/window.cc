@@ -54,6 +54,14 @@ void Window::run() {
                 window.draw(playerSpaceShip->getSprite());
             }
 
+            if (GameHandler::end_game) {
+                window.draw(game_over_text);
+            } else if (GameHandler::pause_game) {
+                window.draw(pause_text);
+            } else {
+                window.draw(in_game_text);
+            }
+
             // Drawing Enemy Spaceships
             for (int i = 0; i < 4; i++) {
                 if (enemySpaceShip[i]->getState() != EnemySpaceShip::State::DEAD) {
@@ -130,13 +138,37 @@ void Window::initialize() {
         std::cout << "Failed to read text font" << std::endl;
     }
 
+    // Initializing Game Over text
+    game_over_text.setFont(font);
+    game_over_text.setString("GAME OVER!");
+    game_over_text.setCharacterSize(35);
+    game_over_text.setFillColor(sf::Color::Red);
+    game_over_text.setOrigin(game_over_text.getGlobalBounds().width/2, 0);
+    game_over_text.setPosition(690,75);
+
+    // Initializing Game Paused text
+    pause_text.setFont(font);
+    pause_text.setString("GAME PAUSED");
+    pause_text.setCharacterSize(35);
+    pause_text.setFillColor(sf::Color::White);
+    pause_text.setOrigin(pause_text.getGlobalBounds().width/2, 0);
+    pause_text.setPosition(690,75);
+
+    // Initializing Game Paused text
+    in_game_text.setFont(font);
+    in_game_text.setString("PEW PEW!");
+    in_game_text.setCharacterSize(35);
+    in_game_text.setFillColor(sf::Color::Green);
+    in_game_text.setOrigin(in_game_text.getGlobalBounds().width/2, 0);
+    in_game_text.setPosition(690,75);
+
     // Initializing Score text elements
     score_text.setFont(font);
     score_text.setString("SCORE");
     score_text.setCharacterSize(35);
     score_text.setFillColor(sf::Color::White);
     score_text.setOrigin(score_text.getGlobalBounds().width/2, 0);
-    score_text.setPosition(690,75);
+    score_text.setPosition(690,175);
 
     // Initializing Score counter elements
     score_counter_text.setFont(font);
@@ -144,7 +176,7 @@ void Window::initialize() {
     score_counter_text.setCharacterSize(35);
     score_counter_text.setFillColor(sf::Color::White);
     score_counter_text.setOrigin(score_counter_text.getGlobalBounds().width/2, 0);
-    score_counter_text.setPosition(690,100);
+    score_counter_text.setPosition(690,200);
 
     // Initializing Player Life text elements
     life_text.setFont(font);
@@ -152,7 +184,7 @@ void Window::initialize() {
     life_text.setCharacterSize(35);
     life_text.setFillColor(sf::Color::White);
     life_text.setOrigin(life_text.getGlobalBounds().width/2, 0);
-    life_text.setPosition(690, 250);
+    life_text.setPosition(690,300);
     
     // Initializing Player Life counter elements
     life_counter_text.setFont(font);
@@ -160,7 +192,7 @@ void Window::initialize() {
     life_counter_text.setCharacterSize(35);
     life_counter_text.setFillColor(sf::Color::White);
     life_counter_text.setOrigin(life_counter_text.getGlobalBounds().width/2, 0);
-    life_counter_text.setPosition(690,275);
+    life_counter_text.setPosition(690,325);
 
     // Initializing Speed text elements
     speed_text.setFont(font);
@@ -168,7 +200,7 @@ void Window::initialize() {
     speed_text.setCharacterSize(35);
     speed_text.setFillColor(sf::Color::White);
     speed_text.setOrigin(speed_text.getGlobalBounds().width/2, 0);
-    speed_text.setPosition(690, 400);
+    speed_text.setPosition(690, 425);
     
     // Initializing Speed counter elements
     speed_counter_text.setFont(font);
@@ -176,7 +208,7 @@ void Window::initialize() {
     speed_counter_text.setCharacterSize(35);
     speed_counter_text.setFillColor(sf::Color::White);
     speed_counter_text.setOrigin(speed_counter_text.getGlobalBounds().width/2, 0);
-    speed_counter_text.setPosition(690,425);
+    speed_counter_text.setPosition(690,450);
 
     // Initializing Clock and rendering Game Window
     clock = new sf::Clock();

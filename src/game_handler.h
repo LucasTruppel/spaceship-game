@@ -42,9 +42,6 @@ class GameHandler {
 
    // The keyboard P key was pressed and the Game will pause
    static bool pause_game;
-    
-   // The keyboard R key was pressed and the Game will reset
-   static bool reset_game;
 
   // The player died
    static bool end_game;

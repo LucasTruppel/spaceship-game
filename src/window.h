@@ -82,7 +82,11 @@ private:
     // Speed
     sf::Text speed_text;
     sf::Text speed_counter_text; 
-    
+
+    // Game State
+    sf::Text game_over_text;
+    sf::Text pause_text;
+    sf::Text in_game_text;
 };
 
 

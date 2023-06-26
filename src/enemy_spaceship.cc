@@ -136,9 +136,7 @@ void EnemySpaceShip::makeMoveUP() {
             sf::Sprite player_sprite = GameHandler::player_ship->getSprite();
             if (getSprite().getGlobalBounds().intersects(player_sprite.getGlobalBounds())) {
                 spaceship_sprite.setPosition(position.x, position.y);
-                std::cout << "COLIDIU COM O PLAYER PRA CIMA" << std::endl;
                 if(not GameHandler::player_invincible) {
-                    std::cout << "E ENTROU NO LOOP" << std::endl;
                     GameHandler::player_ship->receiveDamage();
                 }
             }
@@ -165,9 +163,7 @@ void EnemySpaceShip::makeMoveDOWN() {
             sf::Sprite player_sprite = GameHandler::player_ship->getSprite();
             if (getSprite().getGlobalBounds().intersects(player_sprite.getGlobalBounds())) {
                 spaceship_sprite.setPosition(position.x, position.y);
-                std::cout << "COLIDIU COM O PLAYER PRA BAIXO" << std::endl;
                 if(not GameHandler::player_invincible) {
-                    std::cout << "E ENTROU NO LOOP" << std::endl;
                     GameHandler::player_ship->receiveDamage();
                 }
             }
@@ -194,9 +190,7 @@ void EnemySpaceShip::makeMoveLEFT() {
             sf::Sprite player_sprite = GameHandler::player_ship->getSprite();
             if (getSprite().getGlobalBounds().intersects(player_sprite.getGlobalBounds())) {
                 spaceship_sprite.setPosition(position.x, position.y);
-                 std::cout << "COLIDIU COM O PLAYER PRA ESQUERDA" << std::endl;
                 if(not GameHandler::player_invincible) {
-                    std::cout << "E ENTROU NO LOOP" << std::endl;
                     GameHandler::player_ship->receiveDamage();
                 }
             }
@@ -223,9 +217,7 @@ void EnemySpaceShip::makeMoveRIGHT() {
             sf::Sprite player_sprite = GameHandler::player_ship->getSprite();
             if (getSprite().getGlobalBounds().intersects(player_sprite.getGlobalBounds())) {
                 spaceship_sprite.setPosition(position.x, position.y);
-                 std::cout << "COLIDIU COM O PLAYER PRA DIREITA" << std::endl;
                 if(not GameHandler::player_invincible) {
-                    std::cout << "E ENTROU NO LOOP" << std::endl;
                     GameHandler::player_ship->receiveDamage();
                 }
             }

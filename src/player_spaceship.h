@@ -12,7 +12,7 @@ class PlayerSpaceShip : public SpaceShip
 {
 public:
     PlayerSpaceShip(int x, int y);
-    // virtual ~PlayerSpaceShip();
+    ~PlayerSpaceShip();
 
     // Implementando as virtual functions.
     static void run(PlayerSpaceShip *playerSpaceShip);
