@@ -9,11 +9,11 @@ LDFLAGS= $(CFLAGS)
 ODIR = bin
 LIBS= $(LDLIBS) $(LDFLAGS)
 
-_SRC_DEPS = window.h game.h window.h spaceship.h enemy_spaceship.h game_handler.h player_spaceship.h shot.h keyboard_handler.h shot_handler.h
+_SRC_DEPS = window.h game.h window.h spaceship.h enemy_spaceship.h game_handler.h player_spaceship.h shot.h keyboard_handler.h shot_handler.h constants.h
 _LIB_DEPS = list.h semaphore.h system.h thread.h traits.h cpu.h debug.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_SRC_DEPS)) $(patsubst %,$(LDIR)/%,$(_LIB_DEPS))
 
-_SRC_OBJ = main.o window.o game.o spaceship.o enemy_spaceship.o game_handler.o player_spaceship.o shot.o keyboard_handler.o shot_handler.o
+_SRC_OBJ = main.o window.o game.o spaceship.o enemy_spaceship.o game_handler.o player_spaceship.o shot.o keyboard_handler.o shot_handler.o constants.o
 _LIB_OBJ = cpu.o debug.o semaphore.o system.o thread.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_SRC_OBJ)) $(patsubst %,$(ODIR)/%,$(_LIB_OBJ))
 

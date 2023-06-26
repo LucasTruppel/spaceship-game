@@ -28,9 +28,16 @@ EnemySpaceShip::~EnemySpaceShip() {
 void EnemySpaceShip::run(EnemySpaceShip* enemySpaceShip) {
     enemySpaceShip->clock = new sf::Clock();
     while (true) {
-        if (enemySpaceShip->clock->getElapsedTime().asMilliseconds() > 500) {
+        float elapsed_time = enemySpaceShip->clock->getElapsedTime().asMilliseconds();
+        if (elapsed_time > 500) {
             if (enemySpaceShip->getState() != DEAD) {
                 enemySpaceShip->makeMove();     
+            } else {
+                enemySpaceShip->setReviveTimer(enemySpaceShip->getReviveTimer() + elapsed_time);
+                if (enemySpaceShip->getReviveTimer() >= 2000) {
+                    enemySpaceShip->revive();
+                    enemySpaceShip->resetTimer();
+                }
             }
             enemySpaceShip->clock->restart();
         }
@@ -193,13 +200,25 @@ void EnemySpaceShip::makeMoveRIGHT() {
 }
 
 void EnemySpaceShip::revive() {
-    turnUp();    //Not dead anymore.
-    spaceship_sprite.setPosition(100 * _id, 700);
-    //voltar a nave para o jogo em uma posicao valida
+    turnUp();   // Not dead anymore
+    switch(_id) {
+            case 0:
+                spaceship_sprite.setPosition(100, 100);  // Upper Right start position
+                break;
+            case 1:
+                spaceship_sprite.setPosition(100, 400); // Upper Left start position
+                break;
+            case 2:
+                spaceship_sprite.setPosition(400, 100); // Lower Right start position
+                break;
+            default:
+                spaceship_sprite.setPosition(400, 400);// Lower Left start position
+        }
 }
 
 void EnemySpaceShip::receiveDamage() {
     _state = DEAD;
     spaceship_sprite.setPosition(100 * _id, 700);
+    GameHandler::score += 100;
 }
-
+ 

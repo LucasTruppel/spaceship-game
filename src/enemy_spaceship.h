@@ -37,11 +37,16 @@ class EnemySpaceShip : public SpaceShip {
     void receiveDamage();
 
     void revive();
+    float getReviveTimer() {return _revive_timer;};
+    void setReviveTimer(float new_timer) {_revive_timer = new_timer;}
+    void resetTimer() {_revive_timer = 0;}
 
  private:
     Strategy _strategy;
     int _id;
     sf::Clock* clock;
+    
+    float _revive_timer = 0;
 };
 
 #endif

@@ -63,6 +63,8 @@ void Window::run() {
             window.display();
             clock->restart();
         }
+
+        std::cout << GameHandler::score << std::endl;  
         Thread::yield();
     }
 }
