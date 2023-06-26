@@ -48,12 +48,20 @@ void Window::run() {
             // Drawing Window elements
             window.clear();
             window.draw(maze_sprite);
-            window.draw(playerSpaceShip->getSprite());     
+
+            // Drawing Player Spaceship
+            if (GameHandler::end_game == false) {
+                window.draw(playerSpaceShip->getSprite());
+            }
+
+            // Drawing Enemy Spaceships
             for (int i = 0; i < 4; i++) {
                 if (enemySpaceShip[i]->getState() != EnemySpaceShip::State::DEAD) {
                     window.draw(enemySpaceShip[i]->getSprite());
                 }
             }
+
+            // Drawing Shots
             for (auto const& shot: GameHandler::shot_list) {
                 window.draw(shot->getSprite());
             }

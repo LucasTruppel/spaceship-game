@@ -20,3 +20,21 @@ GameHandler::~GameHandler() {
         delete shot;
     }
 }
+
+void GameHandler::reset() {
+
+    for (int i = 0; i < GameHandler::shot_list.size(); i++) {
+        Shot* shot = GameHandler::shot_list.front();
+        GameHandler::shot_list.pop_front();
+        delete shot;
+    }
+
+    GameHandler::score = 0;
+    GameHandler::speed = 1;
+    GameHandler::player_life = 3;
+    GameHandler::player_invincible = false;
+    GameHandler::quit_game = false;
+    GameHandler::pause_game = false;
+    GameHandler::reset_game = false;
+    GameHandler::end_game = false;
+}

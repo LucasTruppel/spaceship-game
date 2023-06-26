@@ -12,6 +12,7 @@ class Shot;
 class GameHandler {
  public:
    ~GameHandler();
+  static void reset();
 
  public:
 

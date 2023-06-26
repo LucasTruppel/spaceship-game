@@ -7,7 +7,9 @@
 #include "semaphore.h"
 #include <SFML/Graphics.hpp>
 #include "player_spaceship.h"
+#include "enemy_spaceship.h"
 #include "game_handler.h"
+
 
 using namespace SOLUTION;
 

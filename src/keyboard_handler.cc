@@ -15,10 +15,15 @@ void KeyboardHandler::run(KeyboardHandler* keyboard_handler) {
         if (GameHandler::end_game) {
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::R) && delta_movement > 300) {
                 if (GameHandler::end_game) { // So pode resetar se o jogo tiver acabado
-                    GameHandler::reset_game = true;
-                    //funcao reiniciar jogo
+            
+                    GameHandler::reset();
+                    for (int i = 0; i < 4; i++) {
+                        GameHandler::spaceship_list[i]->revive();
+                    }
                     keyboard_handler->last_movement = keyboard_handler->clock->getElapsedTime().asMilliseconds();
                 }
+
+                
             } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && delta_movement > 300) {
                 GameHandler::quit_game = true;
                 keyboard_handler->last_movement = keyboard_handler->clock->getElapsedTime().asMilliseconds();

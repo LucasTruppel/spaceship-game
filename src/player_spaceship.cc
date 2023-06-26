@@ -25,9 +25,9 @@ void PlayerSpaceShip::run(PlayerSpaceShip* playerSpaceShip) {
           if (GameHandler::quit_game == false and GameHandler::pause_game == false and GameHandler::end_game == false) {
                if (GameHandler::player_life == 0) {
                     GameHandler::end_game = true;
-                    //sf::Sprite sprite = playerSpaceShip->getSprite(); //Just for testing
-                    //sprite.setPosition(250, 700);
-                    //playerSpaceShip->setSprite(sprite);
+                    sf::Sprite sprite = playerSpaceShip->getSprite(); //Just for testing
+                    sprite.setPosition(250, 250);
+                    playerSpaceShip->setSprite(sprite);
                     //std::cout << "CHEGOU, X e Y: "<< playerSpaceShip->getSprite().getPosition().x << " " << playerSpaceShip->getSprite().getPosition().y << std::endl;
                }
                float elapsed_time = playerSpaceShip->clock->getElapsedTime().asMilliseconds();
