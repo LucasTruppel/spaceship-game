@@ -29,7 +29,19 @@ void EnemySpaceShip::run(EnemySpaceShip* enemySpaceShip) {
     enemySpaceShip->clock = new sf::Clock();
     while (true) {
         float elapsed_time = enemySpaceShip->clock->getElapsedTime().asMilliseconds();
-        if (elapsed_time > 500) {
+        float speed_multiplier;
+        switch(GameHandler::speed) {
+            case 1:
+                speed_multiplier = 3;
+                break;
+            case 2:
+                speed_multiplier = 2;
+                break;
+            default:
+                speed_multiplier = 1;
+        }
+
+        if (elapsed_time > 500/2 * speed_multiplier) {
             if (enemySpaceShip->getState() != DEAD) {
                 enemySpaceShip->makeMove();     
             } else {
@@ -72,23 +84,27 @@ void EnemySpaceShip::makeMove() {
         float deltax = abs(player_position.x) - abs(enemy_position.x);
         float deltay = abs(player_position.y) - abs(enemy_position.y);
 
-        if ((rand() % 10) < 3) {   // 30% of shooting change
+        if ((rand() % 10) < 3) {   // 30% of shooting change 
             shoot();
         } else if (abs(deltay) < abs(deltax)) {
-            if (abs(deltax) > 100) {
+            if (abs(deltax) > 75) {
                 if (deltax > 0) {
                     makeMoveRIGHT();
                 } else {
                     makeMoveLEFT();
                 }
+            } else {
+                shoot();
             }
         } else {
-            if (abs(deltay) > 100) {
+            if (abs(deltay) > 75) {
                 if (deltay > 0) {
                     makeMoveDOWN();
                 } else {
                     makeMoveUP();
                 }
+            } else {
+                shoot();
             }
         }
     }  
@@ -118,7 +134,9 @@ void EnemySpaceShip::makeMoveUP() {
             sf::Sprite player_sprite = GameHandler::player_ship->getSprite();
             if (getSprite().getGlobalBounds().intersects(player_sprite.getGlobalBounds())) {
                 spaceship_sprite.setPosition(position.x, position.y);
+                std::cout << "COLIDIU COM O PLAYER PRA CIMA" << std::endl;
                 if(not GameHandler::player_invincible) {
+                    std::cout << "E ENTROU NO LOOP" << std::endl;
                     GameHandler::player_ship->receiveDamage();
                 }
             }
@@ -145,7 +163,9 @@ void EnemySpaceShip::makeMoveDOWN() {
             sf::Sprite player_sprite = GameHandler::player_ship->getSprite();
             if (getSprite().getGlobalBounds().intersects(player_sprite.getGlobalBounds())) {
                 spaceship_sprite.setPosition(position.x, position.y);
+                std::cout << "COLIDIU COM O PLAYER PRA BAIXO" << std::endl;
                 if(not GameHandler::player_invincible) {
+                    std::cout << "E ENTROU NO LOOP" << std::endl;
                     GameHandler::player_ship->receiveDamage();
                 }
             }
@@ -172,7 +192,9 @@ void EnemySpaceShip::makeMoveLEFT() {
             sf::Sprite player_sprite = GameHandler::player_ship->getSprite();
             if (getSprite().getGlobalBounds().intersects(player_sprite.getGlobalBounds())) {
                 spaceship_sprite.setPosition(position.x, position.y);
+                 std::cout << "COLIDIU COM O PLAYER PRA ESQUERDA" << std::endl;
                 if(not GameHandler::player_invincible) {
+                    std::cout << "E ENTROU NO LOOP" << std::endl;
                     GameHandler::player_ship->receiveDamage();
                 }
             }
@@ -199,7 +221,9 @@ void EnemySpaceShip::makeMoveRIGHT() {
             sf::Sprite player_sprite = GameHandler::player_ship->getSprite();
             if (getSprite().getGlobalBounds().intersects(player_sprite.getGlobalBounds())) {
                 spaceship_sprite.setPosition(position.x, position.y);
+                 std::cout << "COLIDIU COM O PLAYER PRA DIREITA" << std::endl;
                 if(not GameHandler::player_invincible) {
+                    std::cout << "E ENTROU NO LOOP" << std::endl;
                     GameHandler::player_ship->receiveDamage();
                 }
             }
@@ -232,5 +256,8 @@ void EnemySpaceShip::receiveDamage() {
     _state = DEAD;
     spaceship_sprite.setPosition(100 * _id, 700);
     GameHandler::score += 100;
+    if (GameHandler::score == 400 or GameHandler::score == 800) {
+        GameHandler::speed += 1;
+    }
 }
  

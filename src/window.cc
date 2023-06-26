@@ -38,13 +38,14 @@ void Window::run() {
     window.setKeyRepeatEnabled(false);
 
     // Main Window loop
-    while (window.isOpen()) {
+    while (window.isOpen() ) {
         sf::Event event;
         while (window.pollEvent(event)) {
             switch (event.type) {
-            case sf::Event::Closed:
-                 window.close();
-                 break;
+                case sf::Event::Closed:
+                    GameHandler::quit_game = true;
+                    window.close();
+                    break;
             }
         }
         if (clock->getElapsedTime().asMilliseconds() > 1000/60) {
@@ -86,8 +87,7 @@ void Window::run() {
             clock->restart();
             
         }
-
-        //std::cout << GameHandler::player_life << std::endl;  
+        
         Thread::yield();
     }
 }
@@ -101,7 +101,7 @@ void Window::initialize() {
 
     // Loading text font
     if (!font.loadFromFile("sprites/ui/pixeltype.ttf")) {
-        std::cout << "Falha em ler fonte de texto." << std::endl;
+        std::cout << "Failed to read text font" << std::endl;
     }
 
     // Initializing Score text elements

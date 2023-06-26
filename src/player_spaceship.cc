@@ -56,7 +56,9 @@ void PlayerSpaceShip::makeMoveUP() {
                sf::Sprite enemy_sprite = GameHandler::spaceship_list[i]->getSprite();
                if (getSprite().getGlobalBounds().intersects(enemy_sprite.getGlobalBounds())) {
                     spaceship_sprite.setPosition(position.x, enemy_sprite.getPosition().y+50);
-                    
+                    if (not GameHandler::player_invincible) {
+                         receiveDamage();
+                    }
                     break;
                }
           }
@@ -77,6 +79,9 @@ void PlayerSpaceShip::makeMoveDOWN() {
                 sf::Sprite enemy_sprite = GameHandler::spaceship_list[i]->getSprite();
                 if (getSprite().getGlobalBounds().intersects(enemy_sprite.getGlobalBounds())) {
                     spaceship_sprite.setPosition(position.x, enemy_sprite.getPosition().y-50);
+                    if (not GameHandler::player_invincible) {
+                         receiveDamage();
+                    }
                     break;
                }
             }    
@@ -97,6 +102,9 @@ void PlayerSpaceShip::makeMoveLEFT() {
                sf::Sprite enemy_sprite = GameHandler::spaceship_list[i]->getSprite();
                if (getSprite().getGlobalBounds().intersects(enemy_sprite.getGlobalBounds())) {
                     spaceship_sprite.setPosition(enemy_sprite.getPosition().x+50, position.y);
+                    if (not GameHandler::player_invincible) {
+                         receiveDamage();
+                    }
                     break;
                }
           }
@@ -117,6 +125,9 @@ void PlayerSpaceShip::makeMoveRIGHT() {
                sf::Sprite enemy_sprite = GameHandler::spaceship_list[i]->getSprite();
                if (getSprite().getGlobalBounds().intersects(enemy_sprite.getGlobalBounds())) {
                     spaceship_sprite.setPosition(enemy_sprite.getPosition().x-50, position.y);
+                    if (not GameHandler::player_invincible) {
+                         receiveDamage();
+                    }
                     break;
                }
           }
