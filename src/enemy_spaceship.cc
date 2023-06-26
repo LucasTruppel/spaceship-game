@@ -22,12 +22,13 @@ EnemySpaceShip::EnemySpaceShip(int x, int y, int id) {
 }
 
 EnemySpaceShip::~EnemySpaceShip() {
-    delete clock;
+    if (clock)
+        delete clock;
 }
 
 void EnemySpaceShip::run(EnemySpaceShip* enemySpaceShip) {
     enemySpaceShip->clock = new sf::Clock();
-    while (true) {
+    while (not GameHandler::quit_game) {
         if (GameHandler::quit_game == false and GameHandler::pause_game == false and GameHandler::end_game == false) {
             float elapsed_time = enemySpaceShip->clock->getElapsedTime().asMilliseconds();
             float speed_multiplier;
@@ -57,6 +58,9 @@ void EnemySpaceShip::run(EnemySpaceShip* enemySpaceShip) {
         }
         Thread::yield();
     }
+    Thread* thread = GameHandler::enemy_thread[enemySpaceShip->_id];
+    GameHandler::enemy_thread[enemySpaceShip->_id] = nullptr;
+    thread->thread_exit(enemySpaceShip->_id);
 }
 
 void EnemySpaceShip::makeMove() {

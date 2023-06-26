@@ -4,6 +4,10 @@
 #include <iostream>
 #include <list>
 #include <SFML/Graphics.hpp>
+#include <traits.h>
+#include "thread.h"
+
+__USING_API
 
 class EnemySpaceShip;
 class PlayerSpaceShip;
@@ -45,6 +49,11 @@ class GameHandler {
 
   // The player died
    static bool end_game;
+
+   static Thread* player_thread;
+   static Thread* enemy_thread[4];
+   static Thread* shot_handler_thread;
+   static Thread* keyboard_handler_thread;
 
 };
 

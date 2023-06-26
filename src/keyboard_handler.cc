@@ -1,13 +1,14 @@
 #include "keyboard_handler.h"
 
 KeyboardHandler::~KeyboardHandler() {
-    delete clock;
+    if (clock)
+        delete clock;
     
 }
 
 void KeyboardHandler::run(KeyboardHandler* keyboard_handler) {
     keyboard_handler->clock = new sf::Clock();
-    while(true) {
+    while(not GameHandler::quit_game) {
 
         int delta_movement = keyboard_handler->clock->getElapsedTime().asMilliseconds() - keyboard_handler->last_movement;
         int delta_shot = keyboard_handler->clock->getElapsedTime().asMilliseconds() - keyboard_handler->last_shot;
@@ -63,5 +64,9 @@ void KeyboardHandler::run(KeyboardHandler* keyboard_handler) {
             }
         }
         Thread::yield();
-    }  
+    }
+    Thread* thread = GameHandler::keyboard_handler_thread;
+    GameHandler::keyboard_handler_thread = nullptr;
+    thread->thread_exit(6);
+
 }

@@ -20,12 +20,13 @@ PlayerSpaceShip::PlayerSpaceShip(int x, int y) {
 }
 
 PlayerSpaceShip::~PlayerSpaceShip() {
-     delete clock;
+     if (clock)
+          delete clock;
 }
 
 void PlayerSpaceShip::run(PlayerSpaceShip* playerSpaceShip) {
      playerSpaceShip->clock = new sf::Clock();
-     while (true) {   
+     while (not GameHandler::quit_game) {   
           if (GameHandler::quit_game == false and GameHandler::pause_game == false and GameHandler::end_game == false) {
                if (GameHandler::player_life == 0) {
                     GameHandler::end_game = true;
@@ -46,6 +47,10 @@ void PlayerSpaceShip::run(PlayerSpaceShip* playerSpaceShip) {
           }
           Thread::yield();
      }
+     Thread* thread = GameHandler::player_thread;
+     GameHandler::player_thread = nullptr;
+     thread->thread_exit(5);
+
 }
 
 void PlayerSpaceShip::makeMoveUP() {

@@ -12,6 +12,11 @@ std::list<Shot*> GameHandler::shot_list = {};
 EnemySpaceShip*  GameHandler::spaceship_list[4] = {nullptr, nullptr, nullptr, nullptr};
 PlayerSpaceShip* GameHandler::player_ship = nullptr;
 
+Thread* GameHandler::player_thread = nullptr;
+Thread* GameHandler::enemy_thread[4] {nullptr, nullptr, nullptr, nullptr};
+Thread* GameHandler::shot_handler_thread = nullptr;
+Thread* GameHandler::keyboard_handler_thread = nullptr;
+
 GameHandler::~GameHandler() {
     for (int i = 0; i < GameHandler::shot_list.size(); i++) {
         Shot* shot = GameHandler::shot_list.front();

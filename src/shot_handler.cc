@@ -5,14 +5,15 @@ ShotHandler::ShotHandler() {
 }
 
 ShotHandler::~ShotHandler() {
-    delete clock;
+    if (clock)
+        delete clock;
 }
 
 
 
 void ShotHandler::run(ShotHandler* shotHandler) {
     shotHandler->clock = new sf::Clock();
-    while(true) {
+    while (not GameHandler::quit_game) {
         if (GameHandler::quit_game == false and GameHandler::pause_game == false and GameHandler::end_game == false) {
             if (shotHandler->clock->getElapsedTime().asMilliseconds() > 1000/60) {
                 shotHandler->moveShots();
@@ -23,6 +24,9 @@ void ShotHandler::run(ShotHandler* shotHandler) {
         }
         Thread::yield();
     }
+    Thread* thread = GameHandler::shot_handler_thread;
+    GameHandler::shot_handler_thread = nullptr;
+    thread->thread_exit(7);
 }
 
 void ShotHandler::moveShots() {
