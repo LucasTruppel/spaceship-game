@@ -22,7 +22,7 @@ PlayerSpaceShip::PlayerSpaceShip(int x, int y) {
 void PlayerSpaceShip::run(PlayerSpaceShip* playerSpaceShip) {
      playerSpaceShip->clock = new sf::Clock();
      while (true) {   
-          if (GameHandler::quit_game == false and GameHandler::pause_game == false) {
+          if (GameHandler::quit_game == false and GameHandler::pause_game == false and GameHandler::end_game == false) {
                if (GameHandler::player_life == 0) {
                     GameHandler::end_game = true;
                     //sf::Sprite sprite = playerSpaceShip->getSprite(); //Just for testing

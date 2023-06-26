@@ -28,7 +28,7 @@ EnemySpaceShip::~EnemySpaceShip() {
 void EnemySpaceShip::run(EnemySpaceShip* enemySpaceShip) {
     enemySpaceShip->clock = new sf::Clock();
     while (true) {
-        if (GameHandler::quit_game == false and GameHandler::pause_game == false) {
+        if (GameHandler::quit_game == false and GameHandler::pause_game == false and GameHandler::end_game == false) {
             float elapsed_time = enemySpaceShip->clock->getElapsedTime().asMilliseconds();
             float speed_multiplier;
             switch(GameHandler::speed) {
