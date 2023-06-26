@@ -11,6 +11,7 @@
 #include "thread.h"
 #include "traits.h"
 #include "shot_handler.h"
+#include "constants.h"
 
 __USING_API
 

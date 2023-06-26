@@ -203,16 +203,16 @@ void EnemySpaceShip::revive() {
     turnUp();   // Not dead anymore
     switch(_id) {
             case 0:
-                spaceship_sprite.setPosition(100, 100);  // Upper Right start position
+                spaceship_sprite.setPosition(Constants::ENEMY_INITIAL_X[0], Constants::ENEMY_INITIAL_Y[0]);  // Upper Right start position
                 break;
             case 1:
-                spaceship_sprite.setPosition(100, 400); // Upper Left start position
+                spaceship_sprite.setPosition(Constants::ENEMY_INITIAL_X[1], Constants::ENEMY_INITIAL_Y[1]); // Upper Left start position
                 break;
             case 2:
-                spaceship_sprite.setPosition(400, 100); // Lower Right start position
+                spaceship_sprite.setPosition(Constants::ENEMY_INITIAL_X[2], Constants::ENEMY_INITIAL_Y[2]); // Lower Right start position
                 break;
             default:
-                spaceship_sprite.setPosition(400, 400);// Lower Left start position
+                spaceship_sprite.setPosition(Constants::ENEMY_INITIAL_X[3], Constants::ENEMY_INITIAL_Y[3]);// Lower Left start position
         }
 }
 

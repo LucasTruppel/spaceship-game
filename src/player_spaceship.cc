@@ -20,9 +20,16 @@ PlayerSpaceShip::PlayerSpaceShip(int x, int y) {
 }
 
 void PlayerSpaceShip::run(PlayerSpaceShip* playerSpaceShip) {
-    while (true) {
-        Thread::yield();
-    }
+     while (true) {
+          if (GameHandler::player_life == 0) {
+               // End Game
+               sf::Sprite sprite = playerSpaceShip->getSprite(); //Just for testing
+               sprite.setPosition(250, 700);
+               playerSpaceShip->setSprite(sprite);
+               //std::cout << "CHEGOU, X e Y: "<< playerSpaceShip->getSprite().getPosition().x << " " << playerSpaceShip->getSprite().getPosition().y << std::endl;
+          }
+          Thread::yield();
+     }
 }
 
 void PlayerSpaceShip::makeMoveUP() {
@@ -108,6 +115,7 @@ void PlayerSpaceShip::makeMoveRIGHT() {
 
 
 void PlayerSpaceShip::receiveDamage() {
-     //TODO
-     ;
+     if (GameHandler::player_life) {
+          GameHandler::player_life -= 1;
+     } 
 }

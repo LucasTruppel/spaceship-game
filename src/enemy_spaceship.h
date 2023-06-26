@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include "game_handler.h"
 #include "player_spaceship.h"
+#include "constants.h"
 
 using namespace SOLUTION;
 

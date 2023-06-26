@@ -31,7 +31,8 @@ public:
 
 
     State getState() {return _state;}
-    sf::Sprite getSprite() {return spaceship_sprite;}  
+    sf::Sprite getSprite() {return spaceship_sprite;}
+    sf::Sprite setSprite(sf::Sprite sprite) {spaceship_sprite = sprite;}
    
 
 protected:

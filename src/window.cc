@@ -34,7 +34,7 @@ Window::~Window() {
 void Window::draw_texture(unsigned int texture, int length, int height, float angle) {}
 
 void Window::run() {
-    sf::RenderWindow window(sf::VideoMode(815, 560), "Spaceship Game!");
+    sf::RenderWindow window(sf::VideoMode(Constants::WIDTH, Constants::HEIGHT), "Spaceship Game!");
     window.setKeyRepeatEnabled(false);
 
     // Main Window loop
@@ -64,7 +64,7 @@ void Window::run() {
             clock->restart();
         }
 
-        std::cout << GameHandler::score << std::endl;  
+        std::cout << GameHandler::player_life << std::endl;  
         Thread::yield();
     }
 }
@@ -80,7 +80,7 @@ void Window::initialize() {
     clock = new sf::Clock();
 
     // Initializing Player Spaceship and Player Thread
-    playerSpaceShip = new PlayerSpaceShip(250, 250);
+    playerSpaceShip = new PlayerSpaceShip(Constants::PLAYER_INITIAL_X, Constants::PLAYER_INITIAL_Y);
     thread_player_spaceship = new Thread(PlayerSpaceShip::run, playerSpaceShip);
 
     // Ipdating Game Hnadler atribute
@@ -90,16 +90,24 @@ void Window::initialize() {
     for (int i = 0; i < 4; i++) {
         switch(i) {
             case 0:
-                enemySpaceShip[i] = new EnemySpaceShip(100, 100, i);  // Upper Right start position
+                enemySpaceShip[i] = new EnemySpaceShip(Constants::ENEMY_INITIAL_X[0], 
+                                                       Constants::ENEMY_INITIAL_Y[0], 
+                                                       i);  // Upper Right start position
                 break;
             case 1:
-                enemySpaceShip[i] = new EnemySpaceShip(100, 400, i); // Upper Left start position
+                enemySpaceShip[i] = new EnemySpaceShip(Constants::ENEMY_INITIAL_X[1], 
+                                                       Constants::ENEMY_INITIAL_Y[1], 
+                                                       i); // Upper Left start position
                 break;
             case 2:
-                enemySpaceShip[i] = new EnemySpaceShip(400, 100, i); // Lower Right start position
+                enemySpaceShip[i] = new EnemySpaceShip(Constants::ENEMY_INITIAL_X[2], 
+                                                       Constants::ENEMY_INITIAL_Y[2], 
+                                                       i); // Lower Right start position
                 break;
             default:
-                enemySpaceShip[i] = new EnemySpaceShip(400, 400, i);// Lower Left start position
+                enemySpaceShip[i] = new EnemySpaceShip(Constants::ENEMY_INITIAL_X[3], 
+                                                       Constants::ENEMY_INITIAL_Y[3], 
+                                                       i); // Lower Left start position
         }
         // Pushing spaceship into Game Handler list
         GameHandler::spaceship_list[i] = enemySpaceShip[i];
