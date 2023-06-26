@@ -32,6 +32,7 @@ public:
 private:
     float _invencible_timer;
     sf::Clock* clock;
+    static int const _movement_pixels = 25;
 };
 
 #endif

@@ -61,7 +61,7 @@ void Window::run() {
             window.draw(maze_sprite);
 
             // Drawing Player Spaceship
-            if (GameHandler::end_game == false) {
+            if (not GameHandler::end_game) {
                 window.draw(playerSpaceShip->getSprite());
             }
 

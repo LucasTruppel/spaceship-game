@@ -28,6 +28,8 @@ class KeyboardHandler {
 
    int last_movement = 0;
    int last_shot = 0;
+   static int const movement_min_delta = 300;
+   static int const shot_min_delta = 750;
 };
 
 

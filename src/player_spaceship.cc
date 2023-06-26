@@ -56,8 +56,8 @@ void PlayerSpaceShip::run(PlayerSpaceShip* playerSpaceShip) {
 void PlayerSpaceShip::makeMoveUP() {
      if (_state == UP) {
           sf::Vector2f position = spaceship_sprite.getPosition();
-          if (position.y - 50 >= 10) {
-               spaceship_sprite.move(0.0, -50.0);
+          if (position.y - _movement_pixels >= 10) {
+               spaceship_sprite.move(0.0, - _movement_pixels);
                for (int i = 0; i < 4; i++) {
                     sf::Sprite enemy_sprite = GameHandler::spaceship_list[i]->getSprite();
                     if (getSprite().getGlobalBounds().intersects(enemy_sprite.getGlobalBounds())) {
@@ -79,8 +79,8 @@ void PlayerSpaceShip::makeMoveUP() {
 void PlayerSpaceShip::makeMoveDOWN() {
      if (_state == DOWN) {
           sf::Vector2f position = spaceship_sprite.getPosition();
-          if (position.y + 50 <= 500) {
-               spaceship_sprite.move(0.0, +50.0);
+          if (position.y + _movement_pixels <= 500) {
+               spaceship_sprite.move(0.0, + _movement_pixels);
                for (int i = 0; i < 4; i++) {
                     sf::Sprite enemy_sprite = GameHandler::spaceship_list[i]->getSprite();
                     if (getSprite().getGlobalBounds().intersects(enemy_sprite.getGlobalBounds())) {
@@ -102,8 +102,8 @@ void PlayerSpaceShip::makeMoveDOWN() {
 void PlayerSpaceShip::makeMoveLEFT() {
      if (_state == LEFT) {
           sf::Vector2f position = spaceship_sprite.getPosition();
-          if (position.x - 50 >= 10) {
-               spaceship_sprite.move(-50.0, 0.0);
+          if (position.x - _movement_pixels >= 10) {
+               spaceship_sprite.move(-_movement_pixels, 0.0);
                for (int i = 0; i < 4; i++) {
                     sf::Sprite enemy_sprite = GameHandler::spaceship_list[i]->getSprite();
                     if (getSprite().getGlobalBounds().intersects(enemy_sprite.getGlobalBounds())) {
@@ -125,8 +125,8 @@ void PlayerSpaceShip::makeMoveLEFT() {
 void PlayerSpaceShip::makeMoveRIGHT() {
      if (_state == RIGHT) {
           sf::Vector2f position = spaceship_sprite.getPosition();
-          if (position.x + 50 <= 515) {
-               spaceship_sprite.move(+50.0, 0.0);
+          if (position.x + _movement_pixels <= 515) {
+               spaceship_sprite.move(+_movement_pixels, 0.0);
                for (int i = 0; i < 4; i++) {
                     sf::Sprite enemy_sprite = GameHandler::spaceship_list[i]->getSprite();
                     if (getSprite().getGlobalBounds().intersects(enemy_sprite.getGlobalBounds())) {

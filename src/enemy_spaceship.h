@@ -48,6 +48,7 @@ class EnemySpaceShip : public SpaceShip {
     sf::Clock* clock;
     
     float _revive_timer = 0;
+    static const int _movement_pixels = 25;
 };
 
 #endif
