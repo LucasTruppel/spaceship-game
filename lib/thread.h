@@ -124,6 +124,9 @@ public:
      */  
     Ready_Queue::Element* link() {  return &_link; }
 
+    void set_suspended_by(int id) {_suspended_by = id;}
+    int get_suspended_by() {return _suspended_by;}
+
 
 private:
 
@@ -132,7 +135,7 @@ private:
     volatile State _state;
     Ready_Queue::Element _link;
     Context * volatile _context;
-    Thread * _suspended = nullptr;
+    int _suspended_by = -1;
     Ordered_List<Thread> * _waiting_queue_pointer = nullptr;
     
     static Thread _main;
@@ -140,6 +143,7 @@ private:
     static Thread * _running;
     static Thread _dispatcher;
     static Ready_Queue _ready;
+    static Ready_Queue _suspended;
     static CPU::Context _main_context;
 
 };

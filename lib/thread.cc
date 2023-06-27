@@ -9,6 +9,7 @@ __BEGIN_API
     Thread* Thread::_running = nullptr;
     Thread Thread::_dispatcher;
     Ordered_List<Thread> Thread::_ready;
+    Ordered_List<Thread> Thread::_suspended;
     CPU::Context Thread::_main_context;
 
     void Thread::init(void (*main)(void *)) {
@@ -55,9 +56,15 @@ __BEGIN_API
 
         _state = FINISHING;
         _exit_code = exit_code;
-        if (_suspended != nullptr) {
-            _suspended->resume();
+        for (unsigned int i = 0; i < _suspended.size(); i++) {
+            Thread* thread = _suspended.remove_head()->object();
+            if (thread->get_suspended_by() == _id) {
+                thread->resume();
+            } else {
+                _suspended.insert_tail(thread->link());
+            }
         }
+
         if (_waiting_queue_pointer != nullptr) {
             _waiting_queue_pointer->remove(this);
         }
@@ -137,7 +144,7 @@ __BEGIN_API
         }
         
         if (_state != FINISHING) {
-            _suspended = _running;
+            _running->set_suspended_by(_id);
             _running->suspend();
         }
 
@@ -147,16 +154,30 @@ __BEGIN_API
     void Thread::suspend() {
         db<Thread>(TRC) << "Thread::suspend() chamado\n";
 
-        _ready.remove(this);
+        if (_state == FINISHING or _state == SUSPENDED) {
+            return;
+        }
+        if (_state == READY) {
+            _ready.remove(&_link);
+        }
         _state = SUSPENDED;
-        yield();
+        int now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+        _link.rank(now);
+        _suspended.insert(&_link);
+        if (this == _running) {
+            yield();
+        }
     }
 
     void Thread::resume() {
         db<Thread>(TRC) << "Thread::resume() chamado\n";
 
         if (_state == SUSPENDED) {
+            _suspended_by = -1;
+            _suspended.remove(&_link);
             _state = READY;
+            int now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+            _link.rank(now);
             _ready.insert_head(&_link);
         }
     }

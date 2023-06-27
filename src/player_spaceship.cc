@@ -46,7 +46,7 @@ void PlayerSpaceShip::run(PlayerSpaceShip* playerSpaceShip) {
                     GameHandler::end_game = true;
                     GameHandler::end_game_sem->v();
                     playerSpaceShip->nonDamagedSprite();
-                    sf::Sprite sprite = playerSpaceShip->getSprite(); //Just for testing
+                    sf::Sprite sprite = playerSpaceShip->getSprite();
                     sprite.setPosition(250, 250);
                     playerSpaceShip->setSprite(sprite);
                }
