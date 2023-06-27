@@ -7,17 +7,8 @@
 class Game
 {
     public:
-        Game(){
-        }
-        ~Game(){}
-
-        static void run(void * name) {
-            Window window;
-            window.run();
-        }
-
-    private:
-       ; //testando
+        static void run(void * name);
+ 
 };
 
 

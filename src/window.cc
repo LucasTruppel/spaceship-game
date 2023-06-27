@@ -33,7 +33,6 @@ Window::~Window() {
     // Deleting Shot Handler and its Thread
     if (thread_shot_handler)
         delete thread_shot_handler;
-    
     if (shot_handler)
         delete shot_handler;
 
