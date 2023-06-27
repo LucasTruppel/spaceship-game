@@ -1,5 +1,5 @@
-# threads-library
-Projeto da disciplina Sistemas Operacionais 1, com intuito de criar uma biblioteca de threads em nível de usuário.
+# spaceship-game
+Projeto da disciplina Sistemas Operacionais 1, com intuito de criar uma biblioteca de threads em nível de usuário e usá-la em um jogo de naves.
 
 ## Pré-requisitos
 
@@ -10,13 +10,13 @@ Projeto da disciplina Sistemas Operacionais 1, com intuito de criar uma bibliote
 ## Compilar
 
 ```shell
-make all
+make
 ```
 
 ## Executar
 
 ```shell
-./program
+./main
 ```
 
 ## Limpar os binários
