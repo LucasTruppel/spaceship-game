@@ -17,12 +17,17 @@ Thread* GameHandler::enemy_thread[4] {nullptr, nullptr, nullptr, nullptr};
 Thread* GameHandler::shot_handler_thread = nullptr;
 Thread* GameHandler::keyboard_handler_thread = nullptr;
 
+Semaphore* GameHandler::shot_list_sem = new Semaphore();
+Semaphore* GameHandler::quit_game_sem = new Semaphore();
+
 GameHandler::~GameHandler() {
     for (int i = 0; i < GameHandler::shot_list.size(); i++) {
         Shot* shot = GameHandler::shot_list.front();
         GameHandler::shot_list.pop_front();
         delete shot;
     }
+    if (GameHandler::shot_list_sem)
+        delete shot_list_sem;
 }
 
 void GameHandler::reset() {

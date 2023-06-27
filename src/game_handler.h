@@ -6,6 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include <traits.h>
 #include "thread.h"
+#include "semaphore.h"
 
 __USING_API
 
@@ -50,10 +51,16 @@ class GameHandler {
   // The player died
    static bool end_game;
 
+  // Threads
    static Thread* player_thread;
    static Thread* enemy_thread[4];
    static Thread* shot_handler_thread;
    static Thread* keyboard_handler_thread;
+
+   // Semaphores
+   static Semaphore* shot_list_sem;
+   static Semaphore* quit_game_sem;
+  
 
 };
 

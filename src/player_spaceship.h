@@ -25,14 +25,25 @@ public:
 
     void receiveDamage();
 
+    void damagedSprite();
+    void nonDamagedSprite();
+
     float getInvencibleTimer() {return _invencible_timer;};
     void setInvencibleTimer(float new_timer) {_invencible_timer = new_timer;}
     void resetTimer() {_invencible_timer = 0;}
 
+
 private:
     float _invencible_timer;
+    float _last_tick = 0;
     sf::Clock* clock;
     static int const _movement_pixels = 25;
+
+    sf::Texture after_damage_up;
+    sf::Texture after_damage_down;
+    sf::Texture after_damage_left;
+    sf::Texture after_damage_right;
+
 };
 
 #endif

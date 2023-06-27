@@ -51,7 +51,9 @@ void Window::run() {
         while (window.pollEvent(event)) {
             switch (event.type) {
                 case sf::Event::Closed:
+                    GameHandler::quit_game_sem->p();
                     GameHandler::quit_game = true;
+                    GameHandler::quit_game_sem->v();
                     break;
             }
         }
@@ -82,9 +84,11 @@ void Window::run() {
             }
 
             // Drawing Shots
+            GameHandler::shot_list_sem->p();
             for (auto const& shot: GameHandler::shot_list) {
                 window.draw(shot->getSprite());
             }
+            GameHandler::shot_list_sem->v();
             
             // Drawing Game Score in the Window
             window.draw(score_text);

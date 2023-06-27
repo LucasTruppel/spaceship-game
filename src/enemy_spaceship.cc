@@ -99,9 +99,7 @@ void EnemySpaceShip::makeMove() {
                 } else {
                     makeMoveLEFT();
                 }
-            } else {
-                //shoot();
-            }
+            } 
         } else {
             if (abs(deltay) > 75) {
                 if (deltay > 0) {
@@ -109,8 +107,6 @@ void EnemySpaceShip::makeMove() {
                 } else {
                     makeMoveUP();
                 }
-            } else {
-                //shoot();
             }
         }
     }  

@@ -48,5 +48,7 @@ void SpaceShip::shoot() {
     }
     
     Shot * shot = new Shot(position.x, position.y, shot_tex, _state, _is_enemy);
+    GameHandler::shot_list_sem->p();
     GameHandler::shot_list.push_front(shot);
+    GameHandler::shot_list_sem->v();
 }

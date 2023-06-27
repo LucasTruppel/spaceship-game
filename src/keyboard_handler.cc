@@ -26,7 +26,9 @@ void KeyboardHandler::run(KeyboardHandler* keyboard_handler) {
 
                 
             } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && delta_movement > movement_min_delta) {
+                GameHandler::quit_game_sem->p();
                 GameHandler::quit_game = true;
+                GameHandler::quit_game_sem->v();
                 keyboard_handler->last_movement = keyboard_handler->clock->getElapsedTime().asMilliseconds();
             }
 
@@ -40,7 +42,9 @@ void KeyboardHandler::run(KeyboardHandler* keyboard_handler) {
                 }
                 keyboard_handler->last_movement = keyboard_handler->clock->getElapsedTime().asMilliseconds();
             } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && delta_movement > movement_min_delta) {
+                GameHandler::quit_game_sem->p();
                 GameHandler::quit_game = true;
+                GameHandler::quit_game_sem->v();
                 
                 //Movimentos fora do pause e do fim de jogo
             } else if (GameHandler::quit_game == false and GameHandler::pause_game == false) {

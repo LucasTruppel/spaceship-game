@@ -30,6 +30,7 @@ void ShotHandler::run(ShotHandler* shotHandler) {
 }
 
 void ShotHandler::moveShots() {
+    GameHandler::shot_list_sem->p();
     for (int i = 0; i < GameHandler::shot_list.size(); i++) {
         Shot* shot = GameHandler::shot_list.front();
         GameHandler::shot_list.pop_front();
@@ -40,9 +41,11 @@ void ShotHandler::moveShots() {
             GameHandler::shot_list.push_back(shot);
         }
     }
+    GameHandler::shot_list_sem->v();
 }
 
 void ShotHandler::verifyColisionShotShot() {
+    GameHandler::shot_list_sem->p();
     for (int i = 0; i < GameHandler::shot_list.size(); i++) {
         Shot* shot1 = GameHandler::shot_list.front();
         GameHandler::shot_list.pop_front();
@@ -63,9 +66,11 @@ void ShotHandler::verifyColisionShotShot() {
             GameHandler::shot_list.push_back(shot1);
         }
     }
+    GameHandler::shot_list_sem->v();
 }
 
 void ShotHandler::verifyColisionShotSpaceship() {
+    GameHandler::shot_list_sem->p();
     for (int i = 0; i < GameHandler::shot_list.size(); i++) {
         Shot* shot = GameHandler::shot_list.front();
         GameHandler::shot_list.pop_front();
@@ -91,4 +96,5 @@ void ShotHandler::verifyColisionShotSpaceship() {
             }
         }
     }
+    GameHandler::shot_list_sem->v();
 }
