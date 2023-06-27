@@ -35,11 +35,14 @@ void KeyboardHandler::run(KeyboardHandler* keyboard_handler) {
         } else {
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::P) && delta_movement > movement_min_delta) {
+                GameHandler::pause_game_sem->p();
                 if (GameHandler::pause_game) {
+    
                     GameHandler::pause_game = false;
                 } else {
                     GameHandler::pause_game = true;
                 }
+                GameHandler::pause_game_sem->v();
                 keyboard_handler->last_movement = keyboard_handler->clock->getElapsedTime().asMilliseconds();
             } else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q) && delta_movement > movement_min_delta) {
                 GameHandler::quit_game_sem->p();

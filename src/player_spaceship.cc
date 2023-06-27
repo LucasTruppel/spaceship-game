@@ -42,7 +42,9 @@ void PlayerSpaceShip::run(PlayerSpaceShip* playerSpaceShip) {
      while (not GameHandler::quit_game) {   
           if (not GameHandler::pause_game and not GameHandler::end_game) {
                if (GameHandler::player_life == 0) {
+                    GameHandler::end_game_sem->p();
                     GameHandler::end_game = true;
+                    GameHandler::end_game_sem->v();
                     playerSpaceShip->nonDamagedSprite();
                     sf::Sprite sprite = playerSpaceShip->getSprite(); //Just for testing
                     sprite.setPosition(250, 250);

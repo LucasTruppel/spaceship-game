@@ -15,7 +15,7 @@ void ShotHandler::run(ShotHandler* shotHandler) {
     shotHandler->clock = new sf::Clock();
     while (not GameHandler::quit_game) {
         if (GameHandler::quit_game == false and GameHandler::pause_game == false and GameHandler::end_game == false) {
-            if (shotHandler->clock->getElapsedTime().asMilliseconds() > 1000/60) {
+            if (shotHandler->clock->getElapsedTime().asMilliseconds() > 1000/30) {
                 shotHandler->moveShots();
                 shotHandler->verifyColisionShotShot();
                 shotHandler->verifyColisionShotSpaceship();

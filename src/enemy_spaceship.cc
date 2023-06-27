@@ -251,7 +251,9 @@ void EnemySpaceShip::revive() {
 void EnemySpaceShip::receiveDamage() {
     _state = DEAD;
     spaceship_sprite.setPosition(100 * _id, 700);
+    GameHandler::score_sem->p();
     GameHandler::score += 100;
+    GameHandler::score_sem->v();
     if (GameHandler::score == 400 or GameHandler::score == 800) {
         GameHandler::speed += 1;
     }

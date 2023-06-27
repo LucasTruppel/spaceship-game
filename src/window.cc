@@ -57,7 +57,7 @@ void Window::run() {
                     break;
             }
         }
-        if (clock->getElapsedTime().asMilliseconds() > 1000/60) {
+        if (clock->getElapsedTime().asMilliseconds() > 1000/30) {
             // Drawing Window elements
             window.clear();
             window.draw(maze_sprite);

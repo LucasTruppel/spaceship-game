@@ -60,6 +60,11 @@ class GameHandler {
    // Semaphores
    static Semaphore* shot_list_sem;
    static Semaphore* quit_game_sem;
+   static Semaphore* score_sem;
+   static Semaphore* pause_game_sem;
+   static Semaphore* end_game_sem;
+   static Semaphore* player_sem;
+   static Semaphore* enemy_sem[4];
   
 
 };
