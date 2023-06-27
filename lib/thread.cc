@@ -185,7 +185,11 @@ __BEGIN_API
     void Thread::sleep(Ordered_List<Thread> * waiting_queue) {
         db<Thread>(TRC) << "Thread::sleep() chamado\n";
         _waiting_queue_pointer = waiting_queue;
+        int now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
+        _link.rank(now);
+        waiting_queue->insert(&_link);
         _state = WAITING;
+        yield();
     }
 
     void Thread::wakeup() {

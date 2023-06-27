@@ -35,12 +35,7 @@ int Semaphore::fdec(volatile int & number) {
 void Semaphore::sleep() {
     db<Semaphore>(TRC) << "Semaphore::sleep() chamado\n";
     Thread* running = Thread::running();
-    int now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::high_resolution_clock::now().time_since_epoch()).count();
-    running->link()->rank(now);
-    _waiting.insert(running->link());
-    Waiting_Queue * waiting_queue_pointer = &_waiting;
-    running->sleep(waiting_queue_pointer);
-    Thread::yield();
+    running->sleep(&_waiting);
 }
 
 void Semaphore::wakeup() {
