@@ -9,8 +9,7 @@ EnemySpaceShip::EnemySpaceShip(int x, int y, int id) {
 
     //Inicializa atributos do sprite
     _state = UP;
-    spaceship_tex = spaceship_up;
-    spaceship_sprite.setTexture(spaceship_tex);
+    spaceship_sprite.setTexture(spaceship_up);
     spaceship_sprite.setPosition(x,y);
     spaceship_sprite.scale(0.5, 0.5);
 

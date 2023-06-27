@@ -2,23 +2,28 @@
 
 PlayerSpaceShip::PlayerSpaceShip(int x, int y) {
      // Loading textures
-     spaceship_up.loadFromFile("sprites/space_ships/space_ship1.png");
-     spaceship_down.loadFromFile("sprites/space_ships/space_ship3.png");
-     spaceship_left.loadFromFile("sprites/space_ships/space_ship2.png");
-     spaceship_right.loadFromFile("sprites/space_ships/space_ship4.png");
+     not_damaged_up.loadFromFile("sprites/space_ships/space_ship1.png");
+     not_damaged_down.loadFromFile("sprites/space_ships/space_ship3.png");
+     not_damaged_left.loadFromFile("sprites/space_ships/space_ship2.png");
+     not_damaged_right.loadFromFile("sprites/space_ships/space_ship4.png");
 
      //Loading afterdamage textures
-     after_damage_up.loadFromFile("sprites/space_ships/after_damage1.png");
-     after_damage_down.loadFromFile("sprites/space_ships/after_damage3.png");
-     after_damage_left.loadFromFile("sprites/space_ships/after_damage2.png");
-     after_damage_right.loadFromFile("sprites/space_ships/space_ship4.png");
+     damaged_up.loadFromFile("sprites/space_ships/after_damage1.png");
+     damaged_down.loadFromFile("sprites/space_ships/after_damage3.png");
+     damaged_left.loadFromFile("sprites/space_ships/after_damage2.png");
+     damaged_right.loadFromFile("sprites/space_ships/after_damage4.png");
 
 
+     // Initializing current texture
+     spaceship_up = not_damaged_up;
+     spaceship_down = not_damaged_down;
+     spaceship_left = not_damaged_left;
+     spaceship_right = not_damaged_right;
+     
 
     // Initializing sprite atributes
     _state = UP;
-    spaceship_tex = spaceship_up;
-    spaceship_sprite.setTexture(spaceship_tex);
+    spaceship_sprite.setTexture(spaceship_up);
     spaceship_sprite.setPosition(x,y);
     spaceship_sprite.scale(0.5, 0.5);
 
@@ -38,20 +43,18 @@ void PlayerSpaceShip::run(PlayerSpaceShip* playerSpaceShip) {
           if (not GameHandler::pause_game and not GameHandler::end_game) {
                if (GameHandler::player_life == 0) {
                     GameHandler::end_game = true;
+                    playerSpaceShip->nonDamagedSprite();
                     sf::Sprite sprite = playerSpaceShip->getSprite(); //Just for testing
                     sprite.setPosition(250, 250);
                     playerSpaceShip->setSprite(sprite);
-                    //std::cout << "CHEGOU, X e Y: "<< playerSpaceShip->getSprite().getPosition().x << " " << playerSpaceShip->getSprite().getPosition().y << std::endl;
                }
                float current_time = playerSpaceShip->clock->getElapsedTime().asMilliseconds();
                float elapsed_time = current_time - playerSpaceShip->_last_tick;
                if (elapsed_time > 500) {
                     if (GameHandler::player_invincible) {
-                         playerSpaceShip->setInvencibleTimer(playerSpaceShip->getInvencibleTimer() + elapsed_time);
-                         if (playerSpaceShip->getInvencibleTimer() >= 2500) {  //2.5s de invencibilidade
-                              playerSpaceShip->nonDamagedSprite();
+                         if (current_time - playerSpaceShip->getInvencibleTimer() >= 2500) {  //2.5s de invencibilidade
                               GameHandler::player_invincible = false;
-                              playerSpaceShip->resetTimer();
+                              playerSpaceShip->nonDamagedSprite();
                          }
                     }
                     playerSpaceShip->_last_tick = current_time;
@@ -84,12 +87,7 @@ void PlayerSpaceShip::makeMoveUP() {
                spaceship_sprite.setPosition(position.x, 10.0);
           }
      } else {
-          if (GameHandler::player_invincible) {
-               _state = UP;
-               damagedSprite();
-          } else {
-               turnUp();
-          }
+          turnUp();
      }
 }
 
@@ -112,12 +110,7 @@ void PlayerSpaceShip::makeMoveDOWN() {
                spaceship_sprite.setPosition(position.x, 500);
           }
      } else {
-          if (GameHandler::player_invincible) {
-               _state = DOWN;
-               damagedSprite();
-          } else {
-               turnDown();
-          }
+          turnDown();
      }
 }
 
@@ -140,12 +133,7 @@ void PlayerSpaceShip::makeMoveLEFT() {
                spaceship_sprite.setPosition(10.0, position.y);
           }
      } else {
-          if (GameHandler::player_invincible) {
-               _state = LEFT;
-               damagedSprite();
-          } else {
-               turnLeft();
-          }
+          turnLeft();
      }
 }
 
@@ -168,12 +156,7 @@ void PlayerSpaceShip::makeMoveRIGHT() {
                spaceship_sprite.setPosition(515, position.y);
           }
      } else {
-          if (GameHandler::player_invincible) {
-               _state = RIGHT;
-               damagedSprite();
-          } else {
-               turnRight();
-          }
+          turnRight();
      }
 }
 
@@ -182,7 +165,8 @@ void PlayerSpaceShip::receiveDamage() {
      if (GameHandler::player_life) {
           if (GameHandler::player_invincible == false) {
                GameHandler::player_life -= 1;
-               GameHandler::player_invincible = true;  
+               GameHandler::player_invincible = true;
+               _invencible_timer = clock->getElapsedTime().asMilliseconds();
                damagedSprite();       
           }   
      }
@@ -190,41 +174,42 @@ void PlayerSpaceShip::receiveDamage() {
 
 
 void PlayerSpaceShip::damagedSprite(){
+     spaceship_up = damaged_up;
+     spaceship_down = damaged_down;
+     spaceship_left = damaged_left;
+     spaceship_right = damaged_right;
      switch(_state) {
           case UP:
-               spaceship_tex = after_damage_up;
-               spaceship_sprite.setTexture(spaceship_tex);
+               spaceship_sprite.setTexture(spaceship_up);
                break;
           case DOWN:
-               spaceship_tex = after_damage_down;
-               spaceship_sprite.setTexture(spaceship_tex);
+               spaceship_sprite.setTexture(spaceship_down);
                break;
           case LEFT:
-               spaceship_tex = after_damage_left;
-               spaceship_sprite.setTexture(spaceship_tex);
+               spaceship_sprite.setTexture(spaceship_left);
                break;
-          
           case RIGHT:
-               spaceship_tex = after_damage_right;
-               spaceship_sprite.setTexture(spaceship_tex);
-               break;
+               spaceship_sprite.setTexture(spaceship_right);
      }
-
 }
 
 void PlayerSpaceShip::nonDamagedSprite() {
-     switch(_state) {
+     spaceship_up = not_damaged_up;
+     spaceship_down = not_damaged_down;
+     spaceship_left = not_damaged_left;
+     spaceship_right = not_damaged_right;
+     switch(_state) { 
           case UP:
-               turnUp();
+               spaceship_sprite.setTexture(spaceship_up);
                break;
           case DOWN:
-               turnDown();
+               spaceship_sprite.setTexture(spaceship_down);
                break;
           case LEFT:
-               turnLeft();
+               spaceship_sprite.setTexture(spaceship_left);
                break;
           case RIGHT:
-               turnRight();
-               break;
+               spaceship_sprite.setTexture(spaceship_right);
      }
 }
+

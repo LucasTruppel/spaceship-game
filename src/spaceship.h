@@ -43,7 +43,6 @@ protected:
     sf::Texture spaceship_left;
     sf::Texture spaceship_right;
 
-    sf::Texture spaceship_tex;
     sf::Sprite spaceship_sprite;
 
     sf::Texture shot_tex;

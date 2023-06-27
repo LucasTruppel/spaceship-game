@@ -48,7 +48,6 @@ void Semaphore::wakeup() {
     if (!_waiting.empty()) {
         Thread* waked = _waiting.remove()->object();
         waked->wakeup();
-        Thread::yield();
     }
 }
 
@@ -58,7 +57,6 @@ void Semaphore::wakeup_all() {
         Thread* waked = _waiting.remove()->object();
         waked->wakeup();
     }
-    Thread::yield();
 }
 
 __END_API

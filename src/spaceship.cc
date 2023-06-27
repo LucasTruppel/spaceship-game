@@ -3,26 +3,22 @@
 
 void SpaceShip::turnUp(){
     _state = UP;
-    spaceship_tex = spaceship_up;
-    spaceship_sprite.setTexture(spaceship_tex);
+    spaceship_sprite.setTexture(spaceship_up);
 }
 
 void SpaceShip::turnDown(){
     _state = DOWN;
-    spaceship_tex = spaceship_down;
-    spaceship_sprite.setTexture(spaceship_tex);
+    spaceship_sprite.setTexture(spaceship_down);
 }
 
 void SpaceShip::turnLeft(){
     _state = LEFT;
-    spaceship_tex = spaceship_left;
-    spaceship_sprite.setTexture(spaceship_tex);
+    spaceship_sprite.setTexture(spaceship_left);
 }
 
 void SpaceShip::turnRight(){
     _state = RIGHT;
-    spaceship_tex = spaceship_right;
-    spaceship_sprite.setTexture(spaceship_tex);
+    spaceship_sprite.setTexture(spaceship_right);
 }
 
 void SpaceShip::shoot() {
